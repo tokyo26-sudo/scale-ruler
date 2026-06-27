@@ -83,7 +83,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.0</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.1</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -152,12 +152,12 @@
 <script>
 const BASE = [
   {name:'原子',         v:1e-10, e:'⚛️'},
-  {name:'ウイルス',     v:1e-7,  e:'🦠'},
-  {name:'赤血球',       v:8e-6,  e:'🩸'},
+  {name:'コロナウイルス', v:1.2e-7, e:'🦠'},
+  {name:'赤血球（ヒト）', v:7.5e-6, e:'🩸'},
   {name:'髪の毛の太さ', v:1e-4,  e:'💇'},
-  {name:'アリ',         v:5e-3,  e:'🐜'},
+  {name:'クロオオアリ', v:1e-2,  e:'🐜'},
   {name:'人',           v:1.8,   e:'🧍'},
-  {name:'クジラ',       v:30,    e:'🐋'},
+  {name:'シロナガスクジラ', v:30,  e:'🐋'},
   {name:'東京タワー',   v:333,   e:'🗼'},
   {name:'富士山',       v:3776,  e:'🗻'},
   {name:'地球',         v:1.3e7, e:'🌍'},
@@ -168,6 +168,7 @@ const BASE = [
   {name:'観測できる宇宙', v:8.8e26, e:'🌠'},
 ];
 let custom=[]; let STATIONS=BASE.concat(custom); let showEmoji=false;
+let bubble=null; // タップで出す ふきだし {bar:'A'|'B', i}
 
 const SVGNS='http://www.w3.org/2000/svg';
 const svg=document.getElementById('map');
@@ -317,6 +318,9 @@ function render(){
   for(const i of visB) svg.appendChild(drawStation('B',i,litB.has(i),selB===i, V?0:(lev[i]||0)));
   for(const i of visA) svg.appendChild(drawStation('A',i,litA.has(i),selA===i, V?0:(lev[i]||0)));
 
+  // ふきだし（タップした駅の 名前＋大きさ）
+  drawBubble(V,W,H);
+
   // 読み取り
   const nA=isV()?'左':'上', nB=isV()?'右':'下';
   magVal.textContent= overlap? '×1倍' : fmtMag(mag());
@@ -329,6 +333,43 @@ function render(){
   } else if(selA!==null){ magEl.innerHTML=nA+'の<span class="t">'+STATIONS[selA].name+'</span>を えらびました。つぎに '+nB+'の駅をタップしてください。';
   } else if(selB!==null){ magEl.innerHTML=nB+'の<span class="b">'+STATIONS[selB].name+'</span>を えらびました。つぎに '+nA+'の駅をタップしてください。';
   } else { magEl.innerHTML='ずらし中… 駅が そろうと のりかえ駅で光ります。'; }
+}
+
+// ふきだし
+function drawBubble(V,W,H){
+  if(!bubble) return;
+  const i=bubble.i; if(i==null || !STATIONS[i]) { bubble=null; return; }
+  const st=STATIONS[i];
+  const p = bubble.bar==='A' ? pos(st.v) : pos(st.v)+shift;
+  if(!vis(p)) return;
+  const c = bubble.bar==='A' ? coordA(i) : coordB(i);
+  const size = fmtVal(st.v);
+  const boxW = Math.max(st.name.length*15, size.length*8.5) + 28;
+  const boxH = 50;
+  let bx, by, tri;
+  if(V){
+    bx = bubble.bar==='A' ? c.x+16 : c.x-16-boxW;
+    by = Math.max(4, Math.min(H-boxH-4, c.y-boxH/2));
+    bx = Math.max(4, Math.min(W-boxW-4, bx));
+    const ty = Math.max(by+12, Math.min(by+boxH-12, c.y));
+    tri = bubble.bar==='A'
+      ? bx+','+(ty-7)+' '+bx+','+(ty+7)+' '+(bx-10)+','+ty
+      : (bx+boxW)+','+(ty-7)+' '+(bx+boxW)+','+(ty+7)+' '+(bx+boxW+10)+','+ty;
+  } else {
+    bx = Math.max(4, Math.min(W-boxW-4, c.x-boxW/2));
+    const above = (c.y-16-boxH) >= 4;
+    by = above ? c.y-16-boxH : c.y+16;
+    const tx = Math.max(bx+12, Math.min(bx+boxW-12, c.x));
+    tri = above
+      ? (tx-7)+','+(by+boxH)+' '+(tx+7)+','+(by+boxH)+' '+tx+','+(by+boxH+10)
+      : (tx-7)+','+by+' '+(tx+7)+','+by+' '+tx+','+(by-10);
+  }
+  const g=el('g',{});
+  g.appendChild(el('polygon',{points:tri,fill:'var(--capsule)'}));
+  g.appendChild(el('rect',{x:bx,y:by,width:boxW,height:boxH,rx:10,fill:'var(--capsule)'}));
+  const t1=el('text',{x:bx+boxW/2,y:by+21,'text-anchor':'middle','font-size':15,'font-weight':700,fill:'#fff','font-family':'var(--font)'}); t1.textContent=st.name; g.appendChild(t1);
+  const t2=el('text',{x:bx+boxW/2,y:by+39,'text-anchor':'middle','font-size':13,fill:'#cfe6dd','font-family':'var(--font)'}); t2.textContent=size; g.appendChild(t2);
+  svg.appendChild(g);
 }
 
 // むき
@@ -389,8 +430,14 @@ svg.addEventListener('pointermove',ev=>{
   }
 });
 svg.addEventListener('pointerup',ev=>{
-  if(mode==='panA' && !moved && downStation && downStation.bar==='A') selectStation('A',downStation.i);
-  else if(mode==='dragB' && !moved && downStation && downStation.bar==='B') selectStation('B',downStation.i);
+  if(!moved){
+    if(downStation){
+      bubble={bar:downStation.bar, i:downStation.i};
+      selectStation(downStation.bar, downStation.i);
+    } else {
+      bubble=null; render();
+    }
+  }
   mode='none';
 });
 svg.addEventListener('pointercancel',()=>{mode='none';});
