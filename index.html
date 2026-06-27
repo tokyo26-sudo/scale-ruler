@@ -47,6 +47,8 @@
         border:1px solid var(--border);border-radius:12px;background:var(--panel);padding:14px 16px;}
   .zoom .lbl{font-size:13.5px;color:var(--muted);font-weight:600;}
   .zrange{position:relative;flex:1;min-width:230px;height:36px;}
+  .zbtns{flex-basis:100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  #zpresets{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .ztrack{position:absolute;top:21px;left:0;right:0;height:6px;border-radius:3px;background:#e7e5df;}
   .zsel{position:absolute;top:18px;height:12px;border-radius:6px;background:var(--line-bot);cursor:grab;touch-action:none;}
   .zthumb{position:absolute;top:13px;width:22px;height:22px;margin-left:-11px;border-radius:50%;
@@ -83,7 +85,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.1</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.3</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -124,8 +126,10 @@
       <div class="zthumb" id="zlo"><span class="cap" id="zlocap"></span></div>
       <div class="zthumb" id="zhi"><span class="cap" id="zhicap"></span></div>
     </div>
-    <button id="zreset">ぜんたい</button>
-    <span id="zpresets"></span>
+    <div class="zbtns">
+      <button id="zreset">ぜんたい</button>
+      <span id="zpresets"></span>
+    </div>
   </div>
 
   <div class="panel">
@@ -176,7 +180,7 @@ const magEl=document.getElementById('reading');
 const magVal=document.getElementById('mag');
 const footEl=document.getElementById('foot');
 
-const HW=1060, HH=360, hPadL=66, hPadR=110, TOPY=170, BOTY=210;
+const HW=1060, HH=384, hPadL=66, hPadR=110, TOPY=170, BOTY=210;
 const ANG=44, COS=Math.cos(ANG*Math.PI/180), SIN=Math.sin(ANG*Math.PI/180);
 const VW=440, VH=820, vPadT=40, vPadB=52, LEFTX=170, RIGHTX=270;
 const LOGMIN=-10.6, LOGMAX=27.5, RANGE=LOGMAX-LOGMIN;
@@ -224,7 +228,7 @@ function assignLanes(visIdx){
   const order=visIdx.slice().sort((a,b)=>coordA(a).x-coordA(b).x);
   const laneEnd=[]; const lev={};
   for(const i of order){
-    const v=label(i).length + (showEmoji && STATIONS[i].e?0.6:0);
+    const v=STATIONS[i].name.length + (STATIONS[i].e?2.6:0); // 絵文字ぶんは常に確保（ON/OFFで段が動かない）
     const spanH=v*15*COS; const x=coordA(i).x;
     let l=0; while(l<laneEnd.length && laneEnd[l]+6>x) l++;
     if(l===laneEnd.length) laneEnd.push(0);
@@ -243,7 +247,7 @@ function drawStation(bar,i,lit,sel,level){
       fill: lit?'var(--gold)':'var(--ink)','font-weight':lit?700:400});
     t.textContent=label(i); g.appendChild(t);
   } else {
-    const uy=(bar==='A'?-SIN:SIN), dist=18+level*30, lx=c.x+COS*dist, ly=c.y+uy*dist;
+    const uy=(bar==='A'?-SIN:SIN), dist=26+level*30, lx=c.x+COS*dist, ly=c.y+uy*dist;
     g.appendChild(el('line',{x1:c.x+COS*9,y1:c.y+uy*9,x2:lx,y2:ly,stroke:'var(--muted)','stroke-width':0.6,opacity:0.5}));
     const t=el('text',{x:lx,y:ly,'text-anchor':'start',transform:'rotate('+(bar==='A'?-ANG:ANG)+' '+lx+' '+ly+')',
       'font-family':'var(--font)','font-size':15, fill: lit?'var(--gold)':'var(--ink)','font-weight':lit?700:400});
