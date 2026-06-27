@@ -85,7 +85,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.8</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.9</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -206,9 +206,9 @@ const PRE_SKY = [
   {name:'リゲル',     v:1.1e11, e:'🌟'},
   {name:'ベテルギウス', v:1.1e12, e:'🌟'},
   {name:'V1489',      v:2.3e12, e:'🌟'},
-  {name:'オールトの雲', v:3e16,  e:'☄️'},
-  {name:'オリオン大星雲', v:2.3e17, e:'🌫️'},
-  {name:'矮小銀河',   v:1e20},
+  {name:'オールトの雲', v:3e16,  e:'☄️', note:'直径の概算'},
+  {name:'オリオン大星雲', v:2.3e17, e:'🌫️', note:'目安の値（諸説あり）'},
+  {name:'矮小銀河',   v:1e20, note:'大きさは様々（代表値）'},
 ];
 let custom=[]; let onMicro=false, onNear=false, onSky=false;
 function activeStations(){
@@ -397,8 +397,9 @@ function drawBubble(V,W,H){
   if(!vis(p)) return;
   const c = bubble.bar==='A' ? coordA(i) : coordB(i);
   const size = fmtVal(st.v);
-  const boxW = Math.max(st.name.length*15, size.length*8.5) + 28;
-  const boxH = 50;
+  const note = st.note || '';
+  const boxW = Math.max(st.name.length*15, size.length*8.5, note.length*12) + 28;
+  const boxH = note? 70 : 50;
   let bx, by, tri;
   if(V){
     bx = bubble.bar==='A' ? c.x+16 : c.x-16-boxW;
@@ -422,6 +423,7 @@ function drawBubble(V,W,H){
   g.appendChild(el('rect',{x:bx,y:by,width:boxW,height:boxH,rx:10,fill:'var(--capsule)'}));
   const t1=el('text',{x:bx+boxW/2,y:by+21,'text-anchor':'middle','font-size':15,'font-weight':700,fill:'#fff','font-family':'var(--font)'}); t1.textContent=st.name; g.appendChild(t1);
   const t2=el('text',{x:bx+boxW/2,y:by+39,'text-anchor':'middle','font-size':13,fill:'#cfe6dd','font-family':'var(--font)'}); t2.textContent=size; g.appendChild(t2);
+  if(note){ const t3=el('text',{x:bx+boxW/2,y:by+58,'text-anchor':'middle','font-size':11,fill:'#9fc6b8','font-family':'var(--font)'}); t3.textContent=note; g.appendChild(t3); }
   svg.appendChild(g);
 }
 
