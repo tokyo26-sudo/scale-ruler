@@ -85,7 +85,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.4</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.8</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -96,6 +96,21 @@
         <input type="checkbox" id="emoji">
         <span class="track"><span class="knob"></span></span>
         絵文字を 出す
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preMicro">
+        <span class="track"><span class="knob"></span></span>
+        ミクロの駅
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preNear">
+        <span class="track"><span class="knob"></span></span>
+        みぢかの駅
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preSky">
+        <span class="track"><span class="knob"></span></span>
+        マクロの駅
       </label>
       <span class="seg">むき：
         <span class="buttons">
@@ -160,24 +175,52 @@ const BASE = [
   {name:'赤血球（ヒト）', v:7.5e-6, e:'🩸'},
   {name:'髪の毛の太さ', v:1e-4,  e:'💇'},
   {name:'クロオオアリ', v:1e-2,  e:'🐜'},
-  {name:'スマートフォン', v:1.5e-1, e:'📱'},
   {name:'人',           v:1.8,   e:'🧍'},
-  {name:'大型バス',     v:12,    e:'🚌'},
   {name:'シロナガスクジラ', v:30,  e:'🐋'},
-  {name:'自由の女神',   v:93,    e:'🗽'},
   {name:'東京タワー',   v:333,   e:'🗼'},
   {name:'富士山',       v:3776,  e:'🗻'},
-  {name:'エベレスト',   v:8849,  e:'🏔️'},
-  {name:'月',           v:3.5e6, e:'🌙'},
   {name:'地球',         v:1.3e7, e:'🌍'},
-  {name:'土星',         v:1.2e8, e:'🪐'},
   {name:'太陽',         v:1.4e9, e:'☀️'},
   {name:'太陽系',       v:9e12,  e:'💫'},
   {name:'1光年',        v:9.5e15,e:'🌟'},
   {name:'銀河系',       v:1e21,  e:'🌌'},
   {name:'観測できる宇宙', v:8.8e26, e:'🌠'},
 ];
-let custom=[]; let STATIONS=BASE.concat(custom); let showEmoji=false;
+// 追加プリセット（デフォルトOFF。スイッチONで路線に足される）
+const PRE_MICRO = [
+  {name:'水分子',     v:3e-10, e:'💧'},
+  {name:'砂糖分子',   v:1e-9,  e:'🍬'},
+  {name:'DNA（太さ）', v:2e-9,  e:'🧬'},
+  {name:'大腸菌',     v:2e-6,  e:'🧫'},
+];
+const PRE_NEAR = [
+  {name:'スマートフォン', v:1.5e-1, e:'📱'},
+  {name:'大型バス',   v:12,    e:'🚌'},
+  {name:'自由の女神', v:93,    e:'🗽'},
+];
+const PRE_SKY = [
+  {name:'エベレスト', v:8849,  e:'🏔️'},
+  {name:'月',         v:3.5e6, e:'🌙'},
+  {name:'土星',       v:1.2e8, e:'🪐'},
+  {name:'アルデバラン', v:6.1e10, e:'🌟'},
+  {name:'リゲル',     v:1.1e11, e:'🌟'},
+  {name:'ベテルギウス', v:1.1e12, e:'🌟'},
+  {name:'V1489',      v:2.3e12, e:'🌟'},
+  {name:'オールトの雲', v:3e16,  e:'☄️'},
+  {name:'オリオン大星雲', v:2.3e17, e:'🌫️'},
+  {name:'矮小銀河',   v:1e20},
+];
+let custom=[]; let onMicro=false, onNear=false, onSky=false;
+function activeStations(){
+  let arr=BASE.slice();
+  if(onMicro) arr=arr.concat(PRE_MICRO);
+  if(onNear)  arr=arr.concat(PRE_NEAR);
+  if(onSky)   arr=arr.concat(PRE_SKY);
+  arr=arr.concat(custom);
+  arr.sort((a,b)=>a.v-b.v);
+  return arr;
+}
+let STATIONS=activeStations(); let showEmoji=false;
 let bubble=null; // タップで出す ふきだし {bar:'A'|'B', i}
 
 const SVGNS='http://www.w3.org/2000/svg';
@@ -454,6 +497,9 @@ svg.addEventListener('pointercancel',()=>{mode='none';});
 
 document.getElementById('reset').addEventListener('click',()=>{ selA=null; selB=null; animateTo(0); });
 document.getElementById('emoji').addEventListener('change',e=>{ showEmoji=e.target.checked; render(); });
+document.getElementById('preMicro').addEventListener('change',e=>{ onMicro=e.target.checked; rebuild(); });
+document.getElementById('preNear').addEventListener('change',e=>{ onNear=e.target.checked; rebuild(); });
+document.getElementById('preSky').addEventListener('change',e=>{ onSky=e.target.checked; rebuild(); });
 document.querySelectorAll('.seg .buttons button').forEach(btn=>{
   btn.addEventListener('click',()=>{ document.querySelectorAll('.seg .buttons button').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); orientMode=btn.dataset.m; refresh(); });
 });
@@ -539,7 +585,7 @@ endSel.addEventListener('change',()=>{ endName=endSel.value; setRouteRange(); })
 
 // 追加
 const chipsEl=document.getElementById('chips'), errEl=document.getElementById('addErr');
-function rebuild(){ STATIONS=BASE.concat(custom); selA=null; selB=null; populateTermini(); renderChips(); render(); }
+function rebuild(){ STATIONS=activeStations(); selA=null; selB=null; populateTermini(); renderChips(); render(); }
 function renderChips(){
   chipsEl.innerHTML='';
   custom.forEach((c,idx)=>{
