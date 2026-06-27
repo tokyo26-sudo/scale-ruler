@@ -17,6 +17,8 @@
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font);}
   .wrap{max-width:1060px;margin:0 auto;padding:22px 18px 44px;}
   header h1{font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:.01em;}
+  header h1 .ver{font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;vertical-align:middle;
+    border:1px solid var(--border);border-radius:6px;padding:2px 7px;background:var(--panel);}
   header p.sub{margin:0 0 14px;color:var(--muted);font-size:13.5px;line-height:1.6;}
   .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:8px;}
   .legend span{display:inline-flex;align-items:center;gap:7px;}
@@ -40,7 +42,7 @@
   .route select{font-family:var(--font);font-size:14px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;}
   .route .arrow{color:var(--muted);font-size:14px;}
   .mapcard{border:1px solid var(--border);border-radius:14px;background:#fff;overflow:hidden;}
-  #map{display:block;width:100%;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none;}
+  #map{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none;}
   .zoom{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;
         border:1px solid var(--border);border-radius:12px;background:var(--panel);padding:14px 16px;}
   .zoom .lbl{font-size:13.5px;color:var(--muted);font-weight:600;}
@@ -81,7 +83,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし2本 ― けたの旅 路線図</h1>
+    <h1>対数ものさし2本 ― けたの旅 路線図<span class="ver">v0.8</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
