@@ -334,8 +334,8 @@ function computeOrient(){ orient = orientMode!=='auto' ? orientMode : (window.in
 function applyViewBox(){ svg.setAttribute('viewBox', isV()? ('0 0 '+VW+' '+VH) : ('0 0 '+HW+' '+HH)); }
 function updateFoot(){
   footEl.innerHTML = isV()
-    ? '操作：右のものさしを 上下にドラッグ（スマホは 駅タップが べんり）、または 左右の駅を タップして「のりかえ駅」でつなぎます。原子が上・宇宙が下。'
-    : '操作：下のものさしを よこにドラッグ、または 上下の駅を タップして「のりかえ駅」でつなぎます。部分ズームで こみあう所を 拡大できます。';
+    ? '操作：右（みどり）を ドラッグ＝くらべる（ずらす）。左（オレンジ）を ドラッグ＝見る位置を 移動（2本いっしょ・要ズーム）。駅タップで のりかえ。スマホは タップ／おびドラッグが べんり。'
+    : '操作：下（みどり）を ドラッグ＝くらべる（ずらす）。上（オレンジ）を ドラッグ＝見る位置を 移動（2本いっしょ・要ズーム）。駅タップで のりかえ。';
 }
 function refresh(){ computeOrient(); applyViewBox(); updateFoot(); render(); }
 
@@ -368,9 +368,9 @@ function selectStation(bar,i){
 let mode='none', lastMain=0, downP=null, downStation=null, moved=false;
 svg.addEventListener('pointerdown',ev=>{
   const p=vbPoint(ev); downP=p; moved=false; downStation=hitTest(p);
-  if(downStation && downStation.bar==='A') mode='pickA';
-  else if((downStation && downStation.bar==='B') || movableRegion(p)){ mode='drag'; lastMain=isV()?p.y:p.x; }
-  else mode='none';
+  if(downStation) mode = downStation.bar==='B' ? 'dragB' : 'panA';
+  else mode = movableRegion(p) ? 'dragB' : 'panA';
+  lastMain = isV()?p.y:p.x;
   if(raf){cancelAnimationFrame(raf);raf=null;}
   svg.setPointerCapture(ev.pointerId);
 });
@@ -378,11 +378,17 @@ svg.addEventListener('pointermove',ev=>{
   if(mode==='none') return;
   const p=vbPoint(ev);
   if(Math.abs(p.x-downP.x)>4 || Math.abs(p.y-downP.y)>4) moved=true;
-  if(mode==='drag'){ const cur=isV()?p.y:p.x; shift=clamp(shift+(cur-lastMain)*(viewHi-viewLo)/dims().usable); lastMain=cur; render(); }
+  const cur=isV()?p.y:p.x;
+  if(mode==='dragB'){
+    shift=clamp(shift+(cur-lastMain)*(viewHi-viewLo)/dims().usable); lastMain=cur; render();
+  }else if(mode==='panA'){
+    const w=viewHi-viewLo; const dPos=(cur-lastMain)*w/dims().usable;
+    let lo=Math.max(0,Math.min(1-w,viewLo-dPos)); viewLo=lo; viewHi=lo+w; lastMain=cur; render();
+  }
 });
 svg.addEventListener('pointerup',ev=>{
-  if(mode==='pickA' && !moved && downStation) selectStation('A',downStation.i);
-  else if(mode==='drag' && !moved && downStation && downStation.bar==='B') selectStation('B',downStation.i);
+  if(mode==='panA' && !moved && downStation && downStation.bar==='A') selectStation('A',downStation.i);
+  else if(mode==='dragB' && !moved && downStation && downStation.bar==='B') selectStation('B',downStation.i);
   mode='none';
 });
 svg.addEventListener('pointercancel',()=>{mode='none';});
