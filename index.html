@@ -83,7 +83,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし2本 ― けたの旅 路線図<span class="ver">v0.8</span></h1>
+    <h1>対数ものさし2本 ― けたの旅 路線図<span class="ver">v0.9</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -105,15 +105,15 @@
     </div>
   </header>
 
-  <div class="mapcard">
-    <svg id="map" viewBox="0 0 1060 360" role="img" aria-label="対数ものさし2本の路線図"></svg>
-  </div>
-
   <div class="route">
     <span class="lbl">路線（始発〜終着）：</span>
     始発 <select id="startSel"></select>
     <span class="arrow">→</span>
     終着 <select id="endSel"></select>
+  </div>
+
+  <div class="mapcard">
+    <svg id="map" viewBox="0 0 1060 360" role="img" aria-label="対数ものさし2本の路線図"></svg>
   </div>
 
   <div class="zoom">
