@@ -89,7 +89,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.16</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.17</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -180,6 +180,16 @@
         <span class="track"><span class="knob"></span></span>
         ことわざの駅
       </label>
+      <label class="switch">
+        <input type="checkbox" id="preLegend">
+        <span class="track"><span class="knob"></span></span>
+        伝説・架空の駅
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preHeritage">
+        <span class="track"><span class="knob"></span></span>
+        世界遺産の駅
+      </label>
     </div>
     <div class="sharerow">
       <button id="shareBtn">🔗 共有リンクを作る</button>
@@ -243,13 +253,40 @@ const PRE_PROVERB = [
   {name:'母をたずねて三千里', v:1.2e7, e:'🚶', note:'三千里＝約1.2万km（諸説あり）'},
   {name:'海底二万里', v:8e7, e:'🌊', note:'二万里＝約8万km（諸説あり）'},
 ];
-let custom=[]; let onMicro=false, onNear=false, onSky=false, onProverb=false;
+const PRE_LEGEND = [
+  {name:'一寸法師',   v:3e-2,  note:'一寸＝約3cm'},
+  {name:'リリパットの小人', v:1.5e-1, note:'人の約1/12（ガリバー旅行記）'},
+  {name:'ビッグフット', v:2.6, note:'目撃談による'},
+  {name:'ゴリアテ',   v:2.9,  note:'聖書による'},
+  {name:'丈六',       v:4.85, note:'1丈6尺（大仏の基準）'},
+  {name:'ブロブディンナグの巨人', v:22, note:'人の約12倍（ガリバー旅行記）'},
+  {name:'ロドス島の巨像', v:33, note:'高さ・諸説あり（古代七不思議）'},
+  {name:'アレクサンドリアの大灯台', v:110, note:'高さ・諸説あり（古代七不思議）'},
+  {name:'ノアの方舟', v:140,  note:'長さ・諸説あり（聖書）'},
+  {name:'ラピュータ', v:7.2e3, note:'直径・ガリバー旅行記'},
+  {name:'ヤマタノオロチ', v:9e3, note:'谷8つ・峰8つ（古事記・概算）'},
+  {name:'新エルサレム', v:2.2e6, note:'立方体・黙示録による'},
+  {name:'須弥山',     v:5.6e8, note:'八万由旬・経典による'},
+];
+const PRE_HERITAGE = [
+  {name:'モアイ像',   v:5,     e:'🗿', note:'高さ'},
+  {name:'スフィンクス', v:7.35e1, note:'全長'},
+  {name:'ナスカ地上絵ハチドリ', v:9.6e1, note:'全長'},
+  {name:'ピラミッド', v:1.385e2, note:'高さ（クフ王）'},
+  {name:'仁徳天皇陵', v:4.86e2, note:'全長'},
+  {name:'モンサンミシェル', v:1e3, e:'🏰', note:'周囲'},
+  {name:'知床半島',   v:7e4,   note:'長さ'},
+  {name:'万里の長城', v:2.1e7, note:'総延長・諸説あり'},
+];
+let custom=[]; let onMicro=false, onNear=false, onSky=false, onProverb=false, onLegend=false, onHeritage=false;
 function activeStations(){
   let arr=BASE.slice();
   if(onMicro) arr=arr.concat(PRE_MICRO);
   if(onNear)  arr=arr.concat(PRE_NEAR);
   if(onSky)   arr=arr.concat(PRE_SKY);
   if(onProverb) arr=arr.concat(PRE_PROVERB);
+  if(onLegend) arr=arr.concat(PRE_LEGEND);
+  if(onHeritage) arr=arr.concat(PRE_HERITAGE);
   arr=arr.concat(custom);
   arr.sort((a,b)=>a.v-b.v);
   return arr;
@@ -552,6 +589,8 @@ document.getElementById('preMicro').addEventListener('change',e=>{ onMicro=e.tar
 document.getElementById('preNear').addEventListener('change',e=>{ onNear=e.target.checked; rebuild(); });
 document.getElementById('preSky').addEventListener('change',e=>{ onSky=e.target.checked; rebuild(); });
 document.getElementById('preProverb').addEventListener('change',e=>{ onProverb=e.target.checked; rebuild(); });
+document.getElementById('preLegend').addEventListener('change',e=>{ onLegend=e.target.checked; rebuild(); });
+document.getElementById('preHeritage').addEventListener('change',e=>{ onHeritage=e.target.checked; rebuild(); });
 document.querySelectorAll('.seg .buttons').forEach(group=>{
   group.querySelectorAll('button').forEach(btn=>{
     btn.addEventListener('click',()=>{
