@@ -89,7 +89,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.10</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.11</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -169,6 +169,11 @@
         <span class="track"><span class="knob"></span></span>
         マクロの駅
       </label>
+      <label class="switch">
+        <input type="checkbox" id="preProverb">
+        <span class="track"><span class="knob"></span></span>
+        ことわざの駅
+      </label>
     </div>
     <div class="sharerow">
       <button id="shareBtn">🔗 共有リンクを作る</button>
@@ -221,12 +226,22 @@ const PRE_SKY = [
   {name:'オリオン大星雲', v:2.3e17, e:'🌫️', note:'目安の値（諸説あり）'},
   {name:'矮小銀河',   v:1e20, note:'大きさは様々（代表値）'},
 ];
-let custom=[]; let onMicro=false, onNear=false, onSky=false;
+const PRE_PROVERB = [
+  {name:'間一髪',     v:8e-5,  e:'💇', note:'「一髪」＝髪1本'},
+  {name:'一寸先は闇', v:3e-2,  e:'🌑', note:'一寸＝約3cm'},
+  {name:'三尺下がって師の影を踏まず', v:9.1e-1, note:'三尺＝約91cm'},
+  {name:'五十歩百歩', v:3.8e1, e:'👣', note:'一歩＝約75cm'},
+  {name:'白髪三千丈', v:9.1e3, e:'👴', note:'李白の詩・三千丈'},
+  {name:'五里霧中',   v:2e4,   e:'🌁', note:'一里＝約3.9km'},
+  {name:'千里の道も一歩から', v:3.9e6, e:'🛣️', note:'一里＝約3.9km'},
+];
+let custom=[]; let onMicro=false, onNear=false, onSky=false, onProverb=false;
 function activeStations(){
   let arr=BASE.slice();
   if(onMicro) arr=arr.concat(PRE_MICRO);
   if(onNear)  arr=arr.concat(PRE_NEAR);
   if(onSky)   arr=arr.concat(PRE_SKY);
+  if(onProverb) arr=arr.concat(PRE_PROVERB);
   arr=arr.concat(custom);
   arr.sort((a,b)=>a.v-b.v);
   return arr;
@@ -513,6 +528,7 @@ document.getElementById('emoji').addEventListener('change',e=>{ showEmoji=e.targ
 document.getElementById('preMicro').addEventListener('change',e=>{ onMicro=e.target.checked; rebuild(); });
 document.getElementById('preNear').addEventListener('change',e=>{ onNear=e.target.checked; rebuild(); });
 document.getElementById('preSky').addEventListener('change',e=>{ onSky=e.target.checked; rebuild(); });
+document.getElementById('preProverb').addEventListener('change',e=>{ onProverb=e.target.checked; rebuild(); });
 document.querySelectorAll('.seg .buttons button').forEach(btn=>{
   btn.addEventListener('click',()=>{ document.querySelectorAll('.seg .buttons button').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); orientMode=btn.dataset.m; refresh(); });
 });
