@@ -89,7 +89,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.13</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.15</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -106,6 +106,12 @@
           <button data-m="auto" class="on">自動</button>
           <button data-m="h">よこ</button>
           <button data-m="v">たて</button>
+        </span>
+      </span>
+      <span class="seg">スタイル：
+        <span class="buttons">
+          <button data-style="jp" class="on">日本</button>
+          <button data-style="london">ロンドン</button>
         </span>
       </span>
     </div>
@@ -265,6 +271,7 @@ const ALIGN_TOL=5.5, OVERLAP_EPS=0.004, MINWIN=0.03;
 
 let shift=0, selA=null, selB=null;
 let orientMode='auto', orient='h';
+let londonStyle=false; // false=日本スタイル, true=ロンドンスタイル
 let viewLo=0, viewHi=1; // 表示する pos はんい（ズーム）
 
 function isV(){return orient==='v';}
@@ -331,10 +338,19 @@ function drawStation(bar,i,lit,sel,level){
       'font-family':'var(--font)','font-size':15, fill: lit?'var(--gold)':'var(--ink)','font-weight':lit?700:400});
     t.textContent=label(i); g.appendChild(t);
   }
-  const r=sel?9.5:7.5;
-  const cc=el('circle',{cx:c.x,cy:c.y,r:r,fill:'#fff',stroke: sel?'var(--gold)':color,'stroke-width': sel?4:3.4});
-  const title=el('title',{}); title.textContent=STATIONS[i].name+'：'+fmtVal(STATIONS[i].v);
-  cc.appendChild(title); g.appendChild(cc);
+  if(!londonStyle || lit || sel){
+    const r=sel?9.5:7.5;
+    const cc=el('circle',{cx:c.x,cy:c.y,r:r,fill:'#fff',stroke: sel?'var(--gold)':color,'stroke-width': sel?4:3.4});
+    const title=el('title',{}); title.textContent=STATIONS[i].name+'：'+fmtVal(STATIONS[i].v);
+    cc.appendChild(title); g.appendChild(cc);
+  } else {
+    // ロンドンスタイル：のりかえ以外は 名前側に 突起（ティック）
+    let x2=c.x, y2=c.y;
+    if(isV()){ x2 = c.x + (bar==='A'?-9:9); } else { y2 = c.y + (bar==='A'?-9:9); }
+    const tick=el('line',{x1:c.x,y1:c.y,x2:x2,y2:y2,stroke:color,'stroke-width':5,'stroke-linecap':'round'});
+    const title=el('title',{}); title.textContent=STATIONS[i].name+'：'+fmtVal(STATIONS[i].v);
+    tick.appendChild(title); g.appendChild(tick);
+  }
   return g;
 }
 
@@ -380,9 +396,9 @@ function render(){
     }
   }
 
-  // カプセル
+  // カプセル（ロンドンスタイルでは出さない＝のりかえは○で表す）
   const caps=el('g',{});
-  pairs.forEach(p=>{
+  if(!londonStyle) pairs.forEach(p=>{
     if(V){
       caps.appendChild(el('rect',{x:LEFTX-11,y:p.m-11,width:(RIGHTX-LEFTX)+22,height:22,rx:11,fill:'#fff',stroke:'var(--capsule)','stroke-width':2.6}));
       caps.appendChild(el('line',{x1:LEFTX,y1:p.m-12,x2:LEFTX,y2:p.m+12,stroke:'var(--line-top)','stroke-width':6}));
@@ -516,8 +532,12 @@ svg.addEventListener('pointermove',ev=>{
 svg.addEventListener('pointerup',ev=>{
   if(!moved){
     if(downStation){
-      bubble={bar:downStation.bar, i:downStation.i};
-      selectStation(downStation.bar, downStation.i);
+      if(bubble && bubble.bar===downStation.bar && bubble.i===downStation.i){
+        bubble=null; render(); // 同じ駅もう一回→吹き出し消す（接続はそのまま）
+      } else {
+        bubble={bar:downStation.bar, i:downStation.i};
+        selectStation(downStation.bar, downStation.i);
+      }
     } else {
       bubble=null; render();
     }
@@ -532,8 +552,14 @@ document.getElementById('preMicro').addEventListener('change',e=>{ onMicro=e.tar
 document.getElementById('preNear').addEventListener('change',e=>{ onNear=e.target.checked; rebuild(); });
 document.getElementById('preSky').addEventListener('change',e=>{ onSky=e.target.checked; rebuild(); });
 document.getElementById('preProverb').addEventListener('change',e=>{ onProverb=e.target.checked; rebuild(); });
-document.querySelectorAll('.seg .buttons button').forEach(btn=>{
-  btn.addEventListener('click',()=>{ document.querySelectorAll('.seg .buttons button').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); orientMode=btn.dataset.m; refresh(); });
+document.querySelectorAll('.seg .buttons').forEach(group=>{
+  group.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      group.querySelectorAll('button').forEach(b=>b.classList.remove('on')); btn.classList.add('on');
+      if(btn.dataset.m){ orientMode=btn.dataset.m; refresh(); }
+      else if(btn.dataset.style){ londonStyle=(btn.dataset.style==='london'); render(); }
+    });
+  });
 });
 let rT=null;
 window.addEventListener('resize',()=>{ if(orientMode!=='auto') return; clearTimeout(rT); rT=setTimeout(()=>{ const before=orient; computeOrient(); if(orient!==before){ applyViewBox(); updateFoot(); render(); } },150); });
