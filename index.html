@@ -89,7 +89,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.15</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.16</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -347,7 +347,7 @@ function drawStation(bar,i,lit,sel,level){
     // ロンドンスタイル：のりかえ以外は 名前側に 突起（ティック）
     let x2=c.x, y2=c.y;
     if(isV()){ x2 = c.x + (bar==='A'?-9:9); } else { y2 = c.y + (bar==='A'?-9:9); }
-    const tick=el('line',{x1:c.x,y1:c.y,x2:x2,y2:y2,stroke:color,'stroke-width':5,'stroke-linecap':'round'});
+    const tick=el('line',{x1:c.x,y1:c.y,x2:x2,y2:y2,stroke:color,'stroke-width':5,'stroke-linecap':'butt'});
     const title=el('title',{}); title.textContent=STATIONS[i].name+'：'+fmtVal(STATIONS[i].v);
     tick.appendChild(title); g.appendChild(tick);
   }
