@@ -89,7 +89,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.12</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.13</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -303,11 +303,12 @@ function el(tag,attrs){ const e=document.createElementNS(SVGNS,tag); for(const k
 
 function assignLanes(visIdx){
   const order=visIdx.slice().sort((a,b)=>coordA(a).x-coordA(b).x);
-  const laneEnd=[]; const lev={};
+  const laneEnd=[]; const lev={}; const maxLanes=3;
   for(const i of order){
     const v=STATIONS[i].name.length + (STATIONS[i].e?2.6:0); // 絵文字ぶんは常に確保（ON/OFFで段が動かない）
     const spanH=v*15*COS; const x=coordA(i).x;
     let l=0; while(l<laneEnd.length && laneEnd[l]+6>x) l++;
+    if(l>=maxLanes){ lev[i]=-1; continue; } // 混みすぎ→ラベル隠す（点は残す。タップ/ズームで読める）
     if(l===laneEnd.length) laneEnd.push(0);
     lev[i]=l; laneEnd[l]=x+spanH;
   }
@@ -323,7 +324,7 @@ function drawStation(bar,i,lit,sel,level){
     const t=el('text',{x:tx,y:c.y+5,'text-anchor':anchor,'font-family':'var(--font)','font-size':13,
       fill: lit?'var(--gold)':'var(--ink)','font-weight':lit?700:400});
     t.textContent=label(i); g.appendChild(t);
-  } else {
+  } else if(level>=0){
     const uy=(bar==='A'?-SIN:SIN), dist=26+level*30, lx=c.x+COS*dist, ly=c.y+uy*dist;
     g.appendChild(el('line',{x1:c.x+COS*9,y1:c.y+uy*9,x2:lx,y2:ly,stroke:'var(--muted)','stroke-width':0.6,opacity:0.5}));
     const t=el('text',{x:lx,y:ly,'text-anchor':'start',transform:'rotate('+(bar==='A'?-ANG:ANG)+' '+lx+' '+ly+')',
