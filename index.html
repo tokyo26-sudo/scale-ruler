@@ -89,7 +89,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>対数ものさし路線図<span class="ver">v1.17</span></h1>
+    <h1>対数ものさし路線図<span class="ver">v1.18</span></h1>
     <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
     <div class="legend">
       <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
@@ -582,6 +582,21 @@ svg.addEventListener('pointerup',ev=>{
   mode='none';
 });
 svg.addEventListener('pointercancel',()=>{mode='none';});
+
+// マウスホイールで ズーム（カーソル中心・奥=拡大／手前=縮小）
+svg.addEventListener('wheel',ev=>{
+  ev.preventDefault();
+  const p=vbPoint(ev), d=dims();
+  const main=isV()?p.y:p.x;
+  let f=Math.max(0,Math.min(1,(main-d.pad)/d.usable)); // 窓内 0..1
+  const posCursor=viewLo+f*(viewHi-viewLo);
+  const factor=ev.deltaY<0?0.85:1/0.85;               // 奥=拡大
+  const nw=Math.max(MINWIN,Math.min(1,(viewHi-viewLo)*factor));
+  let lo=posCursor-f*nw, hi=lo+nw;
+  if(lo<0){ lo=0; hi=nw; }
+  if(hi>1){ hi=1; lo=1-nw; }
+  setZoom(lo,hi);
+},{passive:false});
 
 document.getElementById('reset').addEventListener('click',()=>{ selA=null; selB=null; animateTo(0); });
 document.getElementById('emoji').addEventListener('change',e=>{ showEmoji=e.target.checked; render(); });
