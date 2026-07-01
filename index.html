@@ -3,2264 +3,758 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>タイムスケール路線図</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>/* LZString (URL共有用・あっしゅく) */
-var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});
-</script>
+<title>対数ものさし路線図</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@300;400;700;900&display=swap');
-:root{
-  --bg:#07111F;--panel:#0D1E30;--amber:#F5A623;
-  --cyan:#3ECFCF;--white:#EEF2F7;--muted:#7E97BC;--rail:#1E3A5A;
-  --green:#4CE88A;--red:#FF5F5F;
-  --font-mono:'Share Tech Mono',monospace;--font-body:'Noto Sans JP',sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--white);font-family:var(--font-body);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;}
-header{padding:9px 15px 7px;border-bottom:1px solid var(--rail);display:flex;align-items:center;gap:9px;flex-shrink:0;flex-wrap:wrap;}
-header h1{font-size:.88rem;font-weight:900;letter-spacing:.12em;color:var(--amber);font-family:var(--font-mono);white-space:nowrap;}
-.ver{margin-left:auto;font-size:.56rem;font-family:var(--font-mono);color:var(--muted);opacity:.9;}
-/* トースト（タイトルバーの下・3秒で消える） */
-.toast{position:fixed;top:58px;left:50%;transform:translateX(-50%) translateY(-14px);
-  z-index:100001;background:#0D1E30F2;border:1px solid var(--amber);border-radius:8px;
-  padding:9px 18px;font-size:.78rem;color:var(--white);font-family:var(--font-body);
-  box-shadow:0 4px 18px rgba(0,0,0,.65);max-width:84vw;text-align:center;line-height:1.45;
-  opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.toast.err{border-color:var(--red);}
-/* 使い方モーダル */
-.modal-back{position:fixed;inset:0;z-index:100000;background:rgba(3,8,16,.74);
-  display:none;align-items:flex-start;justify-content:center;padding:36px 16px;overflow-y:auto;}
-.modal-back.show{display:flex;}
-.modal-box{background:var(--panel);border:1px solid var(--amber);border-radius:10px;
-  max-width:480px;width:100%;padding:20px 24px 24px;box-shadow:0 8px 34px rgba(0,0,0,.72);position:relative;}
-.modal-box h2{font-size:.92rem;color:var(--amber);font-family:var(--font-mono);letter-spacing:.08em;margin-bottom:6px;}
-.modal-box h3{font-size:.74rem;color:var(--cyan);margin:15px 0 5px;font-weight:700;letter-spacing:.04em;}
-.modal-box p{font-size:.72rem;line-height:1.75;color:var(--white);}
-.modal-box ol,.modal-box ul{padding-left:1.35em;margin:4px 0;}
-.modal-box li{font-size:.72rem;line-height:1.8;color:var(--white);}
-.modal-box .mhint{font-size:.64rem;color:var(--muted);margin-top:16px;line-height:1.6;}
-.modal-close{position:absolute;top:9px;right:13px;background:transparent;border:none;color:var(--muted);
-  font-size:1.25rem;cursor:pointer;line-height:1;}
-.modal-close:hover{color:var(--white);}
-/* 埋め込みHTML モーダル内のパーツ */
-.emb-row{display:flex;gap:14px;margin:12px 0 4px;flex-wrap:wrap;}
-.emb-row label{font-size:.7rem;color:var(--cyan);display:flex;flex-direction:column;gap:4px;}
-.emb-row input{width:120px;background:#07111F;border:1px solid var(--rail);color:var(--white);border-radius:5px;padding:6px 8px;font-family:var(--font-mono);font-size:.78rem;}
-.emb-code{width:100%;margin-top:8px;background:#07111F;border:1px solid var(--rail);color:#9FE7C8;border-radius:6px;padding:8px 10px;font-family:var(--font-mono);font-size:.66rem;line-height:1.5;resize:vertical;box-sizing:border-box;}
-.emb-copy{margin-top:8px;background:transparent;border:1px solid var(--amber);color:var(--amber);border-radius:5px;padding:6px 16px;font-size:.72rem;cursor:pointer;font-family:inherit;}
-.emb-copy:hover{background:var(--amber);color:#07111F;}
-/* メニュー開け閉め 浮きボタン（すまほのみ表示） */
-#menuFab{position:fixed;top:46px;left:10px;z-index:10002;display:none;
-  width:38px;height:38px;border-radius:50%;border:1px solid var(--amber);
-  background:#0D1E30E6;color:var(--amber);font-size:1.25rem;line-height:1;
-  cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.55);}
-#menuFab:active{opacity:.7;}
-.main-wrap{display:flex;flex:1;overflow:hidden;}
-
-/* サイドパネル */
-.side-panel{width:262px;min-width:232px;background:var(--panel);border-right:1px solid var(--rail);
-  display:flex;flex-direction:column;overflow-y:auto;padding:10px 11px;gap:10px;flex-shrink:0;}
-.side-panel.collapsed{display:none;}
-/* 読取専用（viewer）モード：編集まわりのUIをすべて隠す。地図はサイドバーが消えたぶん横いっぱいに広がる */
-body.view-mode #sidePanel,
-body.view-mode #btnSidebar,
-body.view-mode #menuFab,
-body.view-mode .edit-only{display:none !important;}
-.sec-label{font-size:.54rem;font-family:var(--font-mono);color:var(--muted);letter-spacing:.16em;
-  text-transform:uppercase;margin-bottom:4px;}
-
-/* 路線リスト */
-.route-list{display:flex;flex-direction:column;gap:3px;}
-.route-btn{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:4px;
-  border:1px solid var(--rail);background:transparent;color:var(--muted);
-  font-family:var(--font-mono);font-size:.7rem;cursor:pointer;text-align:left;width:100%;transition:all .13s;}
-.route-btn:hover{background:var(--rail);}
-.route-btn.sel{color:var(--white);}
-.route-swatch{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-.route-name{flex:0 0 auto;min-width:0;max-width:62%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.route-range{flex:0 1 auto;min-width:0;margin-left:auto;text-align:right;white-space:normal;font-size:.55rem;opacity:.7;}
-
-/* インプット */
-select,input[type="number"],input[type="text"]{background:var(--bg);border:1px solid var(--rail);
-  color:var(--white);font-family:var(--font-mono);font-size:.72rem;padding:5px 6px;
-  border-radius:4px;width:100%;outline:none;}
-select:focus,input:focus{border-color:var(--amber);}
-.sel-row{display:flex;align-items:center;gap:5px;}
-.sel-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.swap-btn{background:transparent;border:1px solid var(--rail);color:var(--muted);
-  font-size:.75rem;padding:3px 7px;border-radius:3px;cursor:pointer;transition:all .13s;white-space:nowrap;}
-.swap-btn:hover{border-color:var(--amber);color:var(--amber);}
-.year-row{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-.year-field label{font-size:.54rem;font-family:var(--font-mono);color:var(--muted);display:block;margin-bottom:2px;}
-
-/* 和暦 */
-.wareki-row{display:flex;gap:3px;}
-.wr-btn{flex:1;background:transparent;border:1px solid var(--rail);color:var(--muted);
-  font-family:var(--font-mono);font-size:.58rem;padding:4px 0;border-radius:3px;cursor:pointer;transition:all .12s;}
-.wr-btn:hover{border-color:var(--amber);}
-.wr-btn.active{border-color:var(--cyan);color:var(--cyan);background:rgba(62,207,207,.08);}
-
-.btn-primary{background:var(--amber);color:var(--bg);font-family:var(--font-mono);font-size:.76rem;
-  font-weight:bold;letter-spacing:.07em;border:none;padding:8px;border-radius:4px;cursor:pointer;width:100%;transition:opacity .13s;}
-.btn-primary:hover{opacity:.85;}
-.btn-redraw{background:var(--cyan);color:var(--bg);font-family:var(--font-mono);font-size:.74rem;
-  font-weight:bold;letter-spacing:.07em;border:none;padding:8px;border-radius:6px;cursor:pointer;width:100%;transition:opacity .13s;}
-.btn-redraw:hover{opacity:.85;}
-.btn-reset-bottom{width:100%;background:transparent;border:1px solid #e55;color:#e55;
-  font-family:var(--font-mono);font-size:.66rem;font-weight:bold;letter-spacing:.05em;
-  padding:7px;border-radius:5px;cursor:pointer;transition:opacity .13s;}
-.btn-reset-bottom:hover{background:#e55;color:#fff;}
-.btn-reset-bottom:active{opacity:.7;}
-.sample-list{display:flex;flex-direction:column;gap:5px;}
-.sample-btn{width:100%;text-align:left;background:rgba(13,30,48,.6);border:1px solid var(--rail);
-  color:var(--white);font-family:var(--font-body);font-size:.68rem;padding:7px 10px;border-radius:5px;
-  cursor:pointer;transition:all .13s;touch-action:manipulation;}
-.sample-btn:active{opacity:.7;}
-@media (hover:hover){.sample-btn:hover{border-color:var(--cyan);color:var(--cyan);}}
-.btn-sm-row{display:flex;gap:5px;}
-.btn-sm{flex:1;background:var(--rail);color:var(--white);font-family:var(--font-mono);font-size:.66rem;
-  border:1px solid var(--muted);padding:6px 0;border-radius:4px;cursor:pointer;transition:all .12s;text-align:center;}
-.btn-sm:hover{border-color:var(--amber);color:var(--amber);}
-.status-msg{font-size:.62rem;font-family:var(--font-mono);color:var(--cyan);min-height:1em;line-height:1.4;}
-.status-msg.err{color:var(--red);}
-
-/* トピック */
-.topic-list{display:flex;flex-direction:column;gap:3px;max-height:100px;overflow-y:auto;}
-.topic-item{display:flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--rail);
-  border-radius:3px;padding:3px 5px;font-size:.63rem;font-family:var(--font-mono);}
-.topic-age{color:var(--amber);min-width:26px;flex-shrink:0;}
-.topic-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.topic-del{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:0 2px;flex-shrink:0;}
-.topic-del:hover{color:var(--red);}
-.topic-add-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px;}
-.topic-add-row input,.topic-add-row select{font-size:.8rem;padding:7px 8px;}  /* 大きめ・たかめで打ちやすく */
-.topic-yr-row{display:flex;gap:5px;flex:1 1 100%;}            /* 西れき年＋月で1行 */
-.topic-yr-row .topic-age-in{flex:1 1 auto;width:auto!important;} /* 年が広く */
-.topic-month-in{flex:0 0 auto;width:88px;}                   /* 月は固有幅（select{width:100%}継承を打消し）*/
-.topic-add-row #topicText{flex:1 1 0;min-width:0;}           /* できごとは次の行で残り幅いっぱい */
-.topic-add-btn{background:var(--rail);border:1px solid var(--muted);color:var(--white);border-radius:4px;
-  padding:7px 11px;cursor:pointer;font-size:.74rem;white-space:nowrap;transition:all .12s;flex-shrink:0;}
-.topic-add-btn:hover{background:var(--amber);color:var(--bg);border-color:var(--amber);}
-.topic-bubble{background:#0D1E30EE;border:1px solid var(--amber);border-radius:6px;padding:3px 7px;
-  font-size:.68rem;color:#EEF2F7;max-width:160px;white-space:normal;line-height:1.3;
-  box-shadow:0 2px 6px rgba(0,0,0,.5);pointer-events:none;}
-.topic-bubble b{color:var(--amber);display:block;margin-bottom:1px;font-size:.62rem;}
-.topic-tooltip{background:#0D1E30EE!important;border:1px solid var(--amber)!important;min-width:130px!important;
-  color:#EEF2F7!important;border-radius:6px!important;box-shadow:0 2px 6px rgba(0,0,0,.6)!important;}
-.topic-tooltip::before{border-top-color:var(--amber)!important;}
-.leaflet-tooltip-top.topic-tooltip::before{border-top-color:#F5A623!important;}
-
-/* 駅リスト */
-.station-list{display:flex;flex-direction:column;max-height:140px;overflow-y:auto;}
-.sli{display:flex;align-items:center;gap:5px;padding:3px 2px;font-size:.62rem;font-family:var(--font-mono);
-  cursor:pointer;border-radius:2px;transition:background .1s;}
-.sli:hover{background:var(--rail);}
-.sli.cur{color:var(--amber);}
-.sli-dot{width:4px;height:4px;border-radius:50%;background:var(--muted);flex-shrink:0;}
-.sli.cur .sli-dot{background:var(--amber);box-shadow:0 0 3px var(--amber);}
-.sli-yr{color:var(--muted);margin-left:auto;font-size:.58rem;}
-hr.div{border:none;border-top:1px solid var(--rail);margin:0;}
-
-/* 地図コンテナ */
-.map-wrap{flex:1;position:relative;overflow:hidden;}
-#map{width:100%;height:100%;}
-
-/* 地図上スライダーオーバーレイ */
-.map-overlay{position:absolute;bottom:0;left:0;right:0;z-index:9999;
-  background:linear-gradient(transparent,rgba(7,17,31,.92) 30%);
-  padding:10px 18px 14px;pointer-events:auto;touch-action:manipulation;}
-.map-overlay>*{pointer-events:auto;}
-.overlay-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
-.ov-age{font-size:1.7rem;font-family:var(--font-mono);color:var(--amber);line-height:1;}
-.ov-year{font-size:.75rem;font-family:var(--font-mono);color:var(--cyan);}
-.ov-station{font-size:.8rem;font-weight:700;margin-left:auto;text-align:right;}
-.ov-sub{font-size:.58rem;font-family:var(--font-mono);color:var(--muted);text-align:right;}
-.ov-prog-wrap{background:rgba(30,58,90,.6);height:3px;border-radius:2px;overflow:hidden;margin-bottom:6px;}
-.ov-prog-fill{height:100%;transition:width .12s;}
-.ov-slider{-webkit-appearance:none;width:100%;height:5px;background:rgba(30,58,90,.8);
-  border-radius:3px;outline:none;cursor:pointer;}
-.ov-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
-  background:var(--amber);box-shadow:0 0 8px var(--amber);cursor:grab;}
-.ov-slider::-webkit-slider-thumb:active{cursor:grabbing;}
-.ov-controls{display:flex;align-items:center;gap:8px;margin-top:6px;}
-.ov-btn{background:rgba(13,30,48,.85);border:1px solid var(--rail);color:var(--muted);
-  font-family:var(--font-mono);font-size:.66rem;padding:5px 12px;border-radius:4px;
-  cursor:pointer;transition:all .13s;touch-action:manipulation;}
-.ov-btn.active{border-color:var(--amber);color:var(--amber);}
-@media (hover:hover){.ov-btn:hover{border-color:var(--amber);color:var(--amber);}}
-.speed-row{display:flex;align-items:center;gap:5px;font-size:.58rem;font-family:var(--font-mono);color:var(--muted);margin-left:auto;}
-.speed-row input[type="range"]{width:70px;height:3px;background:rgba(30,58,90,.8);}
-.speed-row input[type="range"]::-webkit-slider-thumb{width:11px;height:11px;}
-
-/* カスタムマーカ */
-.age-marker-wrap{display:flex;flex-direction:column;align-items:center;cursor:grab;}
-.age-marker-wrap:active{cursor:grabbing;}
-.age-marker-circle{border-radius:50%;border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;
-  font-family:'Share Tech Mono',monospace;font-weight:bold;color:#07111F;animation:pulse 1.4s infinite;
-  user-select:none;white-space:nowrap;overflow:visible;}
-.age-marker-label{font-family:'Share Tech Mono',monospace;font-size:10px;font-weight:bold;
-  color:#fff;text-shadow:0 0 4px #000,0 0 4px #000;margin-top:1px;white-space:nowrap;user-select:none;}
-@keyframes pulse{
-  0%{box-shadow:0 0 0 0 rgba(245,166,35,.75);}
-  70%{box-shadow:0 0 0 13px rgba(245,166,35,0);}
-  100%{box-shadow:0 0 0 0 rgba(245,166,35,0);}
-}
-.leaflet-popup-content-wrapper{background:#0D1E30;border:1px solid #F5A623;color:#EEF2F7;border-radius:6px;}
-.leaflet-popup-tip{background:#F5A623;}
-.tile-menu-wrap{position:absolute;top:80px;right:10px;z-index:9999;}
-.tile-menu-btn{background:#0D1E30CC;border:1px solid #555;border-radius:6px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#EEF2F7;}
-.tile-menu-btn:hover{border-color:#F5A623;color:#F5A623;}
-.tile-menu-list{display:none;position:absolute;right:0;top:36px;background:#0D1E30EE;border:1px solid #555;border-radius:6px;overflow:hidden;min-width:140px;}
-.tile-menu-list.open{display:block;}
-.tile-menu-list button{display:block;width:100%;padding:7px 12px;background:none;border:none;color:#EEF2F7;font-size:.75rem;text-align:left;cursor:pointer;white-space:nowrap;}
-.tile-menu-list button:hover{background:#1E3A5F;color:#F5A623;}
-.tile-menu-list button.active{color:#F5A623;}
-/* 線形／対数 フローティングトグル（重さ・長さモードで路線図を出した後だけ出る） */
-.logscale-float{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:9999;display:none;align-items:stretch;background:#0D1E30DD;border:1px solid #555;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.5);}
-.logscale-float button{background:none;border:none;color:#9FB3C8;font-size:.72rem;padding:5px 10px;cursor:pointer;font-family:inherit;white-space:nowrap;}
-.logscale-float button.active{background:#1E3A5F;color:#F5A623;}
-.logscale-float button:hover{color:#F5A623;}
-.logscale-float .sep{width:1px;background:#555;}
-/* 吹き出しの向き（上下↔右）トグル：地図の左上フローティング。路線図を出した後だけ表示 */
-.bubbleside-float{position:absolute;top:10px;left:10px;z-index:9999;display:none;}
-.bubbleside-float button{background:#0D1E30DD;border:1px solid var(--amber);color:var(--amber);font-size:.7rem;padding:5px 11px;border-radius:6px;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.5);}
-.bubbleside-float button:hover{background:var(--amber);color:#07111F;}
-
-.leaflet-popup-content{font-family:'Share Tech Mono',monospace;font-size:.7rem;margin:7px 9px;}
-.leaflet-tile{} .tile-dark{filter:brightness(.62) saturate(.45) hue-rotate(200deg);}
-::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--rail);}
-
-/* スマホ向け：ヘッダをコンパクトに（タイトルがタテに潰れない・ボタンはみ出さない） */
-@media (max-width:600px){
-  header{padding:7px 10px 6px;gap:6px;}
-  header h1{font-size:.74rem;letter-spacing:.04em;}
-  header .subtitle-en{display:none;}
-  header label,header button{font-size:.6rem!important;padding:3px 6px!important;}
-  .ver{font-size:.5rem;}
-  .hide-sp{display:none;}
-  #menuFab{display:flex;}
-  .side-panel{padding-top:52px;}
-  .ov-controls{flex-wrap:wrap;row-gap:6px;}
-  .speed-row{margin-left:8px;}
-}
+  :root{
+    --ink:#181818; --muted:#71706b; --bg:#ffffff;
+    --line-top:#E0512A; --line-bot:#0F9C74;
+    --capsule:#15151b; --gold:#E0A100; --gold-soft:#FBEFCB;
+    --grid:#EFEEEA; --grid-strong:#E0DED7;
+    --panel:#FAF9F6; --border:#E5E3DD;
+    --font: "Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font);}
+  .wrap{max-width:1060px;margin:0 auto;padding:22px 18px 44px;}
+  header h1{font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:.01em;}
+  header h1 .ver{font-size:12px;font-weight:600;color:var(--muted);margin-left:8px;vertical-align:middle;
+    border:1px solid var(--border);border-radius:6px;padding:2px 7px;background:var(--panel);}
+  header p.sub{margin:0 0 14px;color:var(--muted);font-size:13.5px;line-height:1.6;}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:8px;}
+  .legend span{display:inline-flex;align-items:center;gap:7px;}
+  .dotc{width:13px;height:13px;border-radius:50%;background:#fff;border:3px solid var(--line-top);}
+  .dotc.bot{border-color:var(--line-bot);}
+  .controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:6px 0 12px;}
+  .switch{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink);cursor:pointer;user-select:none;}
+  .switch input{display:none;}
+  .switch .track{width:42px;height:24px;border-radius:999px;background:#d9d7d0;position:relative;transition:background .15s;flex:none;}
+  .switch .knob{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:left .15s;}
+  .switch input:checked + .track{background:var(--line-bot);}
+  .switch input:checked + .track .knob{left:21px;}
+  .seg{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink);}
+  .seg .buttons{display:inline-flex;border:1px solid var(--border);border-radius:9px;overflow:hidden;}
+  .seg .buttons button{font-family:var(--font);font-size:13px;padding:7px 13px;border:none;background:#fff;color:var(--ink);cursor:pointer;border-left:1px solid var(--border);}
+  .seg .buttons button:first-child{border-left:none;}
+  .seg .buttons button.on{background:var(--line-bot);color:#fff;}
+  .route{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--border);
+    border-radius:12px;background:#fff;padding:12px 14px;margin-top:12px;}
+  .route .lbl{font-size:13.5px;color:var(--muted);font-weight:600;}
+  .route select{font-family:var(--font);font-size:14px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;}
+  .route .arrow{color:var(--muted);font-size:14px;}
+  .mapcard{border:1px solid var(--border);border-radius:14px;background:#fff;overflow:hidden;}
+  #map{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none;}
+  .zoom{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;
+        border:1px solid var(--border);border-radius:12px;background:var(--panel);padding:14px 16px;}
+  .zoom .lbl{font-size:13.5px;color:var(--muted);font-weight:600;}
+  .zrange{position:relative;flex:1;min-width:230px;height:36px;}
+  .zbtns{flex-basis:100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  #zpresets{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .ztrack{position:absolute;top:21px;left:0;right:0;height:6px;border-radius:3px;background:#e7e5df;}
+  .zsel{position:absolute;top:18px;height:12px;border-radius:6px;background:var(--line-bot);cursor:grab;touch-action:none;}
+  .zthumb{position:absolute;top:13px;width:22px;height:22px;margin-left:-11px;border-radius:50%;
+          background:#fff;border:2px solid var(--line-bot);cursor:ew-resize;box-shadow:0 1px 3px rgba(0,0,0,.2);touch-action:none;}
+  .zthumb .cap{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);white-space:nowrap;pointer-events:none;}
+  .zoom button{font-family:var(--font);font-size:13px;padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;}
+  .zoom button:hover{background:#f3f1ec;}
+  .panel{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:14px;
+         border:1px solid var(--border);border-radius:12px;background:var(--panel);padding:14px 16px;}
+  .mag{display:flex;flex-direction:column;gap:2px;min-width:170px;}
+  .mag .k{font-size:12px;color:var(--muted);}
+  .mag .v{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;}
+  .reading{flex:1;min-width:200px;font-size:14px;color:var(--ink);line-height:1.55;}
+  .reading .b{color:var(--line-bot);font-weight:700;}
+  .reading .t{color:var(--line-top);font-weight:700;}
+  .reading .hint{color:var(--muted);}
+  button.reset{margin-left:auto;border:1px solid var(--border);background:#fff;color:var(--ink);
+    font-family:var(--font);font-size:14px;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:500;}
+  button.reset:hover{background:var(--panel);}
+  .adder{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border:1px solid var(--border);
+    border-radius:12px;background:#fff;padding:12px 14px;margin-top:12px;}
+  .adder .lbl{font-size:13.5px;color:var(--muted);font-weight:600;}
+  .adder input{font-family:var(--font);font-size:14px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:#fff;}
+  .adder input.name{width:130px;} .adder input.size{width:130px;}
+  .adder button{font-family:var(--font);font-size:14px;padding:8px 14px;border-radius:8px;border:1px solid var(--line-bot);background:var(--line-bot);color:#fff;cursor:pointer;}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+  .presetrow{flex-basis:100%;display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px;padding-top:10px;border-top:1px dashed var(--border);}
+  .sharerow{flex-basis:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px;}
+  .sharerow button{background:#fff;color:var(--ink);border:1px solid var(--border);}
+  .sharemsg{font-size:13px;color:var(--muted);}
+  .chip{display:inline-flex;align-items:center;gap:7px;font-size:13px;background:var(--gold-soft);border:1px solid #ecdca6;border-radius:999px;padding:4px 6px 4px 12px;}
+  .chip button{border:none;background:#fff;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:12px;line-height:1;color:#777;}
+  .err{color:#c0392b;font-size:13px;}
+  .foot{margin-top:12px;color:var(--muted);font-size:12.5px;line-height:1.6;}
+  @media (max-width:560px){ header h1{font-size:18px;} .mag .v{font-size:22px;} button.reset{margin-left:0;} }
 </style>
 </head>
 <body>
-<header>
-  <button onclick="toggleSidebar()" id="btnSidebar" title="メニューを隠す/表示" style="font-size:.8rem;padding:2px 8px;background:transparent;border:1px solid var(--rail);color:var(--muted);border-radius:4px;cursor:pointer;">◀</button>
-  <h1>◉ タイムスケール路線図</h1>
-  <span class="subtitle-en" style="font-size:.64rem;color:var(--muted)">TIMESCALE SHINKANSEN</span>
-  <button onclick="openHelp()" style="font-size:.65rem;padding:3px 8px;background:transparent;border:1px solid var(--amber);color:var(--amber);border-radius:4px;cursor:pointer;white-space:nowrap;">❓<span class="hide-sp"> 使い方</span></button>
-  <label class="edit-only" style="cursor:pointer;font-size:.65rem;padding:3px 8px;background:transparent;border:1px solid var(--rail);color:var(--muted);border-radius:4px;white-space:nowrap;">📂<span class="hide-sp"> JSONデータ読込み</span><input type="file" accept=".json" style="display:none" onchange="loadJSON(event)"/></label>
-  <button class="edit-only" onclick="shareURL()" style="font-size:.65rem;padding:3px 8px;background:transparent;border:1px solid #4a90d6;color:#4a90d6;border-radius:4px;cursor:pointer;white-space:nowrap;">🔗<span class="hide-sp"> URLで共有</span></button>
-  <button class="edit-only" onclick="shareViewerURL()" title="見る人が編集できない・読むだけのURLを作るヨ" style="font-size:.65rem;padding:3px 8px;background:transparent;border:1px solid #3aa657;color:#3aa657;border-radius:4px;cursor:pointer;white-space:nowrap;">👁<span class="hide-sp"> 読取専用URLで共有</span></button>
-  <button class="edit-only" onclick="openEmbed()" title="ホームページに貼る埋め込みHTMLを作るヨ（読むだけ）" style="font-size:.65rem;padding:3px 8px;background:transparent;border:1px solid #b072d6;color:#b072d6;border-radius:4px;cursor:pointer;white-space:nowrap;">🧩<span class="hide-sp"> 埋め込みHTML</span></button>
-  <button class="edit-only" onclick="drawLife()" title="設定を変えたら押すと描き直すヨ" style="font-size:.65rem;padding:3px 8px;background:transparent;border:1px solid var(--cyan);color:var(--cyan);border-radius:4px;cursor:pointer;white-space:nowrap;">🔁<span class="hide-sp"> 再表示</span></button>
-  <span class="ver">v2.90</span>
-</header>
+<div class="wrap">
+  <header>
+    <h1>対数ものさし路線図<span class="ver">v1.18</span></h1>
+    <p class="sub">原子から宇宙まで、大きさを対数で1本の路線にしました。2本のものさしを比べて、「人が原子サイズだったら宇宙はどれくらい？」を読む道具です。</p>
+    <div class="legend">
+      <span><i class="dotc"></i>オレンジ＝うごかない ものさし</span>
+      <span><i class="dotc bot"></i>みどり＝ドラッグで うごく ものさし</span>
+    </div>
+    <div class="controls">
+      <label class="switch">
+        <input type="checkbox" id="emoji">
+        <span class="track"><span class="knob"></span></span>
+        絵文字を 出す
+      </label>
+      <span class="seg">むき：
+        <span class="buttons">
+          <button data-m="auto" class="on">自動</button>
+          <button data-m="h">よこ</button>
+          <button data-m="v">たて</button>
+        </span>
+      </span>
+      <span class="seg">スタイル：
+        <span class="buttons">
+          <button data-style="jp" class="on">日本</button>
+          <button data-style="london">ロンドン</button>
+        </span>
+      </span>
+    </div>
+  </header>
 
-<!-- トースト（画面うえ真ん中・全メッセージ・3秒で消える） -->
-<div class="toast" id="toast"></div>
-
-<!-- メニュー開け閉め 浮きボタン（すまほのみ） -->
-<button id="menuFab" onclick="toggleSidebar()" title="メニューを開く/閉じる">✕</button>
-
-<!-- 使い方モーダル -->
-<div class="modal-back" id="helpModal" onclick="if(event.target===this)closeHelp()">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeHelp()" title="とじる">×</button>
-    <h2>◉ 使い方</h2>
-    <p>これは、人生や歴史の出来事を、実在の路線の上に「時間＝距離」で並べる地図ツールだヨ。</p>
-
-    <h3>★ まずは「サンプル」で見てみよう</h3>
-    <p>左メニューいちばん上の「🎴 サンプル」を押すと、ポチっとするだけで例が表示されるヨ。家康の生涯／キリストの生涯／仏教の年表／戦後歴代総理／ビッグバン→地球滅亡 の5つ。どんなものか、まずはこれでイメージをつかんでネ。</p>
-
-    <h3>▶ 自分で作る手じゅん</h3>
-    <ol>
-      <li>路線を選ぶ（新幹線・都市鉄道・海外）</li>
-      <li>始発駅と終着駅をえらぶ</li>
-      <li>開始の年・終了の年を入れる</li>
-      <li>スケール（人／地球）と年の表記をえらぶ</li>
-      <li>出来事（トピック）を「年」と「内よう」で追加する</li>
-      <li>「▶ タイムスケールを表示」を押す！</li>
-    </ol>
-
-    <h3>🔁 設定を変えたら「再表示」</h3>
-    <p>路線・年・トピックなどを変えたら、上のバーの「🔁 再表示」を押すと描き直すヨ。（押さないと前のままだから注意）</p>
-
-    <h3>✦ できること</h3>
-    <ul>
-      <li>💬 出来事を路線の上にずっと表示</li>
-      <li>↕ 上下／→ 右　吹き出しの向きを切りかえ</li>
-      <li>▶ 再生・🎯 追尾で時間をたどる</li>
-      <li>🔗 URLで共有（リンクをコピーして送れる）</li>
-      <li>🧩 埋め込みHTML（ホームページに地図を貼れる・読むだけ）</li>
-      <li>📂 JSON・CSVで保存／よみこみ</li>
-      <li>🗑 リセット（左メニューいちばん下）で最初から</li>
-    </ul>
-
-    <p class="mhint">💡 ヒント：年は「138億」「紀元前300」のように入れてもOK。地球スケールにすると、うんと昔からうんと先の未来まで並べられるヨ。</p>
-
-    <h3>⏱️ 時間と距離のしくみ</h3>
-    <p>このアプリは、路線の長さ（営業キロ）を「人生や歴史の長さ（時間）」に見立てて眺めるツールです。始発駅が「始まりの年」、終着駅が「終わりの年」。あいだの時間は、距離に対して均等（比例）に割りふっています。つまり「同じ距離だけ進めば、同じだけ時間が進む」というしくみで、出来事はその年にあたる位置（始まりから何キロ地点か）に置かれます。距離は国内路線では営業キロ、海外路線では駅と駅の直線距離を使っています。</p>
-
-    <h3>⚠️ 正確さについて</h3>
-    <p>年代も距離も、この「時間＝距離」という見せ方を活かすために あえて単純化しています。暦の種類（グレゴリオ暦・ユリウス暦・太陽暦・太陰暦など）の違い・換算・うるう年はひとつの目盛りにそろえ、地図上の位置もおおよその目安です。正確な日付や距離を示すものではないので、そこは大らかに楽しんでくださいネ。</p>
+  <div class="route">
+    <span class="lbl">路線（始発〜終着）：</span>
+    始発 <select id="startSel"></select>
+    <span class="arrow">→</span>
+    終着 <select id="endSel"></select>
   </div>
+
+  <div class="mapcard">
+    <svg id="map" viewBox="0 0 1060 360" role="img" aria-label="対数ものさし2本の路線図"></svg>
+  </div>
+
+  <div class="zoom">
+    <span class="lbl">部分ズーム（おびを ドラッグで 移動）：</span>
+    <div class="zrange" id="zrange">
+      <div class="ztrack"></div>
+      <div class="zsel" id="zsel"></div>
+      <div class="zthumb" id="zlo"><span class="cap" id="zlocap"></span></div>
+      <div class="zthumb" id="zhi"><span class="cap" id="zhicap"></span></div>
+    </div>
+    <div class="zbtns">
+      <button id="zreset">ぜんたい</button>
+      <span id="zpresets"></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="mag">
+      <div class="k">いまの 倍率</div>
+      <div class="v" id="mag">×1倍</div>
+    </div>
+    <div class="reading" id="reading">ものさしを ドラッグ、または 2つの駅を タップして、のりかえ駅で つないでみてください。</div>
+    <button class="reset" id="reset">ぴったりに もどす</button>
+  </div>
+
+  <div class="adder">
+    <span class="lbl">くらべる物を 追加：</span>
+    <input class="name" id="addName" type="text" placeholder="なまえ（例：サッカーボール）">
+    <input class="size" id="addSize" type="text" placeholder="大きさ メートル">
+    <button id="addBtn">追加する</button>
+    <span class="err" id="addErr"></span>
+    <div class="chips" id="chips"></div>
+    <div class="presetrow">
+      <span class="lbl">追加の駅（プリセット）：</span>
+      <label class="switch">
+        <input type="checkbox" id="preMicro">
+        <span class="track"><span class="knob"></span></span>
+        ミクロの駅
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preNear">
+        <span class="track"><span class="knob"></span></span>
+        みぢかの駅
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preSky">
+        <span class="track"><span class="knob"></span></span>
+        マクロの駅
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preProverb">
+        <span class="track"><span class="knob"></span></span>
+        ことわざの駅
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preLegend">
+        <span class="track"><span class="knob"></span></span>
+        伝説・架空の駅
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="preHeritage">
+        <span class="track"><span class="knob"></span></span>
+        世界遺産の駅
+      </label>
+    </div>
+    <div class="sharerow">
+      <button id="shareBtn">🔗 共有リンクを作る</button>
+      <span class="sharemsg" id="shareMsg"></span>
+    </div>
+  </div>
+
+  <p class="foot" id="foot"></p>
 </div>
 
-<!-- 埋め込みHTML モーダル -->
-<div class="modal-back" id="embedModal" onclick="if(event.target===this)closeEmbed()">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeEmbed()" title="とじる">×</button>
-    <h2>🧩 埋め込みHTML</h2>
-    <p>いま表示している路線図を、ブログやホームページに貼るためのHTMLだヨ。見る人は<b>読むだけ（編集できない）</b>。はば・たかさを決めて「📋 コピー」して、サイトに貼りつけてネ。</p>
-    <div class="emb-row">
-      <label>はば(px)<input type="number" id="embW" value="700" min="200" max="2000" oninput="genEmbedCode()"></label>
-      <label>たかさ(px)<input type="number" id="embH" value="500" min="150" max="2000" oninput="genEmbedCode()"></label>
-    </div>
-    <textarea id="embedCode" class="emb-code" readonly rows="5" onclick="this.select()"></textarea>
-    <button class="emb-copy" onclick="copyEmbedCode()">📋 コピー</button>
-    <p class="mhint" id="embedHint">💡 開くと毎回、路線ぜんぶが画面にちょうど収まるように自動でズームするヨ。窓のはば・たかさを変えると寄りかたも変わるダカラ、好みで調整してネ。地図が出ないとき用に「開く」リンクも一緒に入ってるヨ。</p>
-  </div>
-</div>
-
-
-<div class="main-wrap">
-  <!-- サイドパネル -->
-  <div class="side-panel" id="sidePanel">
-
-    <div>
-      <div class="sec-label">🎴 サンプル（ポチっとおためし）</div>
-      <div class="sample-list">
-        <button class="sample-btn" onclick="loadSample(0)">🏯 家康の生涯</button>
-        <button class="sample-btn" onclick="loadSample(1)">✝️ キリストの生涯</button>
-        <button class="sample-btn" onclick="loadSample(2)">卍 仏教の年表</button>
-        <button class="sample-btn" onclick="loadSample(3)">🏛️ 戦後歴代総理</button>
-        <button class="sample-btn" onclick="loadSample(4)">🌌 ビッグバン→地球滅亡</button>
-      </div>
-    </div>
-
-    <hr class="div">
-
-    <div>
-      <div class="sec-label">① 新幹線を選ぶ</div>
-      <div class="route-list" id="routeList"></div>
-    </div>
-
-    <hr class="div">
-
-    <div id="terminalSection" style="display:none">
-      <div class="sec-label">② 始発・終着</div>
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <div class="sel-row">
-          <div class="sel-dot" id="dotStart" style="background:var(--green);box-shadow:0 0 5px var(--green)"></div>
-          <select id="startSel"></select>
-        </div>
-        <div style="display:flex;justify-content:center">
-          <button class="swap-btn" onclick="swapTerminals()">⇅ 入れかえ</button>
-        </div>
-        <div class="sel-row">
-          <div class="sel-dot" id="dotEnd" style="background:var(--red);box-shadow:0 0 5px var(--red)"></div>
-          <select id="endSel"></select>
-        </div>
-      </div>
-    </div>
-
-    <div id="yearSection" style="display:none">
-      <div class="sec-label">③ 始まりと終わり</div>
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <div class="year-field"><label>🟢 始まり</label>
-          <div style="display:flex;gap:4px">
-            <input type="text" id="birthYear" value="1900" placeholder="例: -500, 138億" style="flex:2" onblur="normalizeYearField(this)"/>
-            <select id="birthMonth" style="flex:1"><option value="0">──月</option></select>
-          </div>
-        </div>
-        <div class="year-field"><label>🔴 終わり</label>
-          <div style="display:flex;gap:4px">
-            <input type="text" id="deathYear" value="1980" placeholder="例: -500, 138億" style="flex:2" onblur="normalizeYearField(this)"/>
-            <select id="deathMonth" style="flex:1"><option value="0">──月</option></select>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="warekiSection" style="display:none">
-      <div class="sec-label">④ 種類・スケール・表記</div>
-      <div class="wareki-row" id="kindBtns" style="margin-bottom:5px;flex-wrap:wrap">
-        <button class="wr-btn active" data-kind="time"   onclick="onKindBtn('time',this)"   title="年・月・西暦（今までどおり）">⏳ じかん</button>
-        <button class="wr-btn"        data-kind="temp"   onclick="onKindBtn('temp',this)"   title="温度（℃／K）">🌡 温度</button>
-        <button class="wr-btn"        data-kind="mass"   onclick="onKindBtn('mass',this)"   title="重さ（g／kg／t）">⚖ 重さ</button>
-        <button class="wr-btn"        data-kind="length" onclick="onKindBtn('length',this)" title="長さ（mm／cm／m／km）">📏 長さ</button>
-      </div>
-      <div id="timeScaleRows">
-        <div class="wareki-row" style="margin-bottom:5px">
-          <button class="wr-btn active" id="scaleHuman" onclick="setScale('human',this)" title="月単位・和暦あり">🧑 人スケール</button>
-          <button class="wr-btn" id="scaleEarth" onclick="setScale('earth',this)" title="年単位・和暦なし">🌏 地球スケール</button>
-        </div>
-        <div class="wareki-row" id="warekiBtns">
-          <button class="wr-btn active" onclick="setDateMode('seireki',this)">西れき</button>
-          <button class="wr-btn" onclick="setDateMode('wareki',this)">和れき</button>
-          <button class="wr-btn" onclick="setDateMode('both',this)">両方</button>
-        </div>
-        <div class="wareki-row" id="bigFmtBtns" style="display:none;margin-top:5px">
-          <button class="wr-btn active" id="bigFmtPlain" onclick="setBigFmt(false,this)" title="そのままの数字（カンマ区切り）">🔢 そのまま</button>
-          <button class="wr-btn" id="bigFmtJp" onclick="setBigFmt(true,this)" title="億・万で表記">㊙ 億・万表記</button>
-        </div>
-      </div>
-      <div id="qtyUnitWrap" style="display:none;margin-top:5px">
-        <div style="font-size:.6rem;color:var(--muted);margin-bottom:3px">表示単位（数字だけ入力＝この単位。単位つき入力もOK）</div>
-        <div class="wareki-row" id="qtyUnitBtns" style="flex-wrap:wrap"></div>
-      </div>
-    </div>
-
-    <div id="topicSection" style="display:none">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px">
-        <div class="sec-label">⑤ トピック</div>
-        <div style="display:flex;gap:4px">
-          <button id="bubbleToggleBtn" onclick="toggleBubbles()"
-            style="font-size:.6rem;padding:2px 7px;background:var(--rail);border:1px solid var(--amber);
-            color:var(--amber);border-radius:4px;cursor:pointer">💬 常時表示ON</button>
-        </div>
-      </div>
-      <div class="topic-list" id="topicList"></div>
-      <div class="topic-add-row">
-        <div class="topic-yr-row">
-          <input type="text" inputmode="text" class="topic-age-in" id="topicYear" placeholder="西れき年（例: -300000, 138億）" onblur="normalizeYearField(this)"/>
-          <select id="topicMonth" class="topic-month-in"><option value="1">1月</option></select>
-        </div>
-        <input type="text" id="topicText" placeholder="できごとを入力…"/>
-        <button class="topic-add-btn" id="topicAddBtn" onclick="addTopic()">＋ 追加</button>
-      </div>
-      <div style="margin-top:5px">
-        <label class="btn-sm" style="cursor:pointer;display:block;text-align:center;font-size:.62rem;padding:5px">
-          📂 CSVよみこみ（西れき年,コメント）
-          <input type="file" accept=".csv,.txt" style="display:none" onchange="loadTopicCSV(event)"/>
-        </label>
-      </div>
-    </div>
-
-    <div id="drawSection" style="display:none">
-      <button class="btn-primary" onclick="drawLife()">▶ タイムスケールを表示</button>
-    </div>
-
-    <div class="status-msg" id="statusMsg">新幹線を選んでネ！</div>
-
-    <div id="saveSection" style="display:none">
-      <div class="sec-label">⑥ データの保存・よみこみ</div>
-      <div class="btn-sm-row">
-        <button class="btn-sm" onclick="saveJSON()">💾 JSONで保存</button>
-        <label class="btn-sm" style="cursor:pointer">
-          📂 JSONよみこみ<input type="file" accept=".json" style="display:none" onchange="loadJSON(event)"/>
-        </label>
-      </div>
-    </div>
-
-    <hr class="div" id="hr2" style="display:none">
-
-    <div id="stationListSection" style="display:none">
-      <div class="sec-label">▸ 駅の一らん</div>
-      <div class="station-list" id="stationList"></div>
-    </div>
-
-    <div style="margin-top:auto;padding-top:10px;border-top:1px solid var(--rail)">
-      <button class="btn-reset-bottom" onclick="resetAll()">🗑 ぜんぶリセット</button>
-    </div>
-
-  </div>
-
-  <!-- 地図 -->
-  <div class="map-wrap">
-    <div class="tile-menu-wrap">
-      <button class="tile-menu-btn" onclick="toggleTileMenu()" title="地図スタイル">🗺</button>
-      <div class="tile-menu-list" id="tileMenuList">
-        <button class="active" onclick="changeTile('カラー（OSM）',this)">🗺 カラー（OSM）</button>
-        <button onclick="changeTile('ダーク',this)">🌑 ダーク</button>
-        <button onclick="changeTile('国土地理院',this)">🗾 国土地理院</button>
-        <button onclick="changeTile('淡色（GSI）',this)">☁️ 淡色（GSI）</button>
-      </div>
-    </div>
-    <div id="map"></div>
-
-    <!-- 吹き出しの向き（上下↔右）トグル：地図の左上。路線図を出した後だけ表示 -->
-    <div class="bubbleside-float" id="bubbleSideFloat">
-      <button id="bubbleSideBtn" onclick="toggleBubbleSide()" title="吹き出しの向き（上下↔右）。縦長の路線は『右』がオススメ">↕ 上下</button>
-    </div>
-
-    <!-- 線形／対数 トグル（重さ・長さ＋路線図表示後だけ表示） -->
-    <div class="logscale-float" id="logScaleFloat">
-      <button id="logBtnLinear" class="active" onclick="setLogScale(false)" title="ふつうの目もり（時間＝きょり）">📈 線形</button>
-      <div class="sep"></div>
-      <button id="logBtnLog" onclick="setLogScale(true)" title="ケタごとに同じ間かく。小さいものも見やすい（正の数だけ）">📉 対数</button>
-    </div>
-
-    <!-- 地図上オーバーレイ -->
-    <div id="passingComment" style="display:none;position:absolute;top:60px;left:50%;transform:translateX(-50%);
-      z-index:9999;background:#0D1E30EE;border:1px solid #F5A623;border-radius:8px;
-      padding:6px 14px;font-size:.75rem;color:#EEF2F7;pointer-events:none;
-      box-shadow:0 2px 8px rgba(0,0,0,.6);text-align:center;max-width:220px;"></div>
-    <div class="map-overlay" id="mapOverlay" style="display:none">
-      <div class="overlay-top">
-        <div>
-          <div style="display:flex;align-items:baseline;gap:5px">
-            <div class="ov-age" id="ovAge">0</div>
-            <div id="ovAgeUnit" style="font-size:.65rem;color:var(--muted)">歳</div>
-          </div>
-          <div class="ov-year" id="ovYear">──</div>
-        </div>
-        <div style="margin-left:auto;text-align:right">
-          <div class="ov-station" id="ovStation">──</div>
-          <div class="ov-sub" id="ovSub"></div>
-        </div>
-      </div>
-      <div class="ov-prog-wrap"><div class="ov-prog-fill" id="ovProgBar" style="width:0%"></div></div>
-      <input type="range" class="ov-slider" id="ageSlider" min="0" max="100" value="0" oninput="onSlider(this.value)"/>
-      <div class="ov-controls">
-        <button class="ov-btn" id="btnPlay" onclick="toggleAnim()">▶ 再生</button>
-        <button class="ov-btn" onclick="resetAnim()">⏮</button>
-        <button class="ov-btn" id="btnFollow" onclick="toggleFollow(this)" title="スライダを動かすと地図が丸を追いかける">🎯 追尾</button>
-        <div class="speed-row">
-          <span>おそ</span>
-          <input type="range" id="speedSlider" min="1" max="10" value="8" title="全体の再生時間（おそ=180秒 〜 はや=10秒）"/>
-          <span>はや</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="lines.js"></script>
-<script src="shinkansen.js"></script>
 <script>
-// ROUTE_POLYLINES と SHINKANSEN は shinkansen.js へ分離
-
-// ===== 新幹線データ（営業キロ付き） =====
-// km: 起点からの営業キロ（Wikipedia・JR公式より）
-
-
-// 合体路線を生成（東海道+山陽、山陽+九州）
-(function(){
-  const td = SHINKANSEN.find(r=>r.id==='tokaido').stations;
-  const sy = SHINKANSEN.find(r=>r.id==='sanyo').stations;
-    const tdLen = td[td.length-1].km; // 552.6
-  // 東海道山陽：山陽のkmに東海道の終点km(552.6)を加算
-  SHINKANSEN.find(r=>r.id==='tokaido_sanyo').stations =
-    [...td, ...sy.slice(1).map(s=>({...s,km:s.km+tdLen}))];
-
-})();
-
-// ===== 都市鉄道マージ（lines.js から読み込み） =====
-// lines.js が無い／読み込めない場合も安全にスルー（typeof チェック）
-(function(){
-  if (typeof window.URBAN_LINES !== 'undefined' && Array.isArray(window.URBAN_LINES)) {
-    window.URBAN_LINES.forEach(function(r){
-      if (!SHINKANSEN.some(x=>x.id===r.id)) SHINKANSEN.push(r);
-    });
-  }
-  if (typeof window.URBAN_POLYLINES !== 'undefined' && window.URBAN_POLYLINES) {
-    Object.assign(ROUTE_POLYLINES, window.URBAN_POLYLINES);
-  }
-})();
-
-// ===== 和暦 =====
-const WAREKI=[
-  {name:'令和',start:2019},
-  {name:'平成',start:1989},
-  {name:'昭和',start:1926},
-  {name:'大正',start:1912},
-  {name:'明治',start:1868},
-  {name:'慶応',start:1865},
-  {name:'元治',start:1864},
-  {name:'文久',start:1861},
-  {name:'万延',start:1860},
-  {name:'安政',start:1854},
-  {name:'嘉永',start:1848},
-  {name:'弘化',start:1844},
-  {name:'天保',start:1830},
-  {name:'文政',start:1818},
-  {name:'文化',start:1804},
-  {name:'享和',start:1801},
-  {name:'寛政',start:1789},
-  {name:'天明',start:1781},
-  {name:'安永',start:1772},
-  {name:'明和',start:1764},
-  {name:'宝暦',start:1751},
-  {name:'寛延',start:1748},
-  {name:'延享',start:1744},
-  {name:'寛保',start:1741},
-  {name:'元文',start:1736},
-  {name:'享保',start:1716},
-  {name:'正徳',start:1711},
-  {name:'宝永',start:1704},
-  {name:'元禄',start:1688},
-  {name:'貞享',start:1684},
-  {name:'天和',start:1681},
-  {name:'延宝',start:1673},
-  {name:'寛文',start:1661},
-  {name:'万治',start:1658},
-  {name:'明暦',start:1655},
-  {name:'承応',start:1652},
-  {name:'慶安',start:1648},
-  {name:'正保',start:1644},
-  {name:'寛永',start:1624},
-  {name:'元和',start:1615},
-  {name:'慶長',start:1596},
-  {name:'文禄',start:1592},
-  {name:'天正',start:1573},
-  {name:'元亀',start:1570},
-  {name:'永禄',start:1558},
-  {name:'弘治',start:1555},
-  {name:'天文',start:1532},
-  {name:'享禄',start:1528},
-  {name:'大永',start:1521},
-  {name:'永正',start:1504},
-  {name:'文亀',start:1501},
-  {name:'明応',start:1492},
-  {name:'延徳',start:1489},
-  {name:'長享',start:1487},
-  {name:'文明',start:1469},
-  {name:'応仁',start:1467},
-  {name:'文正',start:1466},
-  {name:'寛正',start:1460},
-  {name:'長禄',start:1457},
-  {name:'康正',start:1455},
-  {name:'享徳',start:1452},
-  {name:'宝徳',start:1449},
-  {name:'文安',start:1444},
-  {name:'嘉吉',start:1441},
-  {name:'永享',start:1429},
-  {name:'正長',start:1428},
-  {name:'応永',start:1394},
-  {name:'明徳',start:1390},
-  {name:'元中',start:1384},
-  {name:'弘和',start:1381},
-  {name:'天授',start:1375},
-  {name:'文中',start:1372},
-  {name:'建徳',start:1370},
-  {name:'正平',start:1346},
-  {name:'興国',start:1340},
-  {name:'延元',start:1336},
-  {name:'建武',start:1334},
-  {name:'元弘',start:1331},
-  {name:'元徳',start:1329},
-  {name:'嘉暦',start:1326},
-  {name:'正中',start:1324},
-  {name:'元亨',start:1321},
-  {name:'元応',start:1319},
-  {name:'文保',start:1317},
-  {name:'正和',start:1312},
-  {name:'応長',start:1311},
-  {name:'延慶',start:1308},
-  {name:'徳治',start:1306},
-  {name:'嘉元',start:1303},
-  {name:'乾元',start:1302},
-  {name:'正安',start:1299},
-  {name:'永仁',start:1293},
-  {name:'正応',start:1288},
-  {name:'弘安',start:1278},
-  {name:'建治',start:1275},
-  {name:'文永',start:1264},
-  {name:'弘長',start:1261},
-  {name:'文応',start:1260},
-  {name:'正元',start:1259},
-  {name:'正嘉',start:1257},
-  {name:'康元',start:1256},
-  {name:'建長',start:1249},
-  {name:'宝治',start:1247},
-  {name:'寛元',start:1243},
-  {name:'仁治',start:1240},
-  {name:'延応',start:1239},
-  {name:'暦仁',start:1238},
-  {name:'嘉禎',start:1235},
-  {name:'文暦',start:1234},
-  {name:'天福',start:1233},
-  {name:'貞永',start:1232},
-  {name:'寛喜',start:1229},
-  {name:'安貞',start:1227},
-  {name:'嘉禄',start:1225},
-  {name:'元仁',start:1224},
-  {name:'貞応',start:1222},
-  {name:'承久',start:1219},
-  {name:'建保',start:1213},
-  {name:'建暦',start:1211},
-  {name:'承元',start:1207},
-  {name:'建永',start:1206},
-  {name:'元久',start:1204},
-  {name:'建仁',start:1201},
-  {name:'正治',start:1199},
-  {name:'建久',start:1190},
-  {name:'文治',start:1185},
-  {name:'元暦',start:1184},
-  {name:'寿永',start:1182},
-  {name:'養和',start:1181},
-  {name:'治承',start:1177},
-  {name:'安元',start:1175},
-  {name:'承安',start:1171},
-  {name:'嘉応',start:1169},
-  {name:'仁安',start:1166},
-  {name:'永万',start:1165},
-  {name:'長寛',start:1163},
-  {name:'応保',start:1161},
-  {name:'永暦',start:1160},
-  {name:'平治',start:1159},
-  {name:'保元',start:1156},
-  {name:'久寿',start:1154},
-  {name:'仁平',start:1151},
-  {name:'久安',start:1145},
-  {name:'天養',start:1144},
-  {name:'康治',start:1142},
-  {name:'永治',start:1141},
-  {name:'保延',start:1135},
-  {name:'長承',start:1132},
-  {name:'天承',start:1131},
-  {name:'大治',start:1126},
-  {name:'天治',start:1124},
-  {name:'保安',start:1120},
-  {name:'元永',start:1118},
-  {name:'永久',start:1113},
-  {name:'天永',start:1110},
-  {name:'天仁',start:1108},
-  {name:'嘉承',start:1106},
-  {name:'長治',start:1104},
-  {name:'康和',start:1099},
-  {name:'承徳',start:1097},
-  {name:'永長',start:1096},
-  {name:'嘉保',start:1094},
-  {name:'寛治',start:1087},
-  {name:'応徳',start:1084},
-  {name:'永保',start:1081},
-  {name:'承暦',start:1077},
-  {name:'承保',start:1074},
-  {name:'延久',start:1069},
-  {name:'治暦',start:1065},
-  {name:'康平',start:1058},
-  {name:'天喜',start:1053},
-  {name:'永承',start:1046},
-  {name:'寛徳',start:1044},
-  {name:'長久',start:1040},
-  {name:'長暦',start:1037},
-  {name:'長元',start:1028},
-  {name:'万寿',start:1024},
-  {name:'治安',start:1021},
-  {name:'寛仁',start:1017},
-  {name:'長和',start:1012},
-  {name:'寛弘',start:1004},
-  {name:'長保',start:999},
-  {name:'長徳',start:995},
-  {name:'正暦',start:990},
-  {name:'永祚',start:989},
-  {name:'永延',start:987},
-  {name:'寛和',start:985},
-  {name:'永観',start:983},
-  {name:'天元',start:978},
-  {name:'貞元',start:976},
-  {name:'天延',start:973},
-  {name:'天禄',start:970},
-  {name:'安和',start:968},
-  {name:'康保',start:964},
-  {name:'応和',start:961},
-  {name:'天徳',start:957},
-  {name:'天暦',start:947},
-  {name:'天慶',start:938},
-  {name:'承平',start:931},
-  {name:'延長',start:923},
-  {name:'延喜',start:901},
-  {name:'昌泰',start:898},
-  {name:'寛平',start:889},
-  {name:'仁和',start:885},
-  {name:'元慶',start:877},
-  {name:'貞観',start:859},
-  {name:'天安',start:857},
-  {name:'斉衡',start:854},
-  {name:'仁寿',start:851},
-  {name:'嘉祥',start:848},
-  {name:'承和',start:834},
-  {name:'天長',start:824},
-  {name:'弘仁',start:810},
-  {name:'大同',start:806},
-  {name:'延暦',start:782},
-  {name:'天応',start:781},
-  {name:'宝亀',start:770},
-  {name:'神護景雲',start:767},
-  {name:'天平神護',start:765},
-  {name:'天平宝字',start:757},
-  {name:'天平感宝',start:749},
-  {name:'天平勝宝',start:749},
-  {name:'天平',start:729},
-  {name:'神亀',start:724},
-  {name:'養老',start:717},
-  {name:'霊亀',start:715},
-  {name:'和銅',start:708},
-  {name:'慶雲',start:704},
-  {name:'大宝',start:701},
-  {name:'朱鳥',start:686},
-  {name:'白雉',start:650},
-  {name:'大化',start:645}
+const BASE = [
+  {name:'原子',         v:1e-10, e:'⚛️'},
+  {name:'コロナウイルス', v:1.2e-7, e:'🦠'},
+  {name:'赤血球（ヒト）', v:7.5e-6, e:'🩸'},
+  {name:'髪の毛の太さ', v:1e-4,  e:'💇'},
+  {name:'クロオオアリ', v:1e-2,  e:'🐜'},
+  {name:'人',           v:1.8,   e:'🧍'},
+  {name:'シロナガスクジラ', v:30,  e:'🐋'},
+  {name:'東京タワー',   v:333,   e:'🗼'},
+  {name:'富士山',       v:3776,  e:'🗻'},
+  {name:'地球',         v:1.3e7, e:'🌍'},
+  {name:'太陽',         v:1.4e9, e:'☀️'},
+  {name:'太陽系',       v:9e12,  e:'💫'},
+  {name:'1光年',        v:9.5e15,e:'🌟'},
+  {name:'銀河系',       v:1e21,  e:'🌌'},
+  {name:'観測できる宇宙', v:8.8e26, e:'🌠'},
 ];
-function toWareki(y){
-  for(const w of WAREKI){ if(y>=w.start){ const n=y-w.start+1; return w.name+(n===1?'元':n)+'年'; } }
-  return fmtCE(y);
+// 追加プリセット（デフォルトOFF。スイッチONで路線に足される）
+const PRE_MICRO = [
+  {name:'水分子',     v:3e-10, e:'💧'},
+  {name:'砂糖分子',   v:1e-9,  e:'🍬'},
+  {name:'DNA（太さ）', v:2e-9,  e:'🧬'},
+  {name:'大腸菌',     v:2e-6,  e:'🧫'},
+];
+const PRE_NEAR = [
+  {name:'スマートフォン', v:1.5e-1, e:'📱'},
+  {name:'大型バス',   v:12,    e:'🚌'},
+  {name:'自由の女神', v:93,    e:'🗽'},
+];
+const PRE_SKY = [
+  {name:'エベレスト', v:8849,  e:'🏔️'},
+  {name:'月',         v:3.5e6, e:'🌙'},
+  {name:'土星',       v:1.2e8, e:'🪐'},
+  {name:'アルデバラン', v:6.1e10, e:'🌟'},
+  {name:'リゲル',     v:1.1e11, e:'🌟'},
+  {name:'ベテルギウス', v:1.1e12, e:'🌟'},
+  {name:'V1489',      v:2.3e12, e:'🌟'},
+  {name:'オールトの雲', v:3e16,  e:'☄️', note:'直径の概算'},
+  {name:'オリオン大星雲', v:2.3e17, e:'🌫️', note:'目安の値（諸説あり）'},
+  {name:'矮小銀河',   v:1e20, note:'大きさは様々（代表値）'},
+];
+const PRE_PROVERB = [
+  {name:'間一髪',     v:8e-5,  e:'💇', note:'「一髪」＝髪1本'},
+  {name:'一寸先は闇', v:3e-2,  e:'🌑', note:'一寸＝約3cm'},
+  {name:'三尺下がって師の影を踏まず', v:9.1e-1, note:'三尺＝約91cm'},
+  {name:'五十歩百歩', v:3.8e1, e:'👣', note:'一歩＝約75cm'},
+  {name:'白髪三千丈', v:9.1e3, e:'👴', note:'李白の詩・三千丈'},
+  {name:'五里霧中',   v:2e4,   e:'🌁', note:'一里＝約3.9km'},
+  {name:'千里の道も一歩から', v:3.9e6, e:'🛣️', note:'一里＝約3.9km'},
+  {name:'母をたずねて三千里', v:1.2e7, e:'🚶', note:'三千里＝約1.2万km（諸説あり）'},
+  {name:'海底二万里', v:8e7, e:'🌊', note:'二万里＝約8万km（諸説あり）'},
+];
+const PRE_LEGEND = [
+  {name:'一寸法師',   v:3e-2,  note:'一寸＝約3cm'},
+  {name:'リリパットの小人', v:1.5e-1, note:'人の約1/12（ガリバー旅行記）'},
+  {name:'ビッグフット', v:2.6, note:'目撃談による'},
+  {name:'ゴリアテ',   v:2.9,  note:'聖書による'},
+  {name:'丈六',       v:4.85, note:'1丈6尺（大仏の基準）'},
+  {name:'ブロブディンナグの巨人', v:22, note:'人の約12倍（ガリバー旅行記）'},
+  {name:'ロドス島の巨像', v:33, note:'高さ・諸説あり（古代七不思議）'},
+  {name:'アレクサンドリアの大灯台', v:110, note:'高さ・諸説あり（古代七不思議）'},
+  {name:'ノアの方舟', v:140,  note:'長さ・諸説あり（聖書）'},
+  {name:'ラピュータ', v:7.2e3, note:'直径・ガリバー旅行記'},
+  {name:'ヤマタノオロチ', v:9e3, note:'谷8つ・峰8つ（古事記・概算）'},
+  {name:'新エルサレム', v:2.2e6, note:'立方体・黙示録による'},
+  {name:'須弥山',     v:5.6e8, note:'八万由旬・経典による'},
+];
+const PRE_HERITAGE = [
+  {name:'モアイ像',   v:5,     e:'🗿', note:'高さ'},
+  {name:'スフィンクス', v:7.35e1, note:'全長'},
+  {name:'ナスカ地上絵ハチドリ', v:9.6e1, note:'全長'},
+  {name:'ピラミッド', v:1.385e2, note:'高さ（クフ王）'},
+  {name:'仁徳天皇陵', v:4.86e2, note:'全長'},
+  {name:'モンサンミシェル', v:1e3, e:'🏰', note:'周囲'},
+  {name:'知床半島',   v:7e4,   note:'長さ'},
+  {name:'万里の長城', v:2.1e7, note:'総延長・諸説あり'},
+];
+let custom=[]; let onMicro=false, onNear=false, onSky=false, onProverb=false, onLegend=false, onHeritage=false;
+function activeStations(){
+  let arr=BASE.slice();
+  if(onMicro) arr=arr.concat(PRE_MICRO);
+  if(onNear)  arr=arr.concat(PRE_NEAR);
+  if(onSky)   arr=arr.concat(PRE_SKY);
+  if(onProverb) arr=arr.concat(PRE_PROVERB);
+  if(onLegend) arr=arr.concat(PRE_LEGEND);
+  if(onHeritage) arr=arr.concat(PRE_HERITAGE);
+  arr=arr.concat(custom);
+  arr.sort((a,b)=>a.v-b.v);
+  return arr;
 }
-// ===== 大きい数：入力パース＆表示 =====
-let bigYearJp=false; // 地球スケールの表示: false=そのまま(カンマ), true=億・万表記
+let STATIONS=activeStations(); let showEmoji=false;
+let bubble=null; // タップで出す ふきだし {bar:'A'|'B', i}
 
-// 日本語の数（億・万・千・小数・「年前」など）→ 数値 に変換
-// 例: "-138億"→-13800000000, "13.8億"→1380000000, "138億3400万"→13834000000
-function parseJpNumber(raw){
-  if(raw==null) return NaN;
-  let s=String(raw).trim();
-  if(s==='') return NaN;
-  // 全角→半角、記号の正規化
-  s=s.replace(/[０-９]/g,d=>String.fromCharCode(d.charCodeAt(0)-0xFEE0))
-     .replace(/[．]/g,'.').replace(/[，、,\s]/g,'').replace(/[ー－―‐−]/g,'-')
-     .replace(/[×✕xX]10\^/g,'e');   // 「1.000×10^-13」→「1.000e-13」にして指数を読み戻す（自分が出した表記を自分で読む）
-  // 「年前/前」→マイナス、「年後/後/年」は除去
-  let sign=1;
-  if(/(年前|前)$/.test(s)){ sign=-1; s=s.replace(/(年前|前)$/,''); }
-  else { s=s.replace(/(年後|後|年)$/,''); }
-  if(s[0]==='-'){ sign=-sign; s=s.slice(1); }
-  else if(s[0]==='+'){ s=s.slice(1); }
-  if(s==='') return NaN;
-  if(/^[0-9]+(\.[0-9]+)?$/.test(s)) return sign*parseFloat(s); // 純粋な数値
-  // 大単位（降順）。※京(10^16)から上はJSの精度限界を超えるので参考程度
-  const BIG=[['無量大数',1e68],['不可思議',1e64],['那由他',1e60],['阿僧祇',1e56],['恒河沙',1e52],
-    ['極',1e48],['載',1e44],['正',1e40],['澗',1e36],['溝',1e32],['穣',1e28],['秭',1e24],['𥝱',1e24],
-    ['垓',1e20],['京',1e16],['兆',1e12],['億',1e8],['万',1e4]];
-  const SMALL=[['千',1e3],['百',1e2],['十',1e1]];
-  function parseSmall(str){
-    str=str.trim();
-    if(str==='') return 1;
-    if(/^[0-9]+(\.[0-9]+)?$/.test(str)) return parseFloat(str);
-    let t=0, r=str;
-    for(const [nm,v] of SMALL){
-      const i=r.indexOf(nm);
-      if(i>=0){ const h=r.slice(0,i); r=r.slice(i+nm.length); t+=(h===''?1:parseFloat(h))*v; }
-    }
-    if(r!==''){ const n=parseFloat(r); if(!isNaN(n)) t+=n; }
-    return t;
+const SVGNS='http://www.w3.org/2000/svg';
+const svg=document.getElementById('map');
+const magEl=document.getElementById('reading');
+const magVal=document.getElementById('mag');
+const footEl=document.getElementById('foot');
+
+const HW=1060, HH=384, hPadL=66, hPadR=110, TOPY=170, BOTY=210;
+const ANG=44, COS=Math.cos(ANG*Math.PI/180), SIN=Math.sin(ANG*Math.PI/180);
+const VW=440, VH=820, vPadT=40, vPadB=52, LEFTX=170, RIGHTX=270;
+const LOGMIN=-10.6, LOGMAX=27.5, RANGE=LOGMAX-LOGMIN;
+const ALIGN_TOL=5.5, OVERLAP_EPS=0.004, MINWIN=0.03;
+
+let shift=0, selA=null, selB=null;
+let orientMode='auto', orient='h';
+let londonStyle=false; // false=日本スタイル, true=ロンドンスタイル
+let viewLo=0, viewHi=1; // 表示する pos はんい（ズーム）
+
+function isV(){return orient==='v';}
+function log10(x){return Math.log(x)/Math.LN10;}
+function pos(v){return (log10(v)-LOGMIN)/RANGE;}
+function dims(){ return isV()? {pad:vPadT, usable:VH-vPadT-vPadB} : {pad:hPadL, usable:HW-hPadL-hPadR}; }
+function frac(p){ return (p-viewLo)/(viewHi-viewLo); }
+function mainPx(p){ const d=dims(); return d.pad + frac(p)*d.usable; }
+function vis(p){ const f=frac(p); return f>=-0.04 && f<=1.04; }
+function coordA(i){ const m=mainPx(pos(STATIONS[i].v));       return isV()? {x:LEFTX,y:m}:{x:m,y:TOPY}; }
+function coordB(i){ const m=mainPx(pos(STATIONS[i].v)+shift); return isV()? {x:RIGHTX,y:m}:{x:m,y:BOTY}; }
+function mainOf(c){ return isV()? c.y : c.x; }
+function clamp(s){return Math.max(-1.18,Math.min(1.18,s));}
+function mag(){return Math.pow(10, shift*RANGE);}
+function label(i){return STATIONS[i].name + (showEmoji && STATIONS[i].e? ' '+STATIONS[i].e : '');}
+
+const SUP={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+function sup(n){return String(n).split('').map(c=>SUP[c]||c).join('');}
+function fmtVal(v){
+  if(v>=0.001 && v<10000){ let s=v>=100? Math.round(v).toString() : (v>=1? trimz(v.toPrecision(2)) : trimz(v.toPrecision(1))); return s+' m'; }
+  const e=Math.floor(log10(v)); const mant=v/Math.pow(10,e); const ms=Math.round(mant*10)/10;
+  return (ms===1?'':ms+'×')+'10'+sup(e)+' m';
+}
+function trimz(s){return s.replace(/\.0+$/,'').replace(/(\.\d*?)0+$/,'$1');}
+const UNITS=['','万','億','兆','京','垓','秭','穣','溝','澗','正','載','極','恒河沙','阿僧祇','那由他','不可思議','無量大数'];
+function jpBig(n){
+  if(n<1) return n.toPrecision(2);
+  let idx=Math.floor(log10(n)/4); if(idx<0) idx=0;
+  if(idx>=UNITS.length){ const e=Math.floor(log10(n)); const m=n/Math.pow(10,e); return (Math.round(m*10)/10)+'×10'+sup(e); }
+  let m=n/Math.pow(10,idx*4);
+  let ms=m>=100? Math.round(m).toString() : trimz((Math.round(m*100)/100).toString());
+  return ms+UNITS[idx];
+}
+function fmtMag(m){ if(Math.abs(m-1)<1e-9) return '×1倍'; if(m>=1) return '×'+jpBig(m)+'倍'; return '×'+jpBig(1/m)+'分の1'; }
+function el(tag,attrs){ const e=document.createElementNS(SVGNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); return e; }
+
+function assignLanes(visIdx){
+  const order=visIdx.slice().sort((a,b)=>coordA(a).x-coordA(b).x);
+  const laneEnd=[]; const lev={}; const maxLanes=3;
+  for(const i of order){
+    const v=STATIONS[i].name.length + (STATIONS[i].e?2.6:0); // 絵文字ぶんは常に確保（ON/OFFで段が動かない）
+    const spanH=v*15*COS; const x=coordA(i).x;
+    let l=0; while(l<laneEnd.length && laneEnd[l]+6>x) l++;
+    if(l>=maxLanes){ lev[i]=-1; continue; } // 混みすぎ→ラベル隠す（点は残す。タップ/ズームで読める）
+    if(l===laneEnd.length) laneEnd.push(0);
+    lev[i]=l; laneEnd[l]=x+spanH;
   }
-  let total=0, rest=s, matched=false;
-  for(const [nm,v] of BIG){
-    const i=rest.indexOf(nm);
-    if(i>=0){ const h=rest.slice(0,i); rest=rest.slice(i+nm.length); total+=parseSmall(h)*v; matched=true; }
+  return lev;
+}
+
+function drawStation(bar,i,lit,sel,level){
+  const g=el('g',{});
+  const c = bar==='A'? coordA(i):coordB(i);
+  const color = bar==='A'? 'var(--line-top)':'var(--line-bot)';
+  if(isV()){
+    const tx=bar==='A'? c.x-14:c.x+14, anchor=bar==='A'?'end':'start';
+    const t=el('text',{x:tx,y:c.y+5,'text-anchor':anchor,'font-family':'var(--font)','font-size':13,
+      fill: lit?'var(--gold)':'var(--ink)','font-weight':lit?700:400});
+    t.textContent=label(i); g.appendChild(t);
+  } else if(level>=0){
+    const uy=(bar==='A'?-SIN:SIN), dist=26+level*30, lx=c.x+COS*dist, ly=c.y+uy*dist;
+    g.appendChild(el('line',{x1:c.x+COS*9,y1:c.y+uy*9,x2:lx,y2:ly,stroke:'var(--muted)','stroke-width':0.6,opacity:0.5}));
+    const t=el('text',{x:lx,y:ly,'text-anchor':'start',transform:'rotate('+(bar==='A'?-ANG:ANG)+' '+lx+' '+ly+')',
+      'font-family':'var(--font)','font-size':15, fill: lit?'var(--gold)':'var(--ink)','font-weight':lit?700:400});
+    t.textContent=label(i); g.appendChild(t);
   }
-  if(rest!=='') total+=parseSmall(rest);
-  if(!matched && total===0) return NaN;
-  return sign*total;
-}
-
-// 数値 → 億・万 表記（例: 13834000000 → "138億3400万", 1380000000 → "13億8000万"）
-function toJpUnits(n){
-  n=Math.round(n);
-  if(n===0) return '0';
-  const neg=n<0; n=Math.abs(n);
-  const BIG=[['無量大数',1e68],['不可思議',1e64],['那由他',1e60],['阿僧祇',1e56],['恒河沙',1e52],
-    ['極',1e48],['載',1e44],['正',1e40],['澗',1e36],['溝',1e32],['穣',1e28],['秭',1e24],
-    ['垓',1e20],['京',1e16],['兆',1e12],['億',1e8],['万',1e4]];
-  let parts='', rest=n;
-  for(const [nm,v] of BIG){
-    if(rest>=v){ const q=Math.floor(rest/v); rest-=q*v; parts+=q+nm; }
-  }
-  if(rest>0) parts+=String(rest);
-  return (neg?'-':'')+(parts||'0');
-}
-
-// 地球スケールの数値表示（トグルに応じて切替）
-function fmtBigNum(n){ n=Math.round(n); return bigYearJp ? toJpUnits(n) : n.toLocaleString(); }
-
-// 年フィールドを正規化（入力された日本語表記を数値に直す）
-function normalizeYearField(el){ if(!isTime()) return; const v=parseJpNumber(el.value); if(!isNaN(v)) el.value=String(Math.round(v)); }
-
-// 西暦の年文字列（マイナスは紀元前◯年／-10000以降は◯年前）。人スケール各モード共通
-function fmtCE(y){
-  if(y<0){ const a=Math.abs(y); if(a<=9999) return '紀元前'+a+'年'; return fmtBigNum(a)+'年前'; }
-  return y+'年';
-}
-function fmtYear(y){
-  if(scaleMode==='earth'){           // 地球スケールは億表記トグルに従う
-    if(y<0){
-      const a=Math.abs(y);
-      if(a<=9999) return '紀元前'+a+'年';   // -1〜-9999 は「紀元前◯年」
-      return fmtBigNum(a)+'年前';            // -10000 より前は「◯年前」（億・万トグル対応）
-    }
-    return fmtBigNum(y)+'年';
-  }
-  if(dateMode==='seireki') return fmtCE(y);
-  if(dateMode==='wareki')  return toWareki(y);
-  // 両方：元号があるときだけ（◯◯年）を付ける。大化前は西暦だけ（ダブり防止）
-  const w=toWareki(y), ce=fmtCE(y);
-  return (w===ce) ? ce : ce+'（'+w+'）';
-}
-
-// トピックの「年＋月」を数値化（月なし=0なら年そのまま）。並び順・位置に使う
-function topicYearVal(t){ return t.year + ((t.month>0) ? (t.month-1)/12 : 0); }
-// トピックの表示ラベル（月があれば付ける。ただし大昔の「◯年前」には付けない）
-function fmtTopicLabel(t){
-  if(!isTime()) return fmtQty(t.year);
-  let s=fmtYear(Math.round(t.year));
-  if(t.month>1 && t.year>-10000) s += t.month+'月';
-  return s;
-}
-
-// ===== 状態 =====
-let selectedRoute=null, stations=[], totalDist=0;
-let routeLine=null, stMarkers=[], currentMarker=null, topicMarkers=[];
-// 吹き出し最前面管理（クリックで前面に出す。再描画後も順番を覚えておく）
-let topicTopZ=1000; const topicZOrder={};
-let expandedClusters={};   // 近接でまとめた吹き出しを「全部ひらく」かどうか（キー=トピックindexの集合）
-let followMode=false; // スライダ操作・再生で地図が丸を自動追尾するか
-let animTimer=null, isPlaying=false;
-let dateMode='seireki', topics=[], reversed=false, scaleMode='human';
-// ===== 種類（量）モード：'time'＝今までの時間。temp/mass/length＝新モード（線形・地球スケール相当） =====
-let kind='time';      // 'time' | 'temp' | 'mass' | 'length'
-let logScale=false;   // 対数スケール（重さ・長さモードのみ／既定は線形）。時間・温度では常にfalse
-const NT_STEPS=1000;  // 非時間モードのスライダ分割数（固定）。極小〜巨大どんなスケールでもなめらか再生
-let dispUnit='';      // 表示単位（温度=℃/K、重さ=g/kg/t、長さ=mm/cm/m/km）。timeでは未使用
-const QTY={
-  temp:  {name:'温度', def:'℃', units:['℃','K']},
-  mass:  {name:'重さ', def:'kg', units:['g','kg','t'],     factor:{ng:1e-12,'µg':1e-9,ug:1e-9,mg:1e-6,g:1e-3,kg:1,t:1e3}},
-  length:{name:'長さ', def:'m',  units:['mm','cm','m','km'], factor:{pm:1e-12,'Å':1e-10,A:1e-10,nm:1e-9,'µm':1e-6,um:1e-6,mm:1e-3,cm:1e-2,m:1,km:1e3}},
-};
-function isTime(){ return kind==='time'; }
-function tempCtoDisp(c,u){ return u==='K'? c+273.15 : c; }   // 摂氏→表示
-// 入力文字 → 基本単位の数値（温度=℃, 重さ=kg, 長さ=m）。単位サフィックスを読み取ル
-function parseQty(raw){
-  let s=String(raw==null?'':raw).trim().replace(/μ/g,'µ');   // ギリシャμ→micro記号µ に統一（µm/µg を確実にひろう）
-  if(s==='') return NaN;
-  if(kind==='temp'){
-    let u=dispUnit||'℃';   // A案：単位なし＝今の表示単位（℃/K）。℃・度・C／K は明示で上書き
-    const km=s.match(/([kK])\s*$/);
-    if(km && !/度/.test(s)){ u='K'; s=s.slice(0,km.index); }
-    else if(/(℃|°C|度|[cC])\s*$/.test(s)){ u='℃'; s=s.replace(/(℃|°C|度|[cC])\s*$/,''); }
-    const n=parseJpNumber(s);
-    if(isNaN(n)) return NaN;
-    return u==='K'? n-273.15 : n;   // 内部は摂氏
-  }
-  const fac=QTY[kind].factor;
-  let unit=dispUnit||QTY[kind].def;
-  const keys=Object.keys(fac).sort((a,b)=>b.length-a.length);  // 長い単位から（km,cm,mm,kg,mg…）
-  for(const k of keys){ const re=new RegExp(k+'\\s*$','i'); if(re.test(s)){ unit=k; s=s.replace(re,''); break; } }
-  const n=parseJpNumber(s);
-  if(isNaN(n)) return NaN;
-  return n*fac[unit];
-}
-// 基本単位の数値 → 表示単位の数値（単位文字なし）
-function qtyNum(baseVal){
-  let v = kind==='temp' ? tempCtoDisp(baseVal, dispUnit||'℃')
-                        : baseVal / QTY[kind].factor[dispUnit||QTY[kind].def];
-  return fmtNumMaybe(v);
-}
-// 表示用：数値＋単位（例 "37℃" "1.5t" "5km"）
-function fmtQty(baseVal){ return qtyNum(baseVal) + (dispUnit||QTY[kind].def); }
-// 数の表示：整数や巨大値は既存の億万/カンマ流、小さい小数は適度に
-function fmtNumMaybe(v){
-  if(!isFinite(v)) return String(v);
-  const a=Math.abs(v);
-  if(a===0) return '0';
-  if(Number.isInteger(v)) return fmtBigNum(v);             // 整数：既存（億万トグル/カンマ）。巨大値もOK
-  if(a<1e-4 || a>=1e15) return v.toExponential(3).replace('e','×10^').replace('×10^+','×10^'); // 極小・極大は指数
-  if(bigYearJp && a>=1e4) return fmtBigNum(v);
-  return String(Number(v.toPrecision(6)));                 // それ以外の小数は有効6桁
-}
-let prevTimeScale='human';   // 非時間に出入りする間、時間モードのスケールを覚えておく
-// 種類セレクタ
-function setKind(k, btn){
-  logScale=false;   // 種類を切りかえたら対数→線形にもどす（重さ・長さ以外は常に線形）
-  if(isTime() && k!=='time') prevTimeScale=scaleMode;   // 時間→非時間：今のスケールを保存
-  kind=k;
-  document.querySelectorAll('#kindBtns .wr-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  const timeRows=document.getElementById('timeScaleRows');
-  const unitWrap=document.getElementById('qtyUnitWrap');
-  const tMonthSel=document.getElementById('topicMonth');
-  if(k==='time'){
-    if(timeRows) timeRows.style.display='';
-    if(unitWrap) unitWrap.style.display='none';
-    dispUnit='';
-    scaleMode=prevTimeScale;   // 時間モードに戻ったらスケールを復元
-    document.querySelectorAll('#scaleHuman,#scaleEarth').forEach(b=>b.classList.remove('active'));
-    const sb=document.getElementById(scaleMode==='earth'?'scaleEarth':'scaleHuman'); if(sb)sb.classList.add('active');
-    const wb=document.getElementById('warekiBtns'), bf=document.getElementById('bigFmtBtns');
-    if(scaleMode==='earth'){ if(wb)wb.style.display='none'; if(bf)bf.style.display=''; dateMode='seireki'; }
-    else { if(wb)wb.style.display=''; if(bf)bf.style.display='none'; }
-    document.getElementById('birthMonth').style.display = scaleMode==='human'?'':'none';
-    document.getElementById('deathMonth').style.display = scaleMode==='human'?'':'none';
-    if(tMonthSel) tMonthSel.style.display='';
-    setQtyPlaceholders('例: -500, 138億');
+  if(!londonStyle || lit || sel){
+    const r=sel?9.5:7.5;
+    const cc=el('circle',{cx:c.x,cy:c.y,r:r,fill:'#fff',stroke: sel?'var(--gold)':color,'stroke-width': sel?4:3.4});
+    const title=el('title',{}); title.textContent=STATIONS[i].name+'：'+fmtVal(STATIONS[i].v);
+    cc.appendChild(title); g.appendChild(cc);
   } else {
-    if(timeRows) timeRows.style.display='none';
-    if(unitWrap) unitWrap.style.display='';
-    scaleMode='earth'; dateMode='seireki';   // 非時間＝線形・整数ステップ・月なし
-    document.getElementById('birthMonth').style.display='none';
-    document.getElementById('deathMonth').style.display='none';
-    if(tMonthSel) tMonthSel.style.display='none';
-    dispUnit=QTY[k].def;
-    buildUnitButtons(k);
-    const ph = k==='temp' ? '例: 0, 100, 36℃, 310K'
-             : k==='mass' ? '例: 60, 5000, 2e30, 1.5t'
-             :              '例: 1.7, 1e-10, 5km, 50cm';
-    setQtyPlaceholders(ph);
+    // ロンドンスタイル：のりかえ以外は 名前側に 突起（ティック）
+    let x2=c.x, y2=c.y;
+    if(isV()){ x2 = c.x + (bar==='A'?-9:9); } else { y2 = c.y + (bar==='A'?-9:9); }
+    const tick=el('line',{x1:c.x,y1:c.y,x2:x2,y2:y2,stroke:color,'stroke-width':5,'stroke-linecap':'butt'});
+    const title=el('title',{}); title.textContent=STATIONS[i].name+'：'+fmtVal(STATIONS[i].v);
+    tick.appendChild(title); g.appendChild(tick);
   }
-  const su=document.getElementById('ovAgeUnit'); if(su) su.textContent = isTime()?'歳':'';
-  updateLogToggleUI();
-}
-// ④種類ボタンの「ユーザークリック」専用ラッパー。案1＝始まり/終わり/トピック/表示中の路線図をクリア（路線選択は残す）／案B＝消す前に確認
-// ※JSON・共有リンク・リセットは setKind を直接呼ぶのでクリアの巻き添えにしない
-function onKindBtn(k, btn){
-  if(k!==kind){
-    const hasData = topics.length>0
-      || document.getElementById('birthYear').value.trim()!==''
-      || document.getElementById('deathYear').value.trim()!=='';
-    if(hasData && !confirm('種類をかえると、始まり・終わり・トピック・表示中の路線図は消えるヨ。いい？')) return; // キャンセル：何もしない
-    clearQtyData();
-  }
-  setKind(k, btn);
-}
-// 量データだけ片づける（路線の選択＝②③は残す）
-function clearQtyData(){
-  stopAnim();
-  document.getElementById('birthYear').value='';
-  document.getElementById('deathYear').value='';
-  const ty=document.getElementById('topicYear'); if(ty) ty.value='';
-  const tt=document.getElementById('topicText'); if(tt) tt.value='';
-  topics=[]; renderTopicList();
-  topicTopZ=1000; for(const key in topicZOrder) delete topicZOrder[key];
-  expandedClusters={}; bubbleVisible=true;
-  clearMap();
-  ['stationListSection','saveSection','hr2','mapOverlay'].forEach(id=>{const el=document.getElementById(id); if(el)el.style.display='none';});
-  const stList=document.getElementById('stationList'); if(stList) stList.innerHTML='';
-  const sl=document.getElementById('ageSlider'); if(sl){ sl.value=0; sl.max=100; }
-  const setTxt=(id,v)=>{const e=document.getElementById(id); if(e)e.textContent=v;};
-  setTxt('ovAge','0'); setTxt('ovYear','──'); setTxt('ovStation','──'); setTxt('ovSub','');
-  const pb=document.getElementById('ovProgBar'); if(pb) pb.style.width='0%';
-  updateLogToggleUI();
-}
-function setQtyPlaceholders(ph){
-  const by=document.getElementById('birthYear'), dy=document.getElementById('deathYear'), ty=document.getElementById('topicYear');
-  if(by) by.placeholder=ph; if(dy) dy.placeholder=ph;
-  if(ty) ty.placeholder = isTime()? '西れき年（例: -300000, 138億）' : ph;
-}
-function buildUnitButtons(k){
-  const wrap=document.getElementById('qtyUnitBtns'); if(!wrap) return;
-  wrap.innerHTML='';
-  QTY[k].units.forEach(u=>{
-    const b=document.createElement('button');
-    b.className='wr-btn'+(u===dispUnit?' active':'');
-    b.textContent=u;
-    b.onclick=()=>setQtyUnit(u,b);
-    wrap.appendChild(b);
-  });
-}
-// 表示単位の切替（考えA：中身＝基本単位は不変。フィールドは新単位の数値で書き直し、見た目だけ変える）
-function setQtyUnit(u, btn){
-  if(!isTime()){
-    const sB=parseQty(document.getElementById('birthYear').value);
-    const eB=parseQty(document.getElementById('deathYear').value);
-    dispUnit=u;
-    if(!isNaN(sB)) document.getElementById('birthYear').value=qtyNum(sB);
-    if(!isNaN(eB)) document.getElementById('deathYear').value=qtyNum(eB);
-  } else dispUnit=u;
-  document.querySelectorAll('#qtyUnitBtns .wr-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  if(stations.length>0){
-    onSlider(parseFloat(document.getElementById('ageSlider').value));
-    buildStationList(getStartVal(),getEndVal());
-    if(bubbleVisible) redrawTopicMarkers();
-  }
-}
-let isDragging=false, dragSteps=0;
-
-// ===== 距離 =====
-function dist(a,b){
-  const R=6371,dLat=(b.lat-a.lat)*Math.PI/180,dLon=(b.lon-a.lon)*Math.PI/180;
-  const aa=Math.sin(dLat/2)**2+Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLon/2)**2;
-  return R*2*Math.atan2(Math.sqrt(aa),Math.sqrt(1-aa));
+  return g;
 }
 
-// 路線上の最近傍点（ラットロン→ratio）
-function latLonToRatio(lat, lon) {
-  // ポリラインがあればポリライン上の最近傍点でratioを計算
-  if(routePolyCoords.length>0){
-    let best = {ratio:0, d:Infinity};
-    const total=routePolyCumDist[routePolyCumDist.length-1];
-    for(let i=0;i<routePolyCoords.length-1;i++){
-      const a=routePolyCoords[i], b=routePolyCoords[i+1];
-      const dx=b[1]-a[1], dy=b[0]-a[0];
-      const lenSq=dx*dx+dy*dy;
-      let t=0;
-      if(lenSq>0) t=Math.max(0,Math.min(1,((lon-a[1])*dx+(lat-a[0])*dy)/lenSq));
-      const pLat=a[0]+t*dy, pLon=a[1]+t*dx;
-      const d=Math.hypot(lat-pLat,lon-pLon);
-      if(d<best.d){
-        const segStart=routePolyCumDist[i]/total;
-        const segEnd=routePolyCumDist[i+1]/total;
-        best={ratio:segStart+t*(segEnd-segStart),d};
-      }
-    }
-    return Math.max(0,Math.min(1,best.ratio));
-  }
-  // フォールバック（駅間直線）
-  let best = {ratio:0, d:Infinity};
-  for(let i=0;i<stations.length-1;i++){
-    const a=stations[i], b=stations[i+1];
-    const dx=b.lon-a.lon, dy=b.lat-a.lat;
-    const lenSq=dx*dx+dy*dy;
-    let t=0;
-    if(lenSq>0) t=Math.max(0,Math.min(1,((lon-a.lon)*dx+(lat-a.lat)*dy)/lenSq));
-    const pLat=a.lat+t*dy, pLon=a.lon+t*dx;
-    const d=dist({lat,lon},{lat:pLat,lon:pLon});
-    if(d<best.d){
-      const segStartRatio=a.cumDist/totalDist;
-      const segEndRatio=b.cumDist/totalDist;
-      best={ratio:segStartRatio+t*(segEndRatio-segStartRatio), d};
-    }
-  }
-  return Math.max(0,Math.min(1,best.ratio));
-}
+function render(){
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  const V=isV(); const W=V?VW:HW, H=V?VH:HH;
 
-
-// ===== ポリライン上の位置補完 =====
-// routePolyCoords: 現在表示中の路線のポリライン座標列
-let routePolyCoords = [];
-let routePolyCumDist = []; // ポリライン上の累積距離
-
-function buildPolyIndex(latlngs){
-  routePolyCoords = latlngs;
-  routePolyCumDist = [0];
-  for(let i=1;i<latlngs.length;i++){
-    const d = Math.hypot(latlngs[i][0]-latlngs[i-1][0], latlngs[i][1]-latlngs[i-1][1]);
-    routePolyCumDist.push(routePolyCumDist[i-1]+d);
-  }
-}
-
-// ratio(0〜1)→ポリライン上の座標
-function ratioToPolyPos(ratio){
-  if(!routePolyCoords.length) return null;
-  const total = routePolyCumDist[routePolyCumDist.length-1];
-  const target = ratio * total;
-  let lo=0, hi=routePolyCoords.length-1;
-  while(lo<hi-1){
-    const mid=Math.floor((lo+hi)/2);
-    if(routePolyCumDist[mid]<=target) lo=mid; else hi=mid;
-  }
-  const t=(target-routePolyCumDist[lo])/(routePolyCumDist[hi]-routePolyCumDist[lo]||1);
-  return [
-    routePolyCoords[lo][0]+t*(routePolyCoords[hi][0]-routePolyCoords[lo][0]),
-    routePolyCoords[lo][1]+t*(routePolyCoords[hi][1]-routePolyCoords[lo][1])
-  ];
-}
-
-function getPosAtRatio(ratio){
-  // ポリラインデータがあればポリライン上の正確な位置を返す
-  const polyPos = ratioToPolyPos(ratio);
-  // niは最近傍駅のインデックス（表示用）
-  const curDist=ratio*totalDist;
-  let ni=0;
-  for(let i=0;i<stations.length-1;i++){if(stations[i].cumDist<=curDist)ni=i;}
-  if(polyPos) return{lat:polyPos[0],lon:polyPos[1],ni};
-  // フォールバック（ポリラインなし）
-  const s=stations[ni],sn=stations[ni+1]||s;
-  const segD=sn.cumDist-s.cumDist;
-  if(segD<=0)return{lat:s.lat,lon:s.lon,ni};
-  const t=(curDist-s.cumDist)/segD;
-  return{lat:s.lat+t*(sn.lat-s.lat),lon:s.lon+t*(sn.lon-s.lon),ni};
-}
-
-// ===== 地図 =====
-const map=L.map('map',{zoomControl:false}).setView([36.5,137.5],6);
-L.control.zoom({position:'topright'}).addTo(map);
-// 下バー(再生コントロール)のタッチ/クリック/スクロールを地図に伝えない＝スマホで操作不能になる対策
-(function(){
-  const ov=document.getElementById('mapOverlay');
-  if(ov && window.L && L.DomEvent){
-    L.DomEvent.disableClickPropagation(ov);
-    L.DomEvent.disableScrollPropagation(ov);
-  }
-})();
-// トピック吹き出し用pane
-map.createPane('topicNormal'); map.getPane('topicNormal').style.zIndex=620;
-map.createPane('topicFront');  map.getPane('topicFront').style.zIndex=650;
-const TILES={
-  'カラー（OSM）': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18}),
-  'ダーク': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18,className:'tile-dark'}),
-  '国土地理院': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',{attribution:'© 国土地理院',maxZoom:18}),
-  '淡色（GSI）': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',{attribution:'© 国土地理院',maxZoom:18}),
-};
-let currentTile=TILES['カラー（OSM）'];
-currentTile.addTo(map);
-function toggleTileMenu(){
-  document.getElementById('tileMenuList').classList.toggle('open');
-}
-document.addEventListener('click',function(e){
-  const wrap=document.querySelector('.tile-menu-wrap');
-  if(wrap && !wrap.contains(e.target)) document.getElementById('tileMenuList').classList.remove('open');
-});
-function changeTile(name,btn){
-  document.querySelectorAll('.tile-menu-list button').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  document.getElementById('tileMenuList').classList.remove('open');
-  map.removeLayer(currentTile);
-  currentTile=TILES[name];
-  currentTile.addTo(map);
-  // ダークのときだけフィルタ適用
-  document.querySelectorAll('.leaflet-tile').forEach(t=>{
-    t.style.filter = name==='ダーク' ? 'brightness(.62) saturate(.45) hue-rotate(200deg)' : '';
-  });
-}
-
-// ===== 路線ボタン =====
-function buildRouteList(){
-  const list=document.getElementById('routeList');
-  SHINKANSEN.forEach(r=>{
-    const btn=document.createElement('button');
-    btn.className='route-btn';
-    const s=r.stations;
-    const a=s[0].name, b=s[s.length-1].name;
-    const rng=(a.length+b.length>20)?`${a}〜<br>${b}`:`${a}〜${b}`;
-    btn.innerHTML=`<div class="route-swatch" style="background:${r.color}"></div>
-      <span class="route-name">${r.name}</span>
-      <span class="route-range">${rng}</span>`;
-    btn.onclick=()=>selectRoute(r,btn);
-    list.appendChild(btn);
-  });
-}
-
-function selectRoute(route,btn){
-  document.querySelectorAll('.route-btn').forEach(b=>{b.classList.remove('sel');b.style.borderColor='';b.style.color='';});
-  btn.classList.add('sel');btn.style.borderColor=route.color;btn.style.color=route.color;
-  selectedRoute=route;reversed=false;
-  buildTerminalSelects(route);
-  ['terminalSection','yearSection','warekiSection','topicSection','drawSection'].forEach(id=>{
-    document.getElementById(id).style.display='';
-  });
-  ['stationListSection','saveSection'].forEach(id=>{document.getElementById(id).style.display='none';});
-  document.getElementById('hr2').style.display='none';
-  document.getElementById('mapOverlay').style.display='none';
-  clearMap();
-  updateLogToggleUI();
-  const previewPoly=ROUTE_POLYLINES[route.id]||route.stations.map(s=>[s.lat,s.lon]);
-  routeLine=L.polyline(previewPoly,{color:route.color,weight:3,opacity:.7}).addTo(map);
-  map.fitBounds(routeLine.getBounds(),{padding:[40,40]});
-  setStatus(`${route.name}：始発と終着を選んでネ！`,false);
-}
-
-function buildTerminalSelects(route){
-  ['startSel','endSel'].forEach(id=>{
-    const sel=document.getElementById(id);
-    sel.innerHTML='';
-    route.stations.forEach((s,i)=>sel.appendChild(new Option(s.name,i)));
-  });
-  document.getElementById('startSel').value=0;
-  document.getElementById('endSel').value=route.stations.length-1;
-}
-
-function setTerminalDots(){
-  const ds=document.getElementById('dotStart'),de=document.getElementById('dotEnd');
-  if(!ds||!de)return;
-  const red='width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--red);box-shadow:0 0 5px var(--red)';
-  const green='width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--green);box-shadow:0 0 5px var(--green)';
-  ds.style.cssText = reversed ? red : green;
-  de.style.cssText = reversed ? green : red;
-}
-function swapTerminals(){
-  const ss=document.getElementById('startSel'),es=document.getElementById('endSel');
-  [ss.value,es.value]=[es.value,ss.value];
-  reversed=!reversed;
-  setTerminalDots();
-}
-
-// ===== 月セレクト初期化 =====
-function buildMonthSelects(){
-  ['birthMonth','deathMonth','topicMonth'].forEach(id=>{
-    const sel=document.getElementById(id);
-    // 出来事の月は「──月」なし＝1月きめうちデフォルト。始発/終着は従来どおり
-    sel.innerHTML = (id==='topicMonth') ? '' : '<option value="0">──月</option>';
-    for(let m=1;m<=12;m++) sel.appendChild(new Option(m+'月',m));
-  });
-  const tm=document.getElementById('topicMonth'); if(tm) tm.value='1';
-}
-
-// ===== スケールモード =====
-function setScale(mode, btn){
-  scaleMode = mode;
-  document.querySelectorAll('#scaleHuman,#scaleEarth').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  // 地球スケールは和暦非対応。代わりに「表示形式」トグルを出す
-  const warekiBtns = document.getElementById('warekiBtns');
-  const bigFmtBtns = document.getElementById('bigFmtBtns');
-  if(mode==='earth'){
-    warekiBtns.style.display='none';
-    if(bigFmtBtns) bigFmtBtns.style.display='';
-    dateMode='seireki';
-  } else {
-    warekiBtns.style.display='';
-    if(bigFmtBtns) bigFmtBtns.style.display='none';
-  }
-  // 月セレクトの表示切りかえ
-  document.getElementById('birthMonth').style.display = mode==='human' ? '' : 'none';
-  document.getElementById('deathMonth').style.display = mode==='human' ? '' : 'none';
-}
-
-// 地球スケールの数値表示を「そのまま⇔億・万表記」で切替
-function setBigFmt(jp, btn){
-  bigYearJp = jp;
-  document.querySelectorAll('#bigFmtPlain,#bigFmtJp').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  // 表示を更新
-  if(stations.length>0){
-    onSlider(parseFloat(document.getElementById('ageSlider').value));
-    buildStationList(getStartVal(), getEndVal());
-    if(bubbleVisible) redrawTopicMarkers();
-  }
-}
-
-// 自動追尾モードのON/OFF
-function toggleFollow(btn){
-  followMode = !followMode;
-  btn.classList.toggle('active', followMode);
-  btn.textContent = followMode ? '🎯 追尾中' : '🎯 追尾';
-  // ONにした瞬間、今の丸の位置にすぐ寄せる
-  if(followMode && stations.length>0){
-    onSlider(parseFloat(document.getElementById('ageSlider').value));
-  }
-}
-
-// 左メニュー（サイドパネル）の開閉。地図を広く使える
-function toggleSidebar(){
-  const sp=document.getElementById('sidePanel');
-  const collapsed=sp.classList.toggle('collapsed');
-  document.getElementById('btnSidebar').textContent = collapsed ? '▶' : '◀';
-  const fab=document.getElementById('menuFab'); if(fab) fab.textContent = collapsed ? '☰' : '✕';
-  // 地図のサイズを再計算（折りたたみ後の幅に合わせる）
-  setTimeout(()=>{ try{ map.invalidateSize(); }catch(e){} }, 60);
-}
-
-// ===== 始まり・終わりを「月」で取得 =====
-// 人スケール: 年×12 + 月-1 (総月数)
-// 地球スケール: 年のまま（整数）
-// getStartVal/getEndVal → 常に「西れき年（実数）」を返スル
-function getStartVal(){
-  if(!isTime()){ const q=parseQty(document.getElementById('birthYear').value); return isNaN(q)?0:q; }
-  const v = parseJpNumber(document.getElementById('birthYear').value); const y = isNaN(v) ? 0 : v;
-  if(scaleMode==='earth') return y;
-  const m = parseInt(document.getElementById('birthMonth').value)||1;
-  return y + (m-1)/12;
-}
-function getEndVal(){
-  if(!isTime()){ const q=parseQty(document.getElementById('deathYear').value); return isNaN(q)?0:q; }
-  const v = parseJpNumber(document.getElementById('deathYear').value); const y = isNaN(v) ? 0 : v;
-  if(scaleMode==='earth') return y;
-  const m = parseInt(document.getElementById('deathMonth').value)||1;
-  return y + (m-1)/12;
-}
-// ===== 非時間モード：値↔わりあい(0..1) の変換（ここだけが線形／対数で分岐する） =====
-// 線形：start + r*(end-start)／対数：10^(L0 + r*(L1-L0))   ※L0=log10(start), L1=log10(end)
-// 時間モードでは logScale は常に false なので、これらは従来どおりの線形を返す
-function ntRatioToVal(r){
-  const a=getStartVal(), b=getEndVal();
-  if(logScale && a>0 && b>0){
-    const L0=Math.log10(a), L1=Math.log10(b);
-    return Math.pow(10, L0 + r*(L1-L0));
-  }
-  return a + r*(b-a);
-}
-function ntValToRatio(v){
-  const a=getStartVal(), b=getEndVal();
-  if(logScale && a>0 && b>0){
-    const L0=Math.log10(a), L1=Math.log10(b), d=L1-L0;
-    return d ? (Math.log10(v)-L0)/d : 0;
-  }
-  const span=b-a;
-  return span ? (v-a)/span : 0;
-}
-// 線形／対数トグルの「見た目」を今の状態に合わせる（表示・非表示＆active）
-function updateLogToggleUI(){
-  const fl=document.getElementById('logScaleFloat'); if(!fl) return;
-  const ov=document.getElementById('mapOverlay');
-  const mapShown = ov && ov.style.display!=='none';
-  const show = (kind==='mass'||kind==='length') && mapShown;
-  fl.style.display = show ? 'flex' : 'none';
-  const bL=document.getElementById('logBtnLinear'), bG=document.getElementById('logBtnLog');
-  if(bL) bL.classList.toggle('active', !logScale);
-  if(bG) bG.classList.toggle('active', logScale);
-  // 吹き出しの向きトグルは種類に関係なく、路線図を出したら表示
-  const bsf=document.getElementById('bubbleSideFloat');
-  if(bsf) bsf.style.display = mapShown ? 'block' : 'none';
-}
-// 線形⇔対数の切替（地図の線は引きなおさない＝駅の値・一覧・吹き出し・丸だけ更新）
-function setLogScale(on){
-  if(on===logScale){ updateLogToggleUI(); return; }
-  if(on && (getStartVal()<=0 || getEndVal()<=0)){
-    setStatus('対数は正の数だけダカラ！始まりと終わりを0より大きくしてネ',true);
-    updateLogToggleUI(); return;   // 表示は切りかえない
-  }
-  logScale=on;
-  if(stations.length && totalDist){
-    stations.forEach(s=>{ s.year = ntRatioToVal(s.cumDist/totalDist); });
-    stations.forEach((s,i)=>{
-      const m=stMarkers[i]; if(!m) return;
-      const yr=Math.round(s.year);
-      try{ m.setTooltipContent(`${s.name}（${isTime()?fmtYear(yr):fmtQty(s.year)}）`); }catch(e){}
-    });
-    buildStationList(getStartVal(),getEndVal());
-    if(bubbleVisible) redrawTopicMarkers();
-    onSlider(parseFloat(document.getElementById('ageSlider').value)||0);
-  }
-  updateLogToggleUI();
-  setStatus(on?'対数スケールにしたヨ！':'線形スケールにもどしたヨ！',false);
-}
-// 西れき年（実数）→スライダ値（人=月数整数、地球=年数整数）
-function yearToSteps(yearReal, birthYearReal){
-  if(!isTime()){ return Math.round(ntValToRatio(yearReal)*NT_STEPS); }
-  const diff = yearReal - birthYearReal;
-  return scaleMode==='human' ? Math.round(diff*12) : Math.round(diff);
-}
-// スライダ値→西れき年（実数）
-function stepsToYear(steps, birthYearReal){
-  if(!isTime()){ return ntRatioToVal(steps/NT_STEPS); }
-  return scaleMode==='human' ? birthYearReal + steps/12 : birthYearReal + steps;
-}
-// 総月数（人）or 総年数（地球）を年に換算
-function spanToYears(span){
-  return scaleMode==='human' ? span/12 : span;
-}
-// 値→表示文字列
-// valToLabel: 西れき年（実数）を表示文字列に変換
-function valToLabel(yearReal){
-  if(!isTime()) return fmtQty(yearReal);     // 非時間：基本単位の値→単位つき表示
-  if(scaleMode==='earth'){
-    return fmtYear(Math.round(yearReal));   // fmtYearが「年前/年」＋億表記を処理
-  }
-  // 人スケール：西れき年（実数）→ 年・月表示
-  const yr = Math.floor(yearReal);
-  const mo = Math.round((yearReal - yr)*12) + 1;
-  if(mo<=1) return fmtYear(yr);
-  return fmtYear(yr) + ` ${mo}月`;
-}
-// 値→年れいラベル（スライダ上の表示）
-function valToAgeLabel(steps){
-  // stepsは「スライダの値」= 経過月数（人）or 経過年数（地球）。非時間は 0..NT_STEPS の割合
-  if(!isTime()){ return qtyNum(ntRatioToVal(steps/NT_STEPS)); }
-  if(scaleMode==='earth') return fmtBigNum(steps);
-  const y=Math.floor(steps/12);
-  return `${y}`;
-}
-
-function setDateMode(mode,btn){
-  dateMode=mode;
-  document.querySelectorAll('.wr-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(stations.length>0){
-    const age=parseFloat(document.getElementById('ageSlider').value);
-    onSlider(age);
-    buildStationList(getStartVal(),getEndVal());
-  }
-}
-
-// ===== トピック =====
-let bubbleVisible=true;
-let bubbleSide='top';   // 'top'=上下 / 'right'=右（縦長の路線で線を隠さない）
-function toggleBubbleSide(){
-  bubbleSide=(bubbleSide==='top')?'right':'top';
-  const b=document.getElementById('bubbleSideBtn');
-  b.textContent=(bubbleSide==='top')?'↕ 上下':'→ 右';
-  if(stations.length>0&&bubbleVisible)redrawTopicMarkers();
-}
-function toggleBubbles(){
-  bubbleVisible=!bubbleVisible;
-  const btn=document.getElementById('bubbleToggleBtn');
-  btn.textContent=bubbleVisible?'💬 常時表示ON':'💬 常時表示OFF';
-  btn.style.opacity=bubbleVisible?'1':'0.5';
-  if(stations.length>0)redrawTopicMarkers();
-}
-function addTopic(){
-  const yrVal=document.getElementById('topicYear').value.trim();
-  const text=document.getElementById('topicText').value.trim();
-  if(yrVal===''||!text){setStatus('値と内よう両方入れてネ！',true);return;}
-  const yr = isTime() ? parseJpNumber(yrVal) : parseQty(yrVal);
-  if(isNaN(yr)){setStatus(isTime()?'年がわからないヨ！数字か「138億」みたいに入れてネ':'値がわからないヨ！数字（単位つきもOK）で入れてネ',true);return;}
-  const mo = isTime() ? (parseInt(document.getElementById('topicMonth').value)||0) : 0; // 非時間は月なし
-  topics.push({year: isTime()?Math.round(yr):yr, month:mo, text});
-  topics.sort((a,b)=>topicYearVal(a)-topicYearVal(b));
-  document.getElementById('topicYear').value='';
-  document.getElementById('topicMonth').value='1';
-  document.getElementById('topicText').value='';
-  renderTopicList();
-  if(stations.length>0)redrawTopicMarkers();
-  setStatus('トピックを追加したヨ！',false);
-}
-
-// CSVよみこみ（西れき年,コメント）
-function loadTopicCSV(event){
-  const file=event.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const lines=e.target.result.split(/\r?\n/).filter(l=>l.trim());
-    let count=0;
-    lines.forEach(line=>{
-      const parts=line.split(',');
-      if(parts.length<2)return;
-      const yr=parseInt(parts[0]);
-      const text=parts.slice(1).join(',').trim().replace(/^["']|["']$/g,'');
-      if(isNaN(yr)||!text)return;
-      topics.push({year:yr,month:0,text});
-      count++;
-    });
-    topics.sort((a,b)=>topicYearVal(a)-topicYearVal(b));
-    renderTopicList();
-    if(stations.length>0)redrawTopicMarkers();
-    setStatus(`${count}件のトピックをよみこんだヨ！`,false);
-  };
-  reader.readAsText(file);
-  event.target.value='';
-}
-
-function deleteTopic(i){
-  topics.splice(i,1);
-  renderTopicList();
-  if(stations.length>0)redrawTopicMarkers();
-}
-
-function renderTopicList(){
-  const list=document.getElementById('topicList');
-  list.innerHTML='';
-  topics.forEach((t,i)=>{
-    const el=document.createElement('div');
-    el.className='topic-item';
-    el.innerHTML=`<span class="topic-age">${fmtTopicLabel(t)}</span>
-      <span class="topic-text">${t.text}</span>
-      <button class="topic-del" onclick="deleteTopic(${i})">✕</button>`;
-    list.appendChild(el);
-  });
-}
-
-function redrawTopicMarkers(){
-  topicMarkers.forEach(e=>{try{map.removeLayer(e.marker||e);}catch(e){}});topicMarkers=[];
-  if(!selectedRoute)return;
-  const birthYear=getStartVal(), deathYear=getEndVal();
-  const col=selectedRoute.color;
-  const CLUSTER_PX=30;   // これより近いと「まとまってる」とみなす（ズームすると離れて解消）
-  const MAX_SHOW=10;     // まとめ吹き出しでふだん見せる件数。こえたらクリックで全部
-
-  // ① 表示するトピックを集めて、画面上のピクセル位置を計算
-  const visible=[];
-  topics.forEach((t,ti)=>{
-    const ey=topicYearVal(t);   // 年＋月（月なしなら年そのまま）
-    if(logScale && ey<=0) return;   // 案A：対数では0以下のトピックはその項目だけ出さない
-    if(ey<birthYear||ey>deathYear)return;
-    const ratio= isTime() ? (ey-birthYear)/(deathYear-birthYear) : ntValToRatio(ey);
-    const pos=getPosAtRatio(ratio);
-    if(!pos)return;
-    visible.push({t,ti,pos,ratio,pt:map.latLngToContainerPoint([pos.lat,pos.lon])});
-  });
-  if(visible.length===0)return;
-  visible.sort((a,b)=>topicYearVal(a.t)-topicYearVal(b.t));
-
-  // ② 近接で「グループ」にまとめる（連結成分／union-find）
-  const n=visible.length, parent=visible.map((_,i)=>i);
-  const find=x=>{while(parent[x]!==x){parent[x]=parent[parent[x]];x=parent[x];}return x;};
-  for(let i=0;i<n;i++)for(let j=0;j<i;j++){
-    const dx=visible[i].pt.x-visible[j].pt.x, dy=visible[i].pt.y-visible[j].pt.y;
-    if(dx*dx+dy*dy<CLUSTER_PX*CLUSTER_PX) parent[find(i)]=find(j);
-  }
-  const gm={};
-  for(let i=0;i<n;i++){const r=find(i);(gm[r]=gm[r]||[]).push(i);}
-  const groups=Object.values(gm);
-
-  // ③ 描画（グループごとに点は全部、吹き出しは1個）
-  groups.forEach(idxs=>{
-    idxs.sort((a,b)=>topicYearVal(visible[a].t)-topicYearVal(visible[b].t));
-    // 点（駅の丸）は出来事ごとに残す
-    idxs.forEach(k=>{
-      const pos=visible[k].pos;
-      const dotIcon=L.divIcon({className:'',
-        html:'<div style="background:'+col+';border:2px solid #fff;border-radius:50%;width:10px;height:10px;box-shadow:0 0 5px rgba(0,0,0,.7)"></div>',
-        iconSize:[10,10],iconAnchor:[5,5]});
-      topicMarkers.push({marker:L.marker([pos.lat,pos.lon],{icon:dotIcon,interactive:false}).addTo(map)});
-    });
-    if(!bubbleVisible)return;
-
-    const rep=visible[idxs[0]];                 // 代表＝いちばん古い
-    const key=idxs.map(k=>visible[k].ti).join(',');
-    const isCluster=idxs.length>1;
-    const expanded=!!expandedClusters[key];
-
-    // 中身HTML
-    let inner;
-    if(!isCluster){
-      inner='<span style="color:'+col+';display:block;font-size:.62rem;margin-bottom:2px">'+fmtTopicLabel(rep.t)+'</span>'+rep.t.text;
-    }else{
-      const show=expanded?idxs:idxs.slice(0,MAX_SHOW);
-      inner=show.map(k=>{const t=visible[k].t;
-        return '<div style="margin-bottom:2px"><span style="color:'+col+';font-size:.6rem;margin-right:4px">'+fmtTopicLabel(t)+'</span>'+t.text+'</div>';
-      }).join('');
-      const extra=idxs.length-MAX_SHOW;
-      if(!expanded&&extra>0){
-        inner+='<div class="cluster-toggle" style="margin-top:3px;color:'+col+';cursor:pointer;font-size:.62rem;border-top:1px solid rgba(255,255,255,.18);padding-top:3px">＋ ほか'+extra+'件（クリックで全部）</div>';
-      }else if(expanded&&idxs.length>MAX_SHOW){
-        inner+='<div class="cluster-toggle" style="margin-top:3px;color:'+col+';cursor:pointer;font-size:.62rem;border-top:1px solid rgba(255,255,255,.18);padding-top:3px">▲ とじる</div>';
-      }
-    }
-
-    // 位置：あん2(線に直角の右) or 上下。吹き出しは1個なので段ずらしは無し
-    let tipDir, tipOff;
-    if(bubbleSide==='right'){
-      const eps=0.004;
-      const pa=getPosAtRatio(Math.max(0,rep.ratio-eps)), pb=getPosAtRatio(Math.min(1,rep.ratio+eps));
-      let dx=0,dy=0;
-      if(pa&&pb){const A=map.latLngToContainerPoint([pa.lat,pa.lon]),B=map.latLngToContainerPoint([pb.lat,pb.lon]);dx=B.x-A.x;dy=B.y-A.y;}
-      const len=Math.hypot(dx,dy)||1; dx/=len; dy/=len;
-      let ax=-dy, ay=dx, bx=dy, by=-dx, nx, ny;
-      if(ax>bx||(ax===bx&&ay<by)){nx=ax;ny=ay;}else{nx=bx;ny=by;}
-      tipDir='right'; tipOff=[nx*16, ny*16];
-    }else{
-      tipDir='top'; tipOff=[0,-8];
-    }
-
-    const anchor=L.marker([rep.pos.lat,rep.pos.lon],{icon:L.divIcon({className:'',html:'',iconSize:[0,0]}),interactive:false}).addTo(map);
-    anchor.bindTooltip(
-      '<div style="font-size:.68rem;line-height:1.4;min-width:130px;max-width:210px;white-space:normal;">'+inner+'</div>',
-      {permanent:true, direction:tipDir, className:'topic-tooltip', offset:tipOff, interactive:true}
-    );
-    anchor.openTooltip();
-    const tipEl=anchor.getTooltip()&&anchor.getTooltip().getElement();
-    if(tipEl){
-      tipEl.style.cursor='pointer';
-      tipEl.style.pointerEvents='auto';
-      tipEl.style.zIndex=(topicZOrder[key]!=null)?topicZOrder[key]:700;
-      tipEl.addEventListener('click',function(ev){
-        ev.stopPropagation();
-        topicZOrder[key]=(++topicTopZ);   // クリックで最前面（再描画後も維持）
-        tipEl.style.zIndex=topicZOrder[key];
-      });
-      const tg=tipEl.querySelector('.cluster-toggle');
-      if(tg){
-        tg.addEventListener('click',function(ev){
-          ev.stopPropagation();           // 展開/折りたたみ（最前面化はさせない）
-          expandedClusters[key]=!expandedClusters[key];
-          redrawTopicMarkers();
-        });
-      }
-    }
-    topicMarkers.push({marker:anchor});
-  });
-}
-
-map.on('moveend zoomend',()=>{if(stations.length>0&&bubbleVisible)redrawTopicMarkers();});
-
-// ===== 人生を描く =====
-function drawLife(){
-  if(!selectedRoute){setStatus('先に路線を選んでネ！',true);return;}
-  const birthYear=getStartVal();
-  const deathYear=getEndVal();
-  let si=parseInt(document.getElementById('startSel').value);
-  let ei=parseInt(document.getElementById('endSel').value);
-  if(birthYear>=deathYear){setStatus(isTime()?'生まれた年 < なくなた年 にしてネ！':'始まりの値 < 終わりの値 にしてネ！',true);return;}
-  if(si===ei){setStatus('始発と終着は別の駅にしてネ！',true);return;}
-  const dispSi=si,dispEi=ei;
-  if(si>ei)[si,ei]=[ei,si];
-  let seg=selectedRoute.stations.slice(si,ei+1);
-  if(dispSi>dispEi)seg=[...seg].reverse();
-
-  // 営業キロベースでcumDistを計算
-  const baseKm = seg[0].km ?? 0;
-  const hasKm = seg.every(s => s.km != null);
-  stations=[];
-  for(let i=0;i<seg.length;i++){
-    const s=seg[i];
-    let cum;
-    if(hasKm){
-      cum = Math.abs(s.km - baseKm);
+  // けたの目もり（はんい内のみ）
+  const grid=el('g',{});
+  for(let e=-10;e<=26;e+=2){
+    const p=(e-LOGMIN)/RANGE; if(!vis(p)) continue;
+    const gp=mainPx(p); const labeled=(e%10===0);
+    if(V){
+      grid.appendChild(el('line',{x1:30,y1:gp,x2:W-12,y2:gp,stroke:labeled?'var(--grid-strong)':'var(--grid)','stroke-width':labeled?1:0.8}));
+      if(labeled){ const gl=el('text',{x:20,y:gp+4,'text-anchor':'start','font-size':11,fill:'var(--muted)','font-family':'var(--font)'}); gl.textContent='10'+sup(e); grid.appendChild(gl); }
     } else {
-      cum = i===0 ? 0 : stations[i-1].cumDist + dist(seg[i-1],s);
+      grid.appendChild(el('line',{x1:gp,y1:34,x2:gp,y2:H-40,stroke:labeled?'var(--grid-strong)':'var(--grid)','stroke-width':labeled?1:0.8}));
+      if(labeled){ const gl=el('text',{x:gp,y:20,'text-anchor':'middle','font-size':11.5,fill:'var(--muted)','font-family':'var(--font)'}); gl.textContent='10'+sup(e); grid.appendChild(gl); }
     }
-    stations.push({name:s.name,lat:s.lat,lon:s.lon,cumDist:cum});
   }
-  totalDist=stations[stations.length-1].cumDist;
-  // birthYear/deathYearは西れき年（実数）。値↔わりあいは ntRatioToVal が線形／対数を吸収
-  const lifeSpan=deathYear-birthYear; // 年単位
-  stations.forEach(s=>{s.year=ntRatioToVal(s.cumDist/totalDist);});
+  svg.appendChild(grid);
 
-  clearMap();
-  const col=selectedRoute.color;
-  // 実線形データがあればそれを使う、なければ駅座標を直線でつなぐ
-  const rawPoly = ROUTE_POLYLINES[selectedRoute.id];
-  let ll;
-  if(rawPoly){
-    // 駅順（reversed関係なく、インデックス小→大の順）の始発・終着座標でクリップ
-    const fwdStart=[seg[0].lat,seg[0].lon];
-    const fwdEnd=[seg[seg.length-1].lat,seg[seg.length-1].lon];
-    const nearIdx=(target)=>rawPoly.reduce((best,pt,i)=>{
-      const d=Math.hypot(pt[0]-target[0],pt[1]-target[1]);
-      return d<best.d?{i,d}:best;
-    },{i:0,d:Infinity}).i;
-    let pi=nearIdx(fwdStart), pj=nearIdx(fwdEnd);
-    if(pi>pj)[pi,pj]=[pj,pi];
-    ll=rawPoly.slice(pi,pj+1);
-    // reversedのときはポリラインを逆順にする
-    if(reversed) ll=[...ll].reverse();
-    // 始発・終着の駅座標を先頭・末尾に入れる（ズレ補正）
-    const startLL=[stations[0].lat,stations[0].lon];
-    const endLL=[stations[stations.length-1].lat,stations[stations.length-1].lon];
-    ll=[startLL,...ll.slice(1,ll.length-1),endLL];
+  // レール（表示エリアいっぱい：見える駅は必ず線の上に乗る）
+  const d0=dims(), mS=d0.pad-0.05*d0.usable, mE=d0.pad+1.05*d0.usable;
+  if(V){
+    svg.appendChild(el('line',{x1:LEFTX,y1:mS,x2:LEFTX,y2:mE,stroke:'var(--line-top)','stroke-width':6,'stroke-linecap':'round'}));
+    svg.appendChild(el('line',{x1:RIGHTX,y1:mS,x2:RIGHTX,y2:mE,stroke:'var(--line-bot)','stroke-width':6,'stroke-linecap':'round'}));
   } else {
-    ll=stations.map(s=>[s.lat,s.lon]);
+    svg.appendChild(el('line',{x1:mS,y1:TOPY,x2:mE,y2:TOPY,stroke:'var(--line-top)','stroke-width':6,'stroke-linecap':'round'}));
+    svg.appendChild(el('line',{x1:mS,y1:BOTY,x2:mE,y2:BOTY,stroke:'var(--line-bot)','stroke-width':6,'stroke-linecap':'round'}));
   }
-  routeLine=L.polyline(ll,{color:col,weight:4,opacity:.85}).addTo(map);
-  stations.forEach((s,i)=>{
-    const isEnd=i===0||i===stations.length-1;
-    const sc=reversed?'#FF5F5F':'#4CE88A', ec=reversed?'#4CE88A':'#FF5F5F';
-    const c=L.circleMarker([s.lat,s.lon],{
-      radius:isEnd?7:4,color:isEnd?'#EEF2F7':col,
-      fillColor:isEnd?(i===0?sc:ec):'#07111F',fillOpacity:1,weight:isEnd?2:1.5
-    }).addTo(map);
-    const yr=Math.round(s.year);
-    c.bindTooltip(`${s.name}（${isTime()?fmtYear(yr):fmtQty(s.year)}）`,{permanent:false});
-    stMarkers.push(c);
-  });
-  map.fitBounds(routeLine.getBounds(),{padding:[50,50]});
-  // ポリライン上の補完インデックスを構築
-  buildPolyIndex(ll);
 
-  document.getElementById('ovProgBar').style.background=col;
-  const sl=document.getElementById('ageSlider');
-  sl.min=0;sl.max= isTime() ? Math.round(scaleMode==='human'?lifeSpan*12:lifeSpan) : NT_STEPS;sl.value=0;
-  document.getElementById('mapOverlay').style.display='';
-  document.getElementById('hr2').style.display='';
-  document.getElementById('stationListSection').style.display='';
-  document.getElementById('saveSection').style.display='';
-  buildStationList(getStartVal(),getEndVal());
-  redrawTopicMarkers();
-  onSlider(0);
-  setStatus(`${stations.length}駅 ／ ${Math.round(totalDist)}km ネ！`,false);
-  updateLogToggleUI();
-}
+  // 見える駅
+  const visA=[], visB=[];
+  for(let i=0;i<STATIONS.length;i++){ if(vis(pos(STATIONS[i].v))) visA.push(i); if(vis(pos(STATIONS[i].v)+shift)) visB.push(i); }
 
-function clearMap(){
-  if(routeLine){map.removeLayer(routeLine);routeLine=null;}
-  stMarkers.forEach(m=>map.removeLayer(m));stMarkers=[];
-  if(currentMarker){try{currentMarker.closePopup();currentMarker.unbindPopup();}catch(e){} map.removeLayer(currentMarker);currentMarker=null;}
-  topicMarkers.forEach(e=>{try{map.removeLayer(e.marker||e);}catch(e){}});topicMarkers=[];
-  const _pc=document.getElementById('passingComment'); if(_pc){_pc.style.display='none';_pc.innerHTML='';}
-}
-
-// ===== スライダー =====
-function monthToAgeStr(months){
-  const y=Math.floor(months/12);
-  const m=months%12;
-  return `${y}歳`;
-}
-function monthToYear(months, birthYear){
-  return birthYear + months/12;
-}
-
-function onSlider(months){
-  if(isDragging)return;
-  months=Math.round(parseFloat(months));
-  const birthYear=getStartVal();   // 西れき年（実数）
-  const deathYear=getEndVal();
-  const lifeSpan=deathYear-birthYear; // 年単位
-  const totalSteps= isTime() ? Math.round(scaleMode==='human'?lifeSpan*12:lifeSpan) : NT_STEPS;
-  const ratio= totalSteps ? months/totalSteps : 0;
-  const curYearReal=stepsToYear(months,birthYear); // 西れき年（実数）
-
-  document.getElementById('ageSlider').value=months;
-  document.getElementById('ovAge').textContent=valToAgeLabel(months);
-  document.getElementById('ovYear').textContent=valToLabel(curYearReal);
-  document.getElementById('ovProgBar').style.width=(ratio*100)+'%';
-
-  const pos=getPosAtRatio(ratio);
-  const s=stations[pos.ni],sn=stations[pos.ni+1]||s;
-  const near=dist({lat:pos.lat,lon:pos.lon},s)<dist({lat:pos.lat,lon:pos.lon},sn)?s:sn;
-  const nd=dist({lat:pos.lat,lon:pos.lon},near);
-  document.getElementById('ovStation').textContent=near.name+' 駅';
-  document.getElementById('ovSub').textContent=
-    `${isTime()?fmtYear(Math.round(near.year)):fmtQty(near.year)} ／ ${Math.round(nd*10)/10}km ／ ${Math.round(ratio*100)}%`;
-
-  // マーカ描画（再生中は作り直さず「動かすだけ」＝スマホでも軽い・タッチが固まらない）
-  const col=selectedRoute?selectedRoute.color:'#F5A623';
-  const size=32;
-  if(!currentMarker){
-  // 丸はここで「1回だけ」作る（clearMapでnullに戻るので描き直しごとに作り直される）
-  const icon=L.divIcon({className:'',
-    html:`<div class="age-marker-wrap" id="dragHandle">
-      <div class="age-marker-circle" style="width:${size}px;height:${size}px;background:${col};font-size:13px;font-weight:bold;text-align:center;line-height:1.1">${valToAgeLabel(months)}</div>
-      <div class="age-marker-label">${valToLabel(curYearReal)}</div>
-    </div>`,
-    iconSize:[size,size+18],iconAnchor:[size/2,size/2]});
-  currentMarker=L.marker([pos.lat,pos.lon],{icon,zIndexOffset:1000,draggable:true}).addTo(map);
-
-  // ドラッグ中も路線上にスナップさせルヨ（ハンドラは1回だけ付ける）
-  currentMarker.on('drag',function(e){
-    isDragging=true;
-    const {lat,lng}=e.latlng;
-    const r=latLonToRatio(lat,lng);
-    // 路線上の正しい座標に強制スナップ
-    const snappedPos=getPosAtRatio(r);
-    currentMarker.setLatLng([snappedPos.lat,snappedPos.lon]);
-    const lifeSpan2=getEndVal()-getStartVal();
-    const totalSteps2= isTime() ? Math.round(scaleMode==='human'?lifeSpan2*12:lifeSpan2) : NT_STEPS;
-    const newSteps=Math.round(r*totalSteps2);
-    dragSteps=newSteps;
-    document.getElementById('ageSlider').value=newSteps;
-    document.getElementById('ovAge').textContent=valToAgeLabel(newSteps);
-    document.getElementById('ovYear').textContent=valToLabel(stepsToYear(newSteps,getStartVal()));
-    document.getElementById('ovProgBar').style.width=(r*100)+'%';
-    // 丸アイコンもリアルタイム更新（DOMを直接書きかえてドラッグを邪魔しない）
-    const el=currentMarker.getElement();
-    if(el){
-      const circle=el.querySelector('.age-marker-circle');
-      const label=el.querySelector('.age-marker-label');
-      if(circle) circle.textContent=valToAgeLabel(newSteps);
-      if(label)  label.textContent=valToLabel(stepsToYear(newSteps,getStartVal()));
+  // のりかえ判定（見える駅どうし）
+  const overlap=Math.abs(shift)<OVERLAP_EPS;
+  const litA=new Set(), litB=new Set(); const pairs=[];
+  if(!overlap){
+    for(const i of visA){ const ma=mainOf(coordA(i));
+      for(const j of visB){ if(Math.abs(ma-mainOf(coordB(j)))<ALIGN_TOL){ pairs.push({i,j,m:(ma+mainOf(coordB(j)))/2}); litA.add(i); litB.add(j); } }
     }
-    // 近い駅も更新スル
-    const s=stations[snappedPos.ni],sn2=stations[snappedPos.ni+1]||s;
-    const near=dist({lat:snappedPos.lat,lon:snappedPos.lon},s)<dist({lat:snappedPos.lat,lon:snappedPos.lon},sn2)?s:sn2;
-    document.getElementById('ovStation').textContent=near.name+' 駅';
-    highlightList(near.name);
+  }
+
+  // カプセル（ロンドンスタイルでは出さない＝のりかえは○で表す）
+  const caps=el('g',{});
+  if(!londonStyle) pairs.forEach(p=>{
+    if(V){
+      caps.appendChild(el('rect',{x:LEFTX-11,y:p.m-11,width:(RIGHTX-LEFTX)+22,height:22,rx:11,fill:'#fff',stroke:'var(--capsule)','stroke-width':2.6}));
+      caps.appendChild(el('line',{x1:LEFTX,y1:p.m-12,x2:LEFTX,y2:p.m+12,stroke:'var(--line-top)','stroke-width':6}));
+      caps.appendChild(el('line',{x1:RIGHTX,y1:p.m-12,x2:RIGHTX,y2:p.m+12,stroke:'var(--line-bot)','stroke-width':6}));
+    } else {
+      caps.appendChild(el('rect',{x:p.m-11,y:TOPY-11,width:22,height:(BOTY-TOPY)+22,rx:11,fill:'#fff',stroke:'var(--capsule)','stroke-width':2.6}));
+      caps.appendChild(el('line',{x1:p.m-12,y1:TOPY,x2:p.m+12,y2:TOPY,stroke:'var(--line-top)','stroke-width':6}));
+      caps.appendChild(el('line',{x1:p.m-12,y1:BOTY,x2:p.m+12,y2:BOTY,stroke:'var(--line-bot)','stroke-width':6}));
+    }
   });
-  currentMarker.on('dragend',function(){
-    isDragging=false;
-    onSlider(dragSteps);
-  });
+  svg.appendChild(caps);
+
+  // 駅
+  const lev = V? {} : assignLanes(visA);
+  for(const i of visB) svg.appendChild(drawStation('B',i,litB.has(i),selB===i, V?0:(lev[i]||0)));
+  for(const i of visA) svg.appendChild(drawStation('A',i,litA.has(i),selA===i, V?0:(lev[i]||0)));
+
+  // ふきだし（タップした駅の 名前＋大きさ）
+  drawBubble(V,W,H);
+
+  // 読み取り
+  const nA=isV()?'左':'上', nB=isV()?'右':'下';
+  magVal.textContent= overlap? '×1倍' : fmtMag(mag());
+  if(overlap){
+    magEl.innerHTML='いまは <b>ぴったり重なり</b>（×1倍）。ものさしを ドラッグするか、駅をタップして ずらしてみてください。';
+  } else if(pairs.length){
+    const p=pairs[0], a=STATIONS[p.i], b=STATIONS[p.j];
+    magEl.innerHTML='のりかえ駅：'+nA+'の<span class="t">'+a.name+'</span>（'+fmtVal(a.v)+'） ＝ '+nB+'の<span class="b">'+b.name+'</span>（'+fmtVal(b.v)+'）'
+      +(pairs.length>1?' <span class="hint">ほか'+(pairs.length-1)+'駅も光っています</span>':'');
+  } else if(selA!==null){ magEl.innerHTML=nA+'の<span class="t">'+STATIONS[selA].name+'</span>を えらびました。つぎに '+nB+'の駅をタップしてください。';
+  } else if(selB!==null){ magEl.innerHTML=nB+'の<span class="b">'+STATIONS[selB].name+'</span>を えらびました。つぎに '+nA+'の駅をタップしてください。';
+  } else { magEl.innerHTML='ずらし中… 駅が そろうと のりかえ駅で光ります。'; }
+}
+
+// ふきだし
+function drawBubble(V,W,H){
+  if(!bubble) return;
+  const i=bubble.i; if(i==null || !STATIONS[i]) { bubble=null; return; }
+  const st=STATIONS[i];
+  const p = bubble.bar==='A' ? pos(st.v) : pos(st.v)+shift;
+  if(!vis(p)) return;
+  const c = bubble.bar==='A' ? coordA(i) : coordB(i);
+  const size = fmtVal(st.v);
+  const note = st.note || '';
+  const boxW = Math.max(st.name.length*15, size.length*8.5, note.length*12) + 28;
+  const boxH = note? 70 : 50;
+  let bx, by, tri;
+  if(V){
+    bx = bubble.bar==='A' ? c.x+16 : c.x-16-boxW;
+    by = Math.max(4, Math.min(H-boxH-4, c.y-boxH/2));
+    bx = Math.max(4, Math.min(W-boxW-4, bx));
+    const ty = Math.max(by+12, Math.min(by+boxH-12, c.y));
+    tri = bubble.bar==='A'
+      ? bx+','+(ty-7)+' '+bx+','+(ty+7)+' '+(bx-10)+','+ty
+      : (bx+boxW)+','+(ty-7)+' '+(bx+boxW)+','+(ty+7)+' '+(bx+boxW+10)+','+ty;
   } else {
-    // すでに丸がある＝位置と中身だけ更新（超軽い・リスナ増殖なし）
-    currentMarker.setLatLng([pos.lat,pos.lon]);
-    const el=currentMarker.getElement();
-    if(el){
-      const c=el.querySelector('.age-marker-circle');
-      const l=el.querySelector('.age-marker-label');
-      if(c) c.textContent=valToAgeLabel(months);
-      if(l) l.textContent=valToLabel(curYearReal);
-    }
+    bx = Math.max(4, Math.min(W-boxW-4, c.x-boxW/2));
+    const above = (c.y-16-boxH) >= 4;
+    by = above ? c.y-16-boxH : c.y+16;
+    const tx = Math.max(bx+12, Math.min(bx+boxW-12, c.x));
+    tri = above
+      ? (tx-7)+','+(by+boxH)+' '+(tx+7)+','+(by+boxH)+' '+tx+','+(by+boxH+10)
+      : (tx-7)+','+by+' '+(tx+7)+','+by+' '+tx+','+(by-10);
   }
+  const g=el('g',{});
+  g.appendChild(el('polygon',{points:tri,fill:'var(--capsule)'}));
+  g.appendChild(el('rect',{x:bx,y:by,width:boxW,height:boxH,rx:10,fill:'var(--capsule)'}));
+  const t1=el('text',{x:bx+boxW/2,y:by+21,'text-anchor':'middle','font-size':15,'font-weight':700,fill:'#fff','font-family':'var(--font)'}); t1.textContent=st.name; g.appendChild(t1);
+  const t2=el('text',{x:bx+boxW/2,y:by+39,'text-anchor':'middle','font-size':13,fill:'#cfe6dd','font-family':'var(--font)'}); t2.textContent=size; g.appendChild(t2);
+  if(note){ const t3=el('text',{x:bx+boxW/2,y:by+58,'text-anchor':'middle','font-size':11,fill:'#9fc6b8','font-family':'var(--font)'}); t3.textContent=note; g.appendChild(t3); }
+  svg.appendChild(g);
+}
 
-  // 追尾モード：地図を丸の位置にすぐ寄せる（ズームは変えない）
-  if(followMode) map.panTo([pos.lat,pos.lon],{animate:false});
+// むき
+function computeOrient(){ orient = orientMode!=='auto' ? orientMode : (window.innerWidth<=640?'v':'h'); }
+function applyViewBox(){ svg.setAttribute('viewBox', isV()? ('0 0 '+VW+' '+VH) : ('0 0 '+HW+' '+HH)); }
+function updateFoot(){
+  footEl.innerHTML = isV()
+    ? '操作：右（みどり）を ドラッグ＝くらべる（ずらす）。左（オレンジ）を ドラッグ＝見る位置を 移動（2本いっしょ・要ズーム）。駅タップで のりかえ。スマホは タップ／おびドラッグが べんり。'
+    : '操作：下（みどり）を ドラッグ＝くらべる（ずらす）。上（オレンジ）を ドラッグ＝見る位置を 移動（2本いっしょ・要ズーム）。駅タップで のりかえ。';
+}
+function refresh(){ computeOrient(); applyViewBox(); updateFoot(); render(); }
 
-  // トピック表示（常時表示OFFのとき、丸が近くを通ったら出す）
-  if(!bubbleVisible){
-    // 「ピッタリ同じ年」だと地球スケールで丸が拾えないので、総期間の約1%を窓にする
-    const span=Math.abs(getEndVal()-getStartVal())||1;
-    const win=Math.max(0.5, span/100);   // この範囲(年)に入っていれば表示
-    const matching=topics.filter(t=>Math.abs(topicYearVal(t)-curYearReal)<=win);
-    if(matching.length){
-      const txt=matching.map(t=>`<span style="color:#F5A623">${fmtTopicLabel(t)}</span> ${t.text}`).join('<br>');
-      if(isPlaying){
-        // 再生中はdivで表示（openPopupを使わない）
-        const el=document.getElementById('passingComment');
-        el.innerHTML=txt;
-        el.style.display='block';
-        clearTimeout(window._popupTimer);
-        window._popupTimer=setTimeout(()=>{el.style.display='none';},2000);
-      } else if(currentMarker){
-        // 手動操作時はポップアップ
-        currentMarker.bindPopup(txt,{maxWidth:240,autoClose:false,autoPan:false}).openPopup();
+// アニメ
+let raf=null;
+function animateTo(target){
+  if(raf) cancelAnimationFrame(raf);
+  const start=shift, dur=360, t0=performance.now();
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ shift=clamp(target); render(); return; }
+  function step(now){ const k=Math.min(1,(now-t0)/dur); const e=1-Math.pow(1-k,3); shift=clamp(start+(target-start)*e); render(); if(k<1) raf=requestAnimationFrame(step); }
+  raf=requestAnimationFrame(step);
+}
+
+// 操作（路線図）
+function vbPoint(ev){ const pt=svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); }
+function hitTest(p){
+  let best=null, bd=22;
+  for(let i=0;i<STATIONS.length;i++){
+    if(vis(pos(STATIONS[i].v))){ const a=coordA(i); let d=Math.hypot(p.x-a.x,p.y-a.y); if(d<bd){bd=d;best={bar:'A',i};} }
+    if(vis(pos(STATIONS[i].v)+shift)){ const b=coordB(i); let d=Math.hypot(p.x-b.x,p.y-b.y); if(d<bd){bd=d;best={bar:'B',i};} }
+  }
+  return best;
+}
+function movableRegion(p){ return isV()? (p.x>=(LEFTX+RIGHTX)/2) : (p.y>=(TOPY+BOTY)/2); }
+function selectStation(bar,i){
+  if(bar==='A') selA=i; else selB=i;
+  if(selA!==null && selB!==null){ const target=pos(STATIONS[selA].v)-pos(STATIONS[selB].v); selA=null; selB=null; animateTo(target); }
+  else render();
+}
+let mode='none', lastMain=0, downP=null, downStation=null, moved=false;
+svg.addEventListener('pointerdown',ev=>{
+  const p=vbPoint(ev); downP=p; moved=false; downStation=hitTest(p);
+  if(downStation) mode = downStation.bar==='B' ? 'dragB' : 'panA';
+  else mode = movableRegion(p) ? 'dragB' : 'panA';
+  lastMain = isV()?p.y:p.x;
+  if(raf){cancelAnimationFrame(raf);raf=null;}
+  svg.setPointerCapture(ev.pointerId);
+});
+svg.addEventListener('pointermove',ev=>{
+  if(mode==='none') return;
+  const p=vbPoint(ev);
+  if(Math.abs(p.x-downP.x)>4 || Math.abs(p.y-downP.y)>4) moved=true;
+  const cur=isV()?p.y:p.x;
+  if(mode==='dragB'){
+    shift=clamp(shift+(cur-lastMain)*(viewHi-viewLo)/dims().usable); lastMain=cur; render();
+  }else if(mode==='panA'){
+    const w=viewHi-viewLo; const dPos=(cur-lastMain)*w/dims().usable;
+    let lo=Math.max(0,Math.min(1-w,viewLo-dPos)); viewLo=lo; viewHi=lo+w; lastMain=cur; render();
+  }
+});
+svg.addEventListener('pointerup',ev=>{
+  if(!moved){
+    if(downStation){
+      if(bubble && bubble.bar===downStation.bar && bubble.i===downStation.i){
+        bubble=null; render(); // 同じ駅もう一回→吹き出し消す（接続はそのまま）
+      } else {
+        bubble={bar:downStation.bar, i:downStation.i};
+        selectStation(downStation.bar, downStation.i);
       }
+    } else {
+      bubble=null; render();
     }
   }
+  mode='none';
+});
+svg.addEventListener('pointercancel',()=>{mode='none';});
 
-  highlightList(near.name);
-}
+// マウスホイールで ズーム（カーソル中心・奥=拡大／手前=縮小）
+svg.addEventListener('wheel',ev=>{
+  ev.preventDefault();
+  const p=vbPoint(ev), d=dims();
+  const main=isV()?p.y:p.x;
+  let f=Math.max(0,Math.min(1,(main-d.pad)/d.usable)); // 窓内 0..1
+  const posCursor=viewLo+f*(viewHi-viewLo);
+  const factor=ev.deltaY<0?0.85:1/0.85;               // 奥=拡大
+  const nw=Math.max(MINWIN,Math.min(1,(viewHi-viewLo)*factor));
+  let lo=posCursor-f*nw, hi=lo+nw;
+  if(lo<0){ lo=0; hi=nw; }
+  if(hi>1){ hi=1; lo=1-nw; }
+  setZoom(lo,hi);
+},{passive:false});
 
-function buildStationList(birthYear,deathYear){
-  const list=document.getElementById('stationList');list.innerHTML='';
-  stations.forEach(s=>{
-    const yr=Math.round(s.year);
-    const birthYearReal2=birthYear;   // getStartVal()は人スケールでも「年」を返す（÷12しない）
-    const ageVal=scaleMode==='human'
-      ? (()=>{const d=Math.round((s.year-birthYearReal2)*12);const y=Math.floor(d/12);return y+'歳';})()
-      : fmtBigNum(yr-Math.round(birthYearReal2))+'年';
-    const el=document.createElement('div');
-    el.className='sli';el.dataset.name=s.name;
-    const labelHtml = isTime()
-      ? `${scaleMode==='human'?fmtYear(yr):valToLabel(yr)}(${ageVal})`
-      : `${fmtQty(s.year)}`;
-    el.innerHTML=`<div class="sli-dot"></div><span style="flex:1">${s.name}</span>
-      <span class="sli-yr">${labelHtml}</span>`;
-    const steps=yearToSteps(s.year, birthYear);
-    el.onclick=()=>{document.getElementById('ageSlider').value=steps;onSlider(steps);};
-    list.appendChild(el);
-  });
-}
-function highlightList(name){
-  document.querySelectorAll('.sli').forEach(el=>el.classList.toggle('cur',el.dataset.name===name));
-}
-
-// ===== アニメ =====
-function toggleAnim(){isPlaying?stopAnim():startAnim();}
-function startAnim(){
-  isPlaying=true;
-  try{ if(currentMarker&&currentMarker.dragging) currentMarker.dragging.disable(); }catch(e){}
-  document.getElementById('btnPlay').textContent='⏸';
-  document.getElementById('btnPlay').classList.add('active');
-  const sl=document.getElementById('ageSlider');
-  const maxV=parseFloat(sl.max);
-  // 速度スライダ(1〜10) → 全体の再生時間(180秒〜10秒)。stepSizeとintervalを毎回算出（途中変更も即反映）
-  function params(){
-    const val=parseInt(document.getElementById('speedSlider').value);
-    const D=10+(10-val)/9*170;          // 秒：val1→180秒(おそ), val10→10秒(はや)
-    const BASE=40;                       // ms（なめらか基準＝約25fps）
-    const wantTicks=D*1000/BASE;
-    if(maxV>=wantTicks) return {step:Math.max(1,Math.round(maxV/wantTicks)), interval:BASE};
-    return {step:1, interval:Math.max(BASE, Math.round(D*1000/maxV))}; // 短い人生はstep=1で間隔を伸ばす
-  }
-  function step(){
-    if(!isPlaying)return;
-    const p=params();
-    let v=parseFloat(sl.value)+p.step;
-    if(v>=maxV){ onSlider(maxV); stopAnim(); return; } // 最後（現在）まで来たら止める
-    onSlider(v);
-    animTimer=setTimeout(step,p.interval);
-  }
-  animTimer=setTimeout(step,params().interval);
-}
-function stopAnim(){
-  isPlaying=false;clearTimeout(animTimer);
-  try{ if(currentMarker&&currentMarker.dragging) currentMarker.dragging.enable(); }catch(e){}
-  document.getElementById('btnPlay').textContent='▶ 再生';
-  document.getElementById('btnPlay').classList.remove('active');
-}
-function resetAnim(){stopAnim();onSlider(0);}
-
-// ===== JSON 保存・読みこみ =====
-// 共有データを組み立てる（JSON保存・URL共有で共通）
-function buildShareData(){
-  return {
-    version:'2.90',
-    routeId:selectedRoute?selectedRoute.id:null,
-    startSel:document.getElementById('startSel').value,
-    endSel:document.getElementById('endSel').value,
-    reversed,
-    birthYear:getStartVal(),
-    deathYear:getEndVal(),
-    birthYearRaw:document.getElementById('birthYear').value,
-    birthMonthRaw:parseInt(document.getElementById('birthMonth').value)||1,
-    deathYearRaw:document.getElementById('deathYear').value,
-    deathMonthRaw:parseInt(document.getElementById('deathMonth').value)||1,
-    scaleMode,
-    kind,
-    dispUnit,
-    logScale,
-    dateMode,
-    bigYearJp,
-    topics,
-    currentMonth:parseFloat(document.getElementById('ageSlider').value),
-  };
-}
-
-function saveJSON(){
-  const data=buildShareData();
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  const now=new Date();
-  const ts=[
-    now.getFullYear(),
-    String(now.getMonth()+1).padStart(2,'0'),
-    String(now.getDate()).padStart(2,'0'),
-    String(now.getHours()).padStart(2,'0'),
-    String(now.getMinutes()).padStart(2,'0'),
-    String(now.getSeconds()).padStart(2,'0')
-  ].join('');
-  a.download='timescale_'+ts+'.json';
-  a.click();
-  setStatus('JSONファイルを保存したヨ！',false);
-}
-
-function resetAll(){
-  if(!confirm('全てリセットしますか？')) return;
-  stopAnim();   // 再生中なら止める
-  clearMap();
-  // 路線選択解除
-  selectedRoute=null;
-  document.querySelectorAll('.route-btn').forEach(b=>{b.classList.remove('sel');b.style.borderColor='';b.style.color='';});
-  // 始発・終着をクリア
-  document.getElementById('startSel').innerHTML='';
-  document.getElementById('endSel').innerHTML='';
-  // 年をデフォルトに
-  document.getElementById('birthYear').value='1900';
-  document.getElementById('deathYear').value='1980';
-  document.getElementById('birthMonth').value='1';
-  document.getElementById('deathMonth').value='1';
-  // トピッククリア
-  topics=[];
-  renderTopicList();
-  // 吹き出し最前面の記憶もリセット
-  topicTopZ=1000; for(const k in topicZOrder) delete topicZOrder[k];
-  expandedClusters={};
-  // スケール・表記・追尾をデフォルトに戻す
-  prevTimeScale='human';
-  scaleMode='human';
-  // 種類（量）モードも時間に戻す
-  {
-    const kBtn=document.querySelector('#kindBtns .wr-btn[data-kind="time"]');
-    setKind('time', kBtn);
-  }
-  document.querySelectorAll('#scaleHuman,#scaleEarth').forEach(b=>b.classList.remove('active'));
-  const sh=document.getElementById('scaleHuman'); if(sh)sh.classList.add('active');
-  dateMode='seireki';
-  document.querySelectorAll('#warekiBtns .wr-btn').forEach((b,i)=>b.classList.toggle('active', i===0));
-  bigYearJp=false;
-  const bp=document.getElementById('bigFmtPlain'), bj=document.getElementById('bigFmtJp');
-  if(bp&&bj){ bp.classList.add('active'); bj.classList.remove('active'); }
-  followMode=false;
-  const bf=document.getElementById('btnFollow'); if(bf){ bf.classList.remove('active'); bf.textContent='🎯 追尾'; }
-  bubbleSide='top';
-  const bsb=document.getElementById('bubbleSideBtn'); if(bsb)bsb.textContent='↕ 上下';
-  // セクション・駅一覧・下部バーを非表示＆クリア（最初の状態に戻す）
-  ['terminalSection','yearSection','warekiSection','topicSection','drawSection','stationListSection','saveSection','hr2','mapOverlay'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el)el.style.display='none';
-  });
-  const stList=document.getElementById('stationList');
-  if(stList) stList.innerHTML='';
-  // 下部スライダのラベルも初期化
-  const sl=document.getElementById('ageSlider'); if(sl){ sl.value=0; sl.max=100; }
-  const setTxt=(id,v)=>{const e=document.getElementById(id); if(e)e.textContent=v;};
-  setTxt('ovAge','0'); setTxt('ovYear','──'); setTxt('ovStation','──'); setTxt('ovSub','');
-  const pb=document.getElementById('ovProgBar'); if(pb) pb.style.width='0%';
-  updateLogToggleUI();
-  setStatus('リセットしたヨ！',false);
-}
-
-// データを画面に反映（JSONよみこみ・URL共有よみこみで共通）
-function applyData(data,doneMsg){
-  // 路線を選ぶ
-  const route=SHINKANSEN.find(r=>r.id===data.routeId);
-  if(!route){setStatus('この路線データは見つからなかたヨ',true);return;}
-  const allBtns=document.querySelectorAll('.route-btn');
-  const routeIdx=SHINKANSEN.findIndex(r=>r.id===data.routeId);
-  selectRoute(route,allBtns[routeIdx]);
-  // 値を復元
-  setTimeout(()=>{
-    document.getElementById('startSel').value=data.startSel;
-    document.getElementById('endSel').value=data.endSel;
-    document.getElementById('birthYear').value=data.birthYearRaw||data.birthYear;
-    document.getElementById('deathYear').value=data.deathYearRaw||data.deathYear;
-    if(data.birthMonthRaw){document.getElementById('birthMonth').value=data.birthMonthRaw;}
-    if(data.deathMonthRaw){document.getElementById('deathMonth').value=data.deathMonthRaw;}
-    // 種類（量）モード復元（古いデータはkind無し→'time'）
-    {
-      const k = data.kind || 'time';
-      const kBtn = document.querySelector('#kindBtns .wr-btn[data-kind="'+k+'"]');
-      setKind(k, kBtn);
-      if(!isTime()){ dispUnit = data.dispUnit || QTY[k].def; buildUnitButtons(k); }
-    }
-    // 対数スケール復元（古いデータ＝logScale無し → false＝線形）。setKindが一旦falseにするので必ず後で。重さ・長さ以外では絶対に対数にしない
-    logScale = (kind==='mass'||kind==='length') && !!data.logScale;
-    if(isTime() && data.scaleMode){
-      scaleMode=data.scaleMode;
-      const scaleBtn=document.getElementById(data.scaleMode==='earth'?'scaleEarth':'scaleHuman');
-      if(scaleBtn)setScale(data.scaleMode,scaleBtn);
-    }
-    // reversedは保存値を直接セット（startSel/endSelは既に保存値なのでスワップしない＝二重反転バグ防止）
-    reversed = !!data.reversed;
-    setTerminalDots();
-    // 読み込み時は必ず「常時表示ON」に戻す（前のOFF状態を引き継がない＝残りカス＆遠い未来イベント非表示を防ぐ）
-    bubbleVisible = true;
-    {const _bt=document.getElementById('bubbleToggleBtn'); if(_bt){_bt.textContent='💬 常時表示ON'; _bt.style.opacity='1';}}
-    topics=data.topics||[];
-    // 元号ボタン（人スケール）復元：warekiBtns内だけを対象にする
-    dateMode = (scaleMode==='earth') ? 'seireki' : (data.dateMode||'seireki');
-    const dModes=['seireki','wareki','both'];
-    document.querySelectorAll('#warekiBtns .wr-btn').forEach((b,i)=>{
-      b.classList.toggle('active', dModes[i]===dateMode);
+document.getElementById('reset').addEventListener('click',()=>{ selA=null; selB=null; animateTo(0); });
+document.getElementById('emoji').addEventListener('change',e=>{ showEmoji=e.target.checked; render(); });
+document.getElementById('preMicro').addEventListener('change',e=>{ onMicro=e.target.checked; rebuild(); });
+document.getElementById('preNear').addEventListener('change',e=>{ onNear=e.target.checked; rebuild(); });
+document.getElementById('preSky').addEventListener('change',e=>{ onSky=e.target.checked; rebuild(); });
+document.getElementById('preProverb').addEventListener('change',e=>{ onProverb=e.target.checked; rebuild(); });
+document.getElementById('preLegend').addEventListener('change',e=>{ onLegend=e.target.checked; rebuild(); });
+document.getElementById('preHeritage').addEventListener('change',e=>{ onHeritage=e.target.checked; rebuild(); });
+document.querySelectorAll('.seg .buttons').forEach(group=>{
+  group.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      group.querySelectorAll('button').forEach(b=>b.classList.remove('on')); btn.classList.add('on');
+      if(btn.dataset.m){ orientMode=btn.dataset.m; refresh(); }
+      else if(btn.dataset.style){ londonStyle=(btn.dataset.style==='london'); render(); }
     });
-    // 表示形式トグル（地球スケール）復元
-    bigYearJp = !!data.bigYearJp;
-    const bp=document.getElementById('bigFmtPlain'), bj=document.getElementById('bigFmtJp');
-    if(bp&&bj){ bp.classList.toggle('active',!bigYearJp); bj.classList.toggle('active',bigYearJp); }
-    renderTopicList();
-    drawLife();   // 初回描画（このとき地図がズームするので一瞬グニャっとなる）
-    // 地図のズームが落ち着いてから、もう一度きれいに描き直す＝「タイムスケールを表示」を自動で押すのと同じ
-    setTimeout(()=>{
-      drawLife();
-      if(data.currentMonth!=null){
-        const sl=document.getElementById('ageSlider');
-        sl.value=data.currentMonth;
-        onSlider(data.currentMonth);   // スライダ位置を復元（drawLifeが0に戻すので最後に）
-      }
-    },400);
-    setStatus(doneMsg||'読みこんだヨ！',false);
-  },50);
-}
+  });
+});
+let rT=null;
+window.addEventListener('resize',()=>{ if(orientMode!=='auto') return; clearTimeout(rT); rT=setTimeout(()=>{ const before=orient; computeOrient(); if(orient!==before){ applyViewBox(); updateFoot(); render(); } },150); });
 
-function loadJSON(event){
-  const file=event.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const data=JSON.parse(e.target.result);
-      applyData(data,'JSONを読みこんだヨ！');
-    }catch(err){
-      setStatus('JSONのよみこみに失敗したヨ：'+err.message,true);
-    }
+// ===== 部分ズーム スライダー =====
+const zrange=document.getElementById('zrange'), zsel=document.getElementById('zsel');
+const zlo=document.getElementById('zlo'), zhi=document.getElementById('zhi');
+const zlocap=document.getElementById('zlocap'), zhicap=document.getElementById('zhicap');
+function valAtFrac(f){ return Math.pow(10, LOGMIN+f*RANGE); }
+function updateSlider(){
+  zlo.style.left=(viewLo*100)+'%'; zhi.style.left=(viewHi*100)+'%';
+  zsel.style.left=(viewLo*100)+'%'; zsel.style.width=((viewHi-viewLo)*100)+'%';
+  zlocap.textContent=fmtVal(valAtFrac(viewLo)); zhicap.textContent=fmtVal(valAtFrac(viewHi));
+}
+function setZoom(lo,hi){ viewLo=Math.max(0,Math.min(lo,1)); viewHi=Math.max(0,Math.min(hi,1));
+  if(viewHi-viewLo<MINWIN){ viewHi=Math.min(1,viewLo+MINWIN); if(viewHi-viewLo<MINWIN) viewLo=viewHi-MINWIN; }
+  updateSlider(); render(); }
+function dragThumb(which){
+  return ev=>{
+    ev.preventDefault();
+    const move=e=>{
+      const r=zrange.getBoundingClientRect();
+      let f=(e.clientX-r.left)/r.width; f=Math.max(0,Math.min(1,f));
+      if(which==='lo') setZoom(Math.min(f,viewHi-MINWIN), viewHi);
+      else setZoom(viewLo, Math.max(f,viewLo+MINWIN));
+    };
+    const up=()=>{ window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up); };
+    window.addEventListener('pointermove',move); window.addEventListener('pointerup',up);
   };
-  reader.readAsText(file);
-  event.target.value='';
 }
+zlo.addEventListener('pointerdown',dragThumb('lo'));
+zhi.addEventListener('pointerdown',dragThumb('hi'));
+// おびを ドラッグ → ズーム倍率は そのまま、見る場所を スライド
+zsel.addEventListener('pointerdown',ev=>{
+  ev.preventDefault();
+  const r0=zrange.getBoundingClientRect();
+  const startF=(ev.clientX-r0.left)/r0.width, w=viewHi-viewLo, startLo=viewLo;
+  const move=e=>{
+    const r=zrange.getBoundingClientRect();
+    let f=(e.clientX-r.left)/r.width;
+    let lo=startLo+(f-startF); lo=Math.max(0,Math.min(1-w,lo));
+    setZoom(lo,lo+w);
+  };
+  const up=()=>{ window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up); };
+  window.addEventListener('pointermove',move); window.addEventListener('pointerup',up);
+});
+document.getElementById('zreset').addEventListener('click',()=>{ startName=STATIONS[0].name; endName=STATIONS[STATIONS.length-1].name; populateTermini(); setZoom(0,1); });
 
-// ===== URLで共有 =====
-function shareURL(){
-  if(!selectedRoute){setStatus('まず路線をえらんでネ！それから共有ダヨ',true);return;}
+// ショートカット
+const PRESETS=[['ミクロ',1e-10,5e-3],['みぢか',5e-3,3776],['マクロ',1.3e7,8.8e26]];
+const zp=document.getElementById('zpresets');
+PRESETS.forEach(pr=>{
+  const b=document.createElement('button'); b.textContent=pr[0];
+  b.addEventListener('click',()=>{ const lo=pos(pr[1])-0.015, hi=pos(pr[2])+0.015; setZoom(lo,hi); });
+  zp.appendChild(b);
+});
+
+// ===== 始発駅・終着駅（路線のはんい）=====
+const startSel=document.getElementById('startSel'), endSel=document.getElementById('endSel');
+let startName=BASE[0].name, endName=BASE[BASE.length-1].name;
+function vByName(n){ const s=STATIONS.find(x=>x.name===n); return s? s.v : null; }
+function populateTermini(){
+  const names=STATIONS.map(s=>s.name);
+  if(!names.includes(startName)) startName=names[0];
+  if(!names.includes(endName)) endName=names[names.length-1];
+  startSel.innerHTML=''; endSel.innerHTML='';
+  STATIONS.forEach(s=>{
+    const o1=document.createElement('option'); o1.value=s.name; o1.textContent=s.name; startSel.appendChild(o1);
+    const o2=document.createElement('option'); o2.value=s.name; o2.textContent=s.name; endSel.appendChild(o2);
+  });
+  startSel.value=startName; endSel.value=endName;
+}
+function setRouteRange(){
+  const vs=vByName(startName), ve=vByName(endName);
+  if(vs===null||ve===null) return;
+  let lo=pos(vs), hi=pos(ve); if(lo>hi){ const t=lo; lo=hi; hi=t; }
+  setZoom(lo-0.02, hi+0.02);
+}
+startSel.addEventListener('change',()=>{ startName=startSel.value; setRouteRange(); });
+endSel.addEventListener('change',()=>{ endName=endSel.value; setRouteRange(); });
+
+// 追加
+const chipsEl=document.getElementById('chips'), errEl=document.getElementById('addErr');
+function rebuild(){ STATIONS=activeStations(); selA=null; selB=null; populateTermini(); renderChips(); render(); }
+function renderChips(){
+  chipsEl.innerHTML='';
+  custom.forEach((c,idx)=>{
+    const chip=document.createElement('span'); chip.className='chip'; chip.textContent=c.name+'（'+fmtVal(c.v)+'）';
+    const b=document.createElement('button'); b.textContent='×'; b.title='けす';
+    b.addEventListener('click',()=>{ custom.splice(idx,1); rebuild(); });
+    chip.appendChild(b); chipsEl.appendChild(chip);
+  });
+}
+function parseSize(s){
+  s=(s||'').trim().replace(/[,，\s]/g,'').replace(/[ｍmＭ](eter|ｅｔｅｒ)?$/i,'');
+  s=s.replace(/×10\^?/,'e').replace(/\*10\^?/,'e').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]/g,m=>({'⁻':'-','⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9'}[m]||m));
+  const n=Number(s); return (isFinite(n)&&n>0)? n : null;
+}
+document.getElementById('addBtn').addEventListener('click',()=>{
+  const name=document.getElementById('addName').value.trim();
+  const v=parseSize(document.getElementById('addSize').value);
+  if(!name){ errEl.textContent='なまえを 入れてね'; return; }
+  if(v===null){ errEl.textContent='大きさは メートルの 正の数で（例：1.8 や 1.4e9）'; return; }
+  errEl.textContent=''; custom.push({name, v, e:'📍'});
+  document.getElementById('addName').value=''; document.getElementById('addSize').value=''; rebuild();
+});
+document.getElementById('addSize').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('addBtn').click(); });
+
+// 共有リンク（追加した駅だけを URLに埋める）
+function encodeCustom(){
+  const data=custom.map(c=>({n:c.name,v:c.v}));
+  const b64=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  return b64.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function decodeCustom(s){
   try{
-    const data=buildShareData();
-    const enc=LZString.compressToEncodedURIComponent(JSON.stringify(data));
-    const url=location.origin+location.pathname+'#d='+enc;
-    const warn=url.length>2000?'（※'+url.length+'文字。長いから一部サービスで切れるかも。心配ならJSON保存もどうぞ）':'';
-    const ok=()=>setStatus('🔗 共有URLをコピーしたヨ！'+warn+' はりつけて おくってネ',false);
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(ok).catch(()=>{window.prompt('このURLをコピーして共有してネ：',url);});
-    }else{
-      window.prompt('このURLをコピーして共有してネ：',url);
-    }
-  }catch(err){
-    setStatus('共有URLづくりに失敗したヨ：'+err.message,true);
-  }
+    s=s.replace(/-/g,'+').replace(/_/g,'/');
+    const data=JSON.parse(decodeURIComponent(escape(atob(s))));
+    if(!Array.isArray(data)) return null;
+    return data.filter(x=>x&&x.n&&typeof x.v==='number'&&isFinite(x.v)&&x.v>0)
+               .map(x=>({name:String(x.n).slice(0,40),v:x.v,e:'📍'}));
+  }catch(e){ return null; }
 }
-
-// ===== 読取専用URLで共有（編集できない・見るだけのURLを作る）=====
-// 共有データに viewer:true を埋め込んで圧縮する。?view などのクエリは使わないので、
-// URLの一部を消してフルモードに戻ることはできない（圧縮の中にフラグがあるため）。
-// 読取専用URL（viewer:true 入り圧縮ハッシュ）の文字列を作って返す。共有・埋め込みで共用
-function makeViewerURL(){
-  const data=buildShareData();
-  data.viewer=true;
-  const enc=LZString.compressToEncodedURIComponent(JSON.stringify(data));
-  return location.origin+location.pathname+'#d='+enc;
-}
-function shareViewerURL(){
-  if(!selectedRoute){setStatus('まず路線をえらんでネ！それから共有ダヨ',true);return;}
-  try{
-    const url=makeViewerURL();
-    const warn=url.length>2000?'（※'+url.length+'文字。長いから一部サービスで切れるかも。心配ならJSON保存もどうぞ）':'';
-    const ok=()=>setStatus('👁 読取専用URLをコピーしたヨ！'+warn+' 見る人は編集できないヨ',false);
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(ok).catch(()=>{window.prompt('この読取専用URLをコピーしてネ：',url);});
-    }else{
-      window.prompt('この読取専用URLをコピーしてネ：',url);
-    }
-  }catch(err){
-    setStatus('読取専用URLづくりに失敗したヨ：'+err.message,true);
-  }
-}
-
-// ===== 埋め込みHTML（読取専用URLを iframe でくるんで書き出す）=====
-let _embedURL='';
-function openEmbed(){
-  if(!selectedRoute || !stations.length){ setStatus('まず路線図を表示してから埋め込めるヨ！',true); return; }
-  try{ _embedURL=makeViewerURL(); }
-  catch(err){ setStatus('埋め込みURLづくりに失敗したヨ：'+err.message,true); return; }
-  genEmbedCode();
-  document.getElementById('embedModal').classList.add('show');
-}
-function closeEmbed(){ document.getElementById('embedModal').classList.remove('show'); }
-function genEmbedCode(){
-  let w=parseInt(document.getElementById('embW').value,10);
-  let h=parseInt(document.getElementById('embH').value,10);
-  if(!(w>0)) w=700; if(!(h>0)) h=500;
-  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  const u=esc(_embedURL);
-  const code=
-'<iframe src="'+u+'" width="'+w+'" height="'+h+'" style="border:1px solid #ccc;max-width:100%;" loading="lazy" title="タイムスケール路線図"></iframe>\n'+
-'<p><a href="'+u+'" target="_blank" rel="noopener">タイムスケール路線図を開く</a></p>';
-  document.getElementById('embedCode').value=code;
-  const hint=document.getElementById('embedHint');
-  if(hint){
-    const longWarn=_embedURL.length>2000?'<br>⚠️ URLが'+_embedURL.length+'文字と長めダカラ、一部の場所で切れることがあるヨ。心配ならトピックを減らすか、JSON保存も使ってネ。':'';
-    hint.innerHTML='💡 開くと毎回、路線ぜんぶが画面にちょうど収まるように自動でズームするヨ。窓のはば・たかさを変えると寄りかたも変わるダカラ、好みで調整してネ。地図が出ないとき用に「開く」リンクも一緒に入ってるヨ。'+longWarn;
-  }
-}
-function copyEmbedCode(){
-  const ta=document.getElementById('embedCode');
-  const ok=()=>setStatus('📋 埋め込みHTMLをコピーしたヨ！サイトに貼りつけてネ',false);
+const shareMsg=document.getElementById('shareMsg');
+document.getElementById('shareBtn').addEventListener('click',()=>{
+  if(custom.length===0){ shareMsg.textContent='追加した駅が ないよ'; return; }
+  const url=location.origin+location.pathname+'#d='+encodeCustom();
   if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(ta.value).then(ok).catch(()=>{ta.select();try{document.execCommand('copy');}catch(e){}ok();});
-  }else{
-    ta.select(); try{document.execCommand('copy');}catch(e){} ok();
-  }
-}
-
-// 読取専用モードに入る：編集UIを隠し、地図を横いっぱいに広げ直す
-function enterViewerMode(){
-  document.body.classList.add('view-mode');
-  setTimeout(()=>{ try{ map.invalidateSize(); }catch(e){} }, 80);
-}
-
-// ===== URLハッシュから復元（ページひらいた時） =====
+    navigator.clipboard.writeText(url).then(
+      ()=>{ shareMsg.textContent='リンクを コピーしたよ！（'+custom.length+'駅）'; },
+      ()=>{ window.prompt('この リンクを コピーしてね', url); }
+    );
+  }else{ window.prompt('この リンクを コピーしてね', url); }
+});
 function loadFromHash(){
-  const h=location.hash||'';
-  if(h.indexOf('#d=')!==0)return;
-  try{
-    const enc=h.slice(3);
-    const json=LZString.decompressFromEncodedURIComponent(enc);
-    if(!json){setStatus('共有URLのデータが読めなかたヨ',true);return;}
-    const data=JSON.parse(json);
-    const isViewer=!!data.viewer;
-    applyData(data, isViewer ? '👁 読取専用モードで表示してるヨ' : '🔗 共有データを読みこんだヨ！');
-    if(isViewer) enterViewerMode();
-  }catch(err){
-    setStatus('共有URLのよみこみに失敗したヨ：'+err.message,true);
-  }
+  const m=location.hash.match(/[#&]d=([^&]+)/);
+  if(m){ const arr=decodeCustom(m[1]); if(arr&&arr.length){ custom=arr; } }
 }
 
-function setStatus(msg,isErr){
-  const el=document.getElementById('statusMsg');
-  el.textContent=msg;el.className='status-msg'+(isErr?' err':'');
-  showToast(msg,isErr);
-}
-
-// ===== トースト（画面うえ真ん中・3秒で消える） =====
-let toastTimer=null;
-function showToast(msg,isErr){
-  const t=document.getElementById('toast');
-  if(!t)return;
-  t.textContent=msg;
-  t.className='toast show'+(isErr?' err':'');
-  if(toastTimer)clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>{t.className='toast'+(isErr?' err':'');},3000);
-}
-
-// ===== 使い方モーダル =====
-function openHelp(){const m=document.getElementById('helpModal');if(m)m.classList.add('show');}
-function closeHelp(){const m=document.getElementById('helpModal');if(m)m.classList.remove('show');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHelp();});
-
-// ===== メニュー浮きボタンの位置をヘッダの高さに合わせる（折り返しても被らない） =====
-function positionMenuFab(){
-  const h=document.querySelector('header'); const b=document.getElementById('menuFab');
-  if(h&&b) b.style.top=(h.offsetHeight+8)+'px';
-}
-window.addEventListener('resize',positionMenuFab);
-window.addEventListener('orientationchange',()=>setTimeout(positionMenuFab,200));
-positionMenuFab();
-
-// ===== 初期化 =====
-// ===== サンプルデータ（① の上のボタンから読み込む）=====
-const SAMPLES = [
-  {name:'家康の生涯', data:{version:'2.15',routeId:'tokaido',startSel:'0',endSel:'16',reversed:false,birthYear:1543.9166666666667,deathYear:1616.4166666666667,birthYearRaw:1543,birthMonthRaw:12,deathYearRaw:1616,deathMonthRaw:6,scaleMode:'human',dateMode:'seireki',topics:[{year:1557,text:'元服'},{year:1558,text:'初陣'},{year:1561,text:'岡崎に帰る'},{year:1563,text:'家康に改名'},{year:1572,text:'三方ヶ原の戦い'},{year:1584,text:'小牧・長久手の戦い'},{year:1590,text:'江戸入府'},{year:1600,text:'関ヶ原の戦い'},{year:1603,text:'征夷大将軍'},{year:1614,text:'大坂冬の陣'},{year:1615,text:'大坂夏の陣'}],currentMonth:0}},
-  {name:'キリストの生涯', data:{version:'2.72',routeId:'tokaido_sanyo',startSel:'0',endSel:'34',reversed:false,birthYear:-2.0833333333333335,deathYear:31.25,birthYearRaw:-3,birthMonthRaw:12,deathYearRaw:31,deathMonthRaw:4,scaleMode:'human',dateMode:'seireki',bigYearJp:false,topics:[{year:-3,month:12,text:'馬小屋で生まれる'},{year:26,month:9,text:'洗礼を受ける'},{year:27,month:1,text:'水をワインに変える奇跡'},{year:31,month:4,text:'最後の晩餐・十字架にかけられる・復活'}],currentMonth:0}},
-  {name:'仏教の年表', data:{version:'2.72',routeId:'tokaido_sanyo',startSel:'0',endSel:'34',reversed:false,birthYear:-624,deathYear:5670000000,birthYearRaw:-624,birthMonthRaw:2,deathYearRaw:5670000000,deathMonthRaw:1,scaleMode:'earth',dateMode:'seireki',bigYearJp:true,topics:[{year:-624,month:4,text:'釈迦誕生（仏滅紀元）'},{year:-565,month:4,text:'釈迦誕生（歴代三宝記）'},{year:-543,month:2,text:'お釈迦様入滅（タイ仏暦）'},{year:-2,month:1,text:'仏教伝来（中国）'},{year:538,month:1,text:'仏教伝来（日本）'},{year:607,month:1,text:'法隆寺建立'},{year:645,month:1,text:'三蔵法師インドから経典を持ち帰る'},{year:754,month:1,text:'鑑真来日'},{year:1126,month:1,text:'中尊寺建立'},{year:1581,month:1,text:'高野山焼討'},{year:1868,month:1,text:'神仏分離令（日本）'},{year:2018,month:11,text:'ドローン仏'},{year:5670000000,month:1,text:'弥勒菩薩降臨'}],currentMonth:0}},
-  {name:'日本の戦後歴代総理', data:{version:'2.73',routeId:'tokaido_sanyo',startSel:'34',endSel:'0',reversed:true,birthYear:1945,deathYear:2026,birthYearRaw:1945,birthMonthRaw:1,deathYearRaw:2026,deathMonthRaw:1,scaleMode:'human',dateMode:'seireki',bigYearJp:false,topics:[{year:1945,month:8,text:'東久邇稔彦王'},{year:1945,month:10,text:'幣原喜重郎'},{year:1946,month:5,text:'吉田茂'},{year:1947,month:5,text:'片山哲'},{year:1948,month:3,text:'芦田均'},{year:1948,month:10,text:'吉田茂'},{year:1954,month:12,text:'鳩山一郎'},{year:1956,month:12,text:'石橋湛山'},{year:1957,month:2,text:'岸信介'},{year:1960,month:7,text:'池田勇人'},{year:1964,month:11,text:'佐藤栄作'},{year:1972,month:7,text:'田中角栄'},{year:1974,month:12,text:'三木武夫'},{year:1976,month:12,text:'福田赳夫'},{year:1978,month:12,text:'大平正芳'},{year:1980,month:6,text:'（伊東正義）'},{year:1980,month:7,text:'鈴木善幸'},{year:1982,month:11,text:'中曽根康弘'},{year:1987,month:11,text:'竹下登'},{year:1989,month:6,text:'宇野宗佑'},{year:1989,month:8,text:'海部俊樹'},{year:1991,month:11,text:'宮澤喜一'},{year:1993,month:8,text:'細川護熙'},{year:1994,month:4,text:'羽田孜'},{year:1994,month:6,text:'村山富市'},{year:1996,month:1,text:'橋本龍太郎'},{year:1998,month:7,text:'小渕恵三'},{year:2000,month:4,text:'（青木幹雄）'},{year:2000,month:4,text:'森喜朗'},{year:2001,month:4,text:'小泉純一郎'},{year:2006,month:9,text:'安倍晋三'},{year:2007,month:9,text:'福田康夫'},{year:2008,month:9,text:'麻生太郎'},{year:2009,month:9,text:'鳩山由紀夫'},{year:2010,month:6,text:'菅直人'},{year:2011,month:9,text:'野田佳彦'},{year:2012,month:12,text:'安倍晋三'},{year:2020,month:9,text:'菅義偉'},{year:2021,month:10,text:'岸田文雄'},{year:2024,month:10,text:'石破茂'},{year:2025,month:10,text:'高市早苗'}],currentMonth:0}},
-  {name:'ビッグバン→地球滅亡', data:{version:'2.54',routeId:'tokaido_sanyo',startSel:'0',endSel:'34',reversed:false,birthYear:-13820000000,deathYear:5000000000,birthYearRaw:-13820000000,birthMonthRaw:12,deathYearRaw:5000000000,deathMonthRaw:6,scaleMode:'earth',dateMode:'seireki',bigYearJp:true,topics:[{year:-13820000000,text:'ビッグバン'},{year:-13800000000,text:'銀河の誕生'},{year:-4600000000,text:'太陽系の誕生'},{year:-3800000000,text:'生命誕生（地球）'},{year:-200000000,text:'恐竜が栄える'},{year:-66000000,text:'恐竜滅ぶ'},{year:-300000,text:'ホモ・サピエンス誕生'},{year:-2600,month:0,text:'ピラミッド竣工'},{year:-27,text:'ローマ帝国成立'},{year:-4,text:'キリスト誕生'},{year:1185,month:0,text:'鎌倉幕府成立（日本）'},{year:1999,month:0,text:'ミッチー・サッチー戦争勃発（日本）'},{year:5000000000,text:'太陽が赤色巨星になって地球滅亡'}],currentMonth:18820000000}},
-];
-function loadSample(i){
-  const s=SAMPLES[i]; if(!s)return;
-  applyData(s.data, `サンプル「${s.name}」を表示したヨ！`);
-}
-
-buildRouteList();
-buildMonthSelects();
-
-// URLハッシュに共有データがあれば復元（地図は構築済み）
-loadFromHash();
-
-// トピックはボタンで追加スル（Enterキーは無効）
+loadFromHash(); STATIONS=activeStations();
+updateSlider(); populateTermini(); refresh(); renderChips();
 </script>
 </body>
 </html>
